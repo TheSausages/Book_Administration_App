@@ -98,4 +98,13 @@ public class Book {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    public void setParamsFromAnotherBook(Book book) {
+        this.title = book.getTitle();
+        this.publishingYear = book.getPublishingYear();
+        this.description = book.getDescription();
+        this.cover = book.getCover();
+        this.author = book.getAuthor();
+        this.publisher = book.getPublisher();
+    }
 }
