@@ -39,7 +39,7 @@ public class BookService {
         logger.info("Create new Book");
 
         if (bookRepository.findByTitleAndPublishingYearAndAuthorAndPublisher(book.getTitle(), book.getPublishingYear(), book.getAuthor(), book.getPublisher()).isPresent()) {
-            throw new EntityAlreadyExistException("This Book alrady exists!");
+            throw new EntityAlreadyExistException("This Book already exists!");
         } else {
             return bookRepository.save(book);
         }

@@ -1,0 +1,68 @@
+html {
+    background-color: white;
+    font-size: 10px;
+    inline-size: 100%;
+    block-size: 100%;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    margin: 0;
+}
+
+header {
+    text-align: center;
+    text-justify: auto;
+    color: black;
+    text-shadow: -2px 0 5px whitesmoke;
+    block-size: 20vh;
+    line-height: 50%;
+
+    border-block-start: 0.1px solid black; /*Must be, doesnt work without*/
+
+    background-color: rebeccapurple;
+    background-image: url("../img/Head2.jpg");
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-position: center;
+}
+
+header > h1 {
+    font-size: 3rem;
+    padding-block-start: 5vh;
+}
+
+nav {
+    background-color: rgb(78, 78, 187);
+    color: white;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul > li {
+    font-size: 1rem;
+    text-align: center;
+    display: inline-block;
+    margin: 0;
+    border-collapse: collapse;
+    padding: 0.5rem;
+    position: relative;
+}
+
+ul > li::before {
+    content: '';
+    position: absolute;
+    bottom: 15%;
+    height: 70%;
+    right: -5%;
+    border-inline-end: 1px solid whitesmoke;
+}
+
+.book {
+    background-color: blue;
+}

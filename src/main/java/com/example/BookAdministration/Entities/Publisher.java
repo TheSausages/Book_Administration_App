@@ -16,10 +16,17 @@ public class Publisher {
     private String name;
 
     @NotBlank(message = "Invalid Publisher home city")
-    private String City;
+    private String city;
 
     @OneToMany(mappedBy = "publisher")
     private Set<Book> publishedBooks;
+
+    public Publisher() {}
+
+    public Publisher(String name, String city) {
+        this.name = name;
+        this.city = city;
+    }
 
     public long getId() {
         return id;
@@ -34,7 +41,7 @@ public class Publisher {
     }
 
     public String getCity() {
-        return City;
+        return city;
     }
 
     public void setId(long id) {
@@ -46,7 +53,7 @@ public class Publisher {
     }
 
     public void setCity(String city) {
-        City = city;
+        this.city = city;
     }
 
     public void setPublishedBooks(Set<Book> publishedBooks) {

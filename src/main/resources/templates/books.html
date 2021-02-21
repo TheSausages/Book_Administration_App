@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Home Page of the Libary</title>
+    <title>Book Catalog</title>
     <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet">
 </head>
 <body>
@@ -19,5 +19,16 @@
             <li>Publishers</li>
         </ul>
     </nav>
+
+    <table>
+        <thead>Książki</thead>
+        <tbody>
+            <tr th:each="book: ${books}">
+                <td th:text="${book.title}"></td>
+                <td th:text="${book.description}"></td>
+                <td><img th:src="@{'/books/cover/' + ${book.id}}"></td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 </html>
