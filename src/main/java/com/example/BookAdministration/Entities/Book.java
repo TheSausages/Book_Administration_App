@@ -1,16 +1,10 @@
 package com.example.BookAdministration.Entities;
 
-
 import org.hibernate.validator.constraints.Range;
-import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.io.IOException;
-import java.util.Base64;
-import java.util.Objects;
 
 @Entity
 @Table(name = "Books")

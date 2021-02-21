@@ -12,13 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.mock.web.MockMultipartFile;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 
 @Configuration
 public class LoadDatabase {
@@ -36,8 +31,6 @@ public class LoadDatabase {
 
             InputStream ks1 = (Thread.currentThread().getContextClassLoader().getResourceAsStream("static/img/Book1.png"));
             InputStream ks2 = (Thread.currentThread().getContextClassLoader().getResourceAsStream("static/img/Book2.png"));
-
-            System.out.println(ks1 == null);
 
             Book book1 = new Book("ksiazka1", "opis1", 2005, ks1.readAllBytes(), authorRepository.findById(1l).get(), publisherRepository.findById(1l).get());
             logger.info("Preloading:" + bookRepository.save(book1));

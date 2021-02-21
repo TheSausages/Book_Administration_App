@@ -11,50 +11,56 @@ body {
     margin: 0;
 }
 
+/*Site wide*/
+
+/*Head*/
+
 header {
     text-align: center;
     text-justify: auto;
     color: black;
-    text-shadow: -2px 0 5px whitesmoke;
+    text-shadow: -2px 0 5px rgb(255, 255, 255);
     block-size: 20vh;
     line-height: 50%;
+    font-size: 2rem;
 
     border-block-start: 0.1px solid black; /*Must be, doesnt work without*/
 
     background-color: rebeccapurple;
     background-image: url("../img/Head2.jpg");
     background-repeat: no-repeat;
-    background-size: auto;
+    background-size: cover;
     background-position: center;
 }
 
 header > h1 {
-    font-size: 3rem;
+    font-size: 4rem;
     padding-block-start: 5vh;
 }
 
+/*Navigation Menu*/
 nav {
-    background-color: rgb(78, 78, 187);
+    background-color: rgb(76, 76, 223);
     color: white;
 }
 
-ul {
+nav > ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
 }
 
-ul > li {
-    font-size: 1rem;
+nav > ul > li {
+    font-size: 2rem;
     text-align: center;
     display: inline-block;
     margin: 0;
     border-collapse: collapse;
-    padding: 0.5rem;
     position: relative;
+    padding: 8px;
 }
 
-ul > li::before {
+nav > ul > li::before {
     content: '';
     position: absolute;
     bottom: 15%;
@@ -63,6 +69,93 @@ ul > li::before {
     border-inline-end: 1px solid whitesmoke;
 }
 
-.book {
-    background-color: blue;
+/*Button for new Element*/
+
+div {
+    margin: auto;
+    text-align: center;
 }
+
+div > button {
+    background-color: rgb(76, 76, 223);
+    font-weight: bold;
+    padding: 1rem;
+    border-radius: 5%;
+}
+
+/*Not side wide*/
+
+/*Book*/
+
+.book {
+    background-color: rgb(218, 212, 212);
+    border: 1px solid black;
+    margin: 1vw;
+    font-size: 2rem;
+    overflow: auto;
+
+    display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+	align-items: center;
+    justify-content: center;
+}
+
+.cover {
+    margin: auto auto;
+    border-collapse: collapse;
+    padding: 0.5rem;
+    position: relative;
+}
+
+.cover:after {
+    content: '';
+    position: absolute;
+    bottom: 15%;
+    height: 70%;
+    right: -5%;
+    border-inline-end: 1px solid whitesmoke;
+}
+
+.cover > img {
+    max-block-size: 20vh;
+    max-inline-size: 20vh;
+    flex: 1;
+}
+
+.bookInfo {
+    flex: 1;
+    text-align: center;
+    vertical-align: center;
+    margin-inline: 5vh;
+
+    margin: auto auto;
+    border-collapse: collapse;
+    padding: 0.5rem;
+    position: relative;
+}
+
+#titleOrDescr {
+    font-style: italic;
+}
+
+.bookInfo::after {
+    content: '';
+    position: absolute;
+    bottom: 15%;
+    height: 70%;
+    right: -5%;
+    border-inline-end: 1px solid whitesmoke;
+}
+
+.bookDesc {
+    margin-inline: 5vh;
+    flex: 2;
+    min-height: 100%;
+    text-align: center;
+}
+
+/*Author*/
+
+/*Publisher*/

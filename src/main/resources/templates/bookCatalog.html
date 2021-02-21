@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Catalog</title>
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>Book Administration Page</h1>
+        <h3>See all the necessary information about your favorite Book!</h3>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="/home">Home</a></li>
+            <li><a href="/books/catalog">Books</a></li>
+            <li>Authors</li>
+            <li>Publishers</li>
+        </ul>
+    </nav>
+
+    <tr th:each="book: ${books}" >
+        <div class="book">
+            <div class="cover"><td><img th:src="@{'/books/cover/' + ${book.id}}"></td></div>
+
+            <div class="bookInfo">
+                <span id="titleOrDescr"><td th:text="${book.title}"></td></span>
+                <br>
+                <br>
+                <strong>By:</strong>
+                <td th:text="${book.author.firstName} + ' ' + ${book.author.lastName}"></td>
+                <br>
+                <strong>Published:</strong>
+                in <td th:text="${book.publishingYear}"></td>, by <td th:text="${book.publisher.name}"></td>
+                </div>
+
+                <div class="bookDesc">
+                    <span id="titleOrDescr">Description</span>
+                    <br>
+                    <td th:text="${book.description}" class="bookDesc"></td>
+                </div>
+            </div>
+        </div>
+    </tr>
+
+    <div>
+        <button type="button"><a href="/books/new">+ Add Book</a></button>
+    </div>
+</body>
+</html>
