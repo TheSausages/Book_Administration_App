@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Book Catalog</title>
-    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet">
+    <link href="../static/css/styleBook.css" th:href="@{/css/styleBook.css}" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -15,7 +15,7 @@
         <ul>
             <li><a href="/home">Home</a></li>
             <li><a href="/books/catalog">Books</a></li>
-            <li>Authors</li>
+            <li><a href="/authors/list">Authors</a></li>
             <li>Publishers</li>
         </ul>
     </nav>
@@ -25,27 +25,31 @@
             <div class="cover"><td><img th:src="@{'/books/cover/' + ${book.id}}"></td></div>
 
             <div class="bookInfo">
-                <span id="titleOrDescr"><td th:text="${book.title}"></td></span>
-                <br>
-                <br>
-                <strong>By:</strong>
-                <td th:text="${book.author.firstName} + ' ' + ${book.author.lastName}"></td>
-                <br>
-                <strong>Published:</strong>
-                in <td th:text="${book.publishingYear}"></td>, by <td th:text="${book.publisher.name}"></td>
-                </div>
+                <p>
+                    <span id="titleOrDescr"><td th:text="${book.title}"></td></span>
+                </p>
 
-                <div class="bookDesc">
-                    <span id="titleOrDescr">Description</span>
-                    <br>
-                    <td th:text="${book.description}" class="bookDesc"></td>
-                </div>
+                <p>
+                    <strong>By:</strong>
+                    <td th:text="${book.author.firstName} + ' ' + ${book.author.lastName}"></td>
+                </p>
+
+                <p>
+                    <strong>Published:</strong>
+                    in <td th:text="${book.publishingYear}"></td>, by <td th:text="${book.publisher.name}"></td>
+                </p>
+            </div>
+
+            <div class="bookDesc">
+                <span id="titleOrDescr">Description</span>
+                <br>
+                <td th:text="${book.description}" class="bookDesc"></td>
             </div>
         </div>
     </tr>
 
     <div>
-        <button type="button"><a href="/books/new">+ Add Book</a></button>
+        <button type="button"><a href="/books/new">Add Book</a></button>
     </div>
 </body>
 </html>

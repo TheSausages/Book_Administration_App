@@ -6,12 +6,16 @@ html {
     box-sizing: border-box;
 }
 
+button, input, select, textarea {
+    font-family: inherit;
+    font-size: 100%;
+}
+
 body {
     margin: 0;
     margin: 0;
 }
 
-/*Site wide*/
 
 /*Head*/
 
@@ -90,9 +94,11 @@ div > button {
 .book {
     background-color: rgb(218, 212, 212);
     border: 1px solid black;
-    margin: 1vw;
     font-size: 2rem;
     overflow: auto;
+    inline-size: 85%;
+    text-align: center;
+    margin-block: 3vh;
 
     display: flex;
 	flex-direction: row;
@@ -103,7 +109,7 @@ div > button {
 }
 
 .cover {
-    margin: auto auto;
+    margin: 1vh 1vw;
     border-collapse: collapse;
     padding: 0.5rem;
     position: relative;
@@ -114,11 +120,11 @@ div > button {
     position: absolute;
     bottom: 15%;
     height: 70%;
-    right: -5%;
+    right: -15px;
     border-inline-end: 1px solid whitesmoke;
 }
 
-.cover > img {
+.cover img {
     max-block-size: 20vh;
     max-inline-size: 20vh;
     flex: 1;
@@ -128,7 +134,8 @@ div > button {
     flex: 1;
     text-align: center;
     vertical-align: center;
-    margin-inline: 5vh;
+    margin-inline: 5%;
+    inline-size: 10vw;
 
     margin: auto auto;
     border-collapse: collapse;
@@ -145,7 +152,7 @@ div > button {
     position: absolute;
     bottom: 15%;
     height: 70%;
-    right: -5%;
+    right: -15px;
     border-inline-end: 1px solid whitesmoke;
 }
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Add a new Book</title>
-    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet">
+    <link href="../static/css/styleBook.css" th:href="@{/css/styleBook.css}" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -19,5 +19,9 @@
             <li>Publishers</li>
         </ul>
     </nav>
+
+    <form action="#" th:action="@{/books/new/save}" th:object="${book}" method="POST">
+
+    </form>
 </body>
 </html>

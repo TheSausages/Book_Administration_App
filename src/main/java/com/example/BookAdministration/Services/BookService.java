@@ -1,5 +1,6 @@
 package com.example.BookAdministration.Services;
 
+import com.example.BookAdministration.Entities.Author;
 import com.example.BookAdministration.Entities.Book;
 import com.example.BookAdministration.Exceptions.EntityAlreadyExistException;
 import com.example.BookAdministration.Exceptions.EntityNotFoundException;
@@ -33,6 +34,13 @@ public class BookService {
 
         return bookRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Could not find Book with id:" + id));
+    }
+
+    public List<Book> get3BooksByAuthorId(Long id) {
+        logger.info("Find 3 book by Author with id:" + id);
+
+        return bookRepository.findFirst3BooksByAuthorId(id)
+                .orElseThrow(() -> new EntityNotFoundException("No books of given Author in database"));
     }
 
     public Book createBook(Book book) {

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Catalog</title>
+    <link href="../static/css/styleAuthor.css" th:href="@{/css/styleAuthor.css}" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>Book Administration Page</h1>
+        <h3>See all the necessary information about your favorite Book!</h3>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="/home">Home</a></li>
+            <li><a href="/books/catalog">Books</a></li>
+            <li><a href="/authors/list">Authors</a></li>
+            <li>Publishers</li>
+        </ul>
+    </nav>
+
+    <tr th:each="authorWithBooks: ${authors}" >
+        <div class="author">
+            <div class="portrait"><td><img th:src="@{'/authors/portrait/' + ${authorWithBooks.key.id}}"></td></div>
+
+            <div class="authorInfo">
+                <p>
+                    <td th:text="${authorWithBooks.key.firstName} + ' ' + ${authorWithBooks.key.lastName}"></td>
+                </p>
+
+                <p>
+                    <td th:text="${#temporals.format(authorWithBooks.key.dateOfBirth, 'dd.MM.yyyy')}"></td>
+                </p>
+            </div>
+
+            <p class="bookAdn">
+                Books written <br> by this author:
+            </p>
+
+            <table>
+                <tr th:each="book: ${authorWithBooks.value}">
+                    <div class="authorBooks">
+                        <img th:src="@{'/books/cover/' + ${book.id}}">
+                    
+                        <p th:text="${book.title}"></p>
+                    </div>
+                </tr>
+            </table>
+        </div>
+    </tr>
+
+    <div>
+        <button type="button"><a href="/authors/new">Add Author</a></button>
+    </div>
+</body>
+</html>
