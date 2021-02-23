@@ -18,16 +18,13 @@ body {
 
 .publisherList {
     overflow: auto;
-    inline-size: 85%;
+
     text-align: center;
-    margin-block: 3vh;
+    margin: auto;
 
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     grid-auto-rows: minmax(100px, auto);
-    gap: 20px 20px;
-    place-self: center;
-    border-collapse: separate;
 }
 
 .publisher {
@@ -35,8 +32,21 @@ body {
     border: 1px solid black;
     font-size: 2rem;
     
-    block-size: 15vh;
-    inline-size: 15vw;
-    margin: 5vh 5vw;
-    border-collapse: separate;
+    block-size: 10vh;
+    inline-size: 10vw;
+    margin: 50px auto;
+}
+
+/*Button for new Element*/
+
+button {
+    background-color: rgb(76, 76, 223);
+    font-weight: bold;
+    padding: 1rem;
+    border-radius: 5%;
+    
+    display: block;
+    margin: 0 auto;
+    position: sticky;
+    bottom: 5%;
 }

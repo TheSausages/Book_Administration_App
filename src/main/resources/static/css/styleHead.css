@@ -37,32 +37,51 @@ header > h1 {
 }
 
 /*Navigation Menu*/
-nav {
-    background-color: rgb(76, 76, 223);
-    color: white;
-}
 
-nav > ul {
+ul {
+    background-color: rgb(76, 76, 223);
     list-style-type: none;
     padding: 0;
     margin: 0;
+    overflow: hidden;
 }
 
-nav > ul > li {
+li {
     font-size: 2rem;
+    float: left;
+    border-inline-end: 1px solid whitesmoke;
+}
+
+/*li::before {
     text-align: center;
     display: inline-block;
-    margin: 0;
-    border-collapse: collapse;
-    position: relative;
-    padding: 8px;
-}
 
-nav > ul > li::before {
     content: '';
     position: absolute;
     bottom: 15%;
     height: 70%;
     right: -5%;
     border-inline-end: 1px solid whitesmoke;
+}*/
+
+li a {
+    display: block;
+    padding: 8px;
+    text-align: center;
+
+    color: white;
+    outline: none;
+    text-decoration: none;
+}
+
+li a:focus {
+    background-color: rgb(52, 52, 212);
+}
+
+li a:hover {
+    background-color: rgb(20, 20, 184);
+}
+
+li a:active {
+    background-color: rgb(1, 1, 107);
 }

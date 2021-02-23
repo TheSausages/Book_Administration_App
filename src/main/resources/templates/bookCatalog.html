@@ -42,15 +42,15 @@
             </div>
 
             <div class="bookDesc">
-                <span id="titleOrDescr">Description</span>
-                <br>
+                <p>
+                    <span id="titleOrDescr">Description</span>
+                </p>
+                
                 <td th:text="${book.description}" class="bookDesc"></td>
             </div>
         </div>
     </tr>
 
-    <div>
-        <button type="button"><a href="/books/new">Add Book</a></button>
-    </div>
+    <button type="button"><a href="/books/new">Add Book</a></button>
 </body>
 </html>

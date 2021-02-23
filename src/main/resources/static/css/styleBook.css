@@ -18,16 +18,16 @@ body {
 
 /*Button for new Element*/
 
-div {
-    margin: auto;
-    text-align: center;
-}
-
-div > button {
+button {
     background-color: rgb(76, 76, 223);
     font-weight: bold;
     padding: 1rem;
     border-radius: 5%;
+
+    display: block;
+    margin: 0 auto;
+    position: sticky;
+    bottom: 5%;
 }
 
 /*Not side wide*/
@@ -35,6 +35,7 @@ div > button {
 /*Book*/
 
 .book {
+    margin: auto;
     background-color: rgb(218, 212, 212);
     border: 1px solid black;
     font-size: 2rem;
@@ -105,7 +106,3 @@ div > button {
     min-height: 100%;
     text-align: center;
 }
-
-/*Author*/
-
-/*Publisher*/
