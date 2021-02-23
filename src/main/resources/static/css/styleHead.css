@@ -1,0 +1,68 @@
+html {
+    background-color: white;
+    font-size: 10px;
+    inline-size: 100%;
+    block-size: 100%;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    margin: 0;
+}
+
+/*Head*/
+
+header {
+    text-align: center;
+    text-justify: auto;
+    color: black;
+    text-shadow: -2px 0 5px rgb(255, 255, 255);
+    block-size: 20vh;
+    line-height: 50%;
+    font-size: 2rem;
+
+    border-block-start: 0.1px solid black; /*Must be, doesnt work without*/
+
+    background-color: rebeccapurple;
+    background-image: url("../img/Head2.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+header > h1 {
+    font-size: 4rem;
+    padding-block-start: 5vh;
+}
+
+/*Navigation Menu*/
+nav {
+    background-color: rgb(76, 76, 223);
+    color: white;
+}
+
+nav > ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav > ul > li {
+    font-size: 2rem;
+    text-align: center;
+    display: inline-block;
+    margin: 0;
+    border-collapse: collapse;
+    position: relative;
+    padding: 8px;
+}
+
+nav > ul > li::before {
+    content: '';
+    position: absolute;
+    bottom: 15%;
+    height: 70%;
+    right: -5%;
+    border-inline-end: 1px solid whitesmoke;
+}

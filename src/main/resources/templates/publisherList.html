@@ -2,9 +2,9 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Home Page of the Libary</title>
+    <title>Publisher List</title>
     <link href="../static/css/styleHead.css" th:href="@{/css/styleHead.css}" rel="stylesheet">
-    <link href="../static/css/styleBook.css" th:href="@{/css/styleBook.css}" rel="stylesheet">
+    <link href="../static/css/stylePublisher.css" th:href="@{/css/stylePublisher.css}" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -20,5 +20,19 @@
             <li><a href="/publishers/list">Publishers</a></li>
         </ul>
     </nav>
+
+    <div class="publisherList">
+        <tr th:each="publisher: ${publishers}" class="publisher">
+            <div class="publisher">
+                    <p>
+                        <td th:text="${publisher.name}"></td>
+                    </p>
+                    
+                    <p>
+                        <td th:text="${publisher.city}"></td>
+                    </p>
+            </div>
+        </tr>
+    </div>
 </body>
 </html>

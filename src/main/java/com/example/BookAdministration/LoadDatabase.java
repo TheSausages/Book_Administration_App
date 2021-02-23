@@ -27,6 +27,8 @@ public class LoadDatabase {
 
             logger.info("Preloading:" + publisherRepository.save(new Publisher("Publisher1", "Rzeszow")));
             logger.info("Preloading:" + publisherRepository.save(new Publisher("Publisher2", "Krasne")));
+            logger.info("Preloading:" + publisherRepository.save(new Publisher("Publisher3", "Wrocław")));
+            logger.info("Preloading:" + publisherRepository.save(new Publisher("Publisher4", "Warszawa")));
 
             InputStream au1 = (Thread.currentThread().getContextClassLoader().getResourceAsStream("static/img/Author1.png"));
             InputStream au2 = (Thread.currentThread().getContextClassLoader().getResourceAsStream("static/img/Author2.png"));
