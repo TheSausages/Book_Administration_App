@@ -2,18 +2,17 @@ package com.example.BookAdministration.Controllers;
 
 import com.example.BookAdministration.Entities.Author;
 import com.example.BookAdministration.Entities.Book;
+import com.example.BookAdministration.Entities.PrimaryGenre;
 import com.example.BookAdministration.Services.AuthorService;
 import com.example.BookAdministration.Services.BookService;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -52,5 +51,20 @@ public class AuthorController {
 
         InputStream is = new ByteArrayInputStream(author.getPortrait());
         IOUtils.copy(is, response.getOutputStream());
+    }
+
+    @GetMapping(value = "/new")
+    public String newAuthor(Model model) {
+        model.addAttribute("author", new Author());
+        model.addAttribute("genres", PrimaryGenre.values());
+
+        return "newAuthor";
+    }
+
+    @PostMapping(value = "/new/save")
+    public String saveNewAuthor(@Valid @ModelAttribute Author author, Model model) {
+        authorService.createAuthor(author);
+
+        return "redirect:/authors/list";
     }
 }

@@ -35,14 +35,14 @@ button {
 /*Book*/
 
 .book {
-    margin: auto;
     background-color: rgb(218, 212, 212);
     border: 1px solid black;
     font-size: 2rem;
     overflow: auto;
-    inline-size: 85%;
+    inline-size: 90%;
     text-align: center;
-    margin-block: 3vh;
+    margin: 3vh auto;
+    padding: 10px;
 
     display: flex;
 	flex-direction: row;

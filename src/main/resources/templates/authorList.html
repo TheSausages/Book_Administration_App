@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Book Catalog</title>
-    <link href="../static/css/styleHead.css" th:href="@{/css/styleHead.css}" rel="stylesheet">
     <link href="../static/css/styleAuthor.css" th:href="@{/css/styleAuthor.css}" rel="stylesheet">
+    <link href="../static/css/styleHead.css" th:href="@{/css/styleHead.css}" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -33,7 +33,11 @@
                         </p>
         
                         <p>
-                            <td th:text="${#temporals.format(authorWithBooks.key.dateOfBirth, 'dd.MM.yyyy')}"></td>
+                            Born:<td th:text="${#temporals.format(authorWithBooks.key.dateOfBirth, 'dd.MM.yyyy')}"></td>
+                        </p>
+
+                        <p>
+                            Primary Genre:<td th:text="${authorWithBooks.key.primaryGenre}"></td>
                         </p>
                 </li>
 

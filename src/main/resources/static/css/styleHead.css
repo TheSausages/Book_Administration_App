@@ -46,13 +46,13 @@ nav ul {
     overflow: hidden;
 }
 
-nav li {
+nav ul li  {
     font-size: 2rem;
     float: left;
     border-inline-end: 1px solid whitesmoke;
 }
 
-nav li a {
+nav ul li a {
     display: block;
     padding: 8px;
     text-align: center;
@@ -62,14 +62,14 @@ nav li a {
     text-decoration: none;
 }
 
-nav li a:focus {
+nav ul li a:focus {
     background-color: rgb(52, 52, 212);
 }
 
-nav li a:hover {
+nav ul li a:hover {
     background-color: rgb(20, 20, 184);
 }
 
-nav li a:active {
+nav ul li a:active {
     background-color: rgb(1, 1, 107);
 }

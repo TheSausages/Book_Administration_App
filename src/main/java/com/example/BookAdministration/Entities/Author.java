@@ -1,5 +1,6 @@
 package com.example.BookAdministration.Entities;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,6 +23,7 @@ public class Author {
     @NotBlank(message = "Invalid Author last name")
     private String lastName;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
 
     private PrimaryGenre primaryGenre;

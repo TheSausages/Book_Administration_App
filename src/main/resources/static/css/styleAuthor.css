@@ -36,9 +36,11 @@ button {
     border: 1px solid black;
     font-size: 2rem;
     overflow: auto;
-    inline-size: 85%;
-    margin: 2vh auto;
-    padding: 0;
+    inline-size: 90%;
+    margin: 3vh auto;
+    padding: 10px;
+
+    max-height: 30vh;
 }
 
 .author li {
@@ -49,15 +51,16 @@ button {
 
 .portrait {
     width: 15%;
+    height: auto;
+    overflow: hidden;
+
     margin: auto 10px;
     position: relative;
 }
 
-
-
 .portrait img {
-    max-block-size: 90%;
-    max-inline-size: 90%;
+    max-block-size: 20vh;
+    max-inline-size: 20vh;
 
     display: block;
     margin: 10px auto;
@@ -96,7 +99,7 @@ button {
     border-right: 1px solid whitesmoke;
 }
 
-li:last-child {
+.author li:last-child {
     width: 50%;
 }
 

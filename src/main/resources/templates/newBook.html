@@ -5,6 +5,8 @@
     <title>Add a new Book</title>
     <link href="../static/css/styleHead.css" th:href="@{/css/styleHead.css}" rel="stylesheet">
     <link href="../static/css/styleBook.css" th:href="@{/css/styleBook.css}" rel="stylesheet">
+    <script src="../static/js/ChangeShownValue.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
 <body>
     <header>
@@ -16,13 +18,82 @@
         <ul>
             <li><a href="/home">Home</a></li>
             <li><a href="/books/catalog">Books</a></li>
-            <li>Authors</li>
-            <li>Publishers</li>
+            <li><a href="/authors/list">Authors</a></li>
+            <li><a href="/publishers/list">Publishers</a></li>
         </ul>
     </nav>
 
+    
     <form action="#" th:action="@{/books/new/save}" th:object="${book}" method="POST">
+        <h1>New Book</h1>
+        <p>Required fields are preceded by <strong><abbr title="required">*</abbr></strong></p>
 
+        <section>
+            <p>
+                <label for="title">
+                    <span>Title: </span>
+                    <strong><abbr title="required">*</abbr></strong>
+                </label>
+                <input type="text" id="title" name="title" th:field="*{title}">
+            </p>
+
+            <p>
+                <label for="subtitle">
+                    <span>Subtitle: </span>
+                </label>
+                <input type="text" id="subtitle" name="subtitle" th:field="*{subTitle}">
+            </p>
+
+            <p>
+                <label for="publishingYear">
+                    <span>Publishing Year: </span>
+                    <strong><abbr title="required">*</abbr></strong>
+                </label>
+                <input type="number" name="publishingYear" id="publishingYear" min="1400" max="2021" step="1" th:field="*{publishingYear}">
+            </p>
+
+            <textarea cols="64" rows="16" th:field="*{description}"></textarea>
+
+            <p>
+                If the Author or Publisher of the Book isn't nn the list - create them using the adequite button at the botton of the screen
+            </p>
+
+            <p>
+                <label for="author">
+                    <span>Author: </span>
+                    <strong><abbr title="required">*</abbr></strong>
+                </label>
+                <input list="authors" id="authorChoice" name="authorChoice" th:field="*{author}">
+                <datalist id="authors">
+                    <option th:each="author: ${authors}" th:value="${author.id}" th:text="${author.firstName} + ' ' + ${author.lastName}"></option>
+                </datalist>
+            </p>
+
+            <p>
+                <label for="publisher">
+                    <span>Publisher: </span>
+                    <strong><abbr title="required">*</abbr></strong>
+                </label>
+                <input list="publishers" id="publisherChoice" name="publisherChoice" th:field="*{publisher}">
+                <datalist id="publishers">
+                    <option th:each="publisher: ${publishers}" th:value="${publisher.id}" th:text="${publisher.name}"></option>
+                </datalist>
+            </p>
+
+            <p>
+                <label for="file">
+                    <span>Cover: </span>
+                </label>
+                <input type="file" name="file" id="file" accept="image/*" th:field="*{cover}">
+            </p>
+        </section>
+
+        <p>
+            <button type="submit" id="submit" name="submit">Create</button>
+        </p>
     </form>
+    
+    <button type="button"><a href="/authors/new">Add Author</a></button>
+    <button type="button"><a href="/publishers/new">Add Publisher</a></button>
 </body>
 </html>

@@ -21,7 +21,7 @@ public class Book {
     @Column(length = 1024)
     private String description;
 
-    @Range(min = 1400, max = 2100, message = "Invalid publishing year - outside of range <1400, 2100>")
+    @Range(min = 1400, max = 2021, message = "Invalid publishing year - outside of range <1400, 2021>")
     @NotNull(message = "Invalid publishing year")
     private Integer publishingYear;
 
@@ -30,9 +30,11 @@ public class Book {
     private byte[] cover;
 
     @ManyToOne
+    @NotNull(message = "Missing Author")
     private Author author;
 
     @ManyToOne
+    @NotNull(message = "Missing Publisher")
     private Publisher publisher;
 
     public Book() {}

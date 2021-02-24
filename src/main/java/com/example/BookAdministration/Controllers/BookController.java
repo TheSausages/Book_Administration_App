@@ -1,7 +1,9 @@
 package com.example.BookAdministration.Controllers;
 
 import com.example.BookAdministration.Entities.Book;
+import com.example.BookAdministration.Services.AuthorService;
 import com.example.BookAdministration.Services.BookService;
+import com.example.BookAdministration.Services.PublisherService;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,10 +20,14 @@ import java.io.InputStream;
 @RequestMapping(value = "/books")
 public class BookController {
     private final BookService bookService;
+    private final AuthorService authorService;
+    private final PublisherService publisherService;
 
     @Autowired
-    public BookController(BookService bookService) {
+    public BookController(BookService bookService, AuthorService authorService, PublisherService publisherService) {
         this.bookService = bookService;
+        this.authorService = authorService;
+        this.publisherService = publisherService;
     }
 
     @GetMapping(value = "/catalog")
@@ -32,7 +39,7 @@ public class BookController {
 
     @GetMapping(value = "/cover/{id}")
     public void showBookCover(@PathVariable Long id, HttpServletResponse response) throws IOException {
-        response.setContentType("image/jpeg");
+        response.setContentType("image/*");
 
         Book book = bookService.getBookById(id);
 
@@ -43,12 +50,17 @@ public class BookController {
     @GetMapping(value = "/new")
     public String newBook(Model model) {
         model.addAttribute("book", new Book());
+        model.addAttribute("authors", authorService.getAllAuthors());
+        model.addAttribute("publishers", publisherService.getAllPublishers());
 
         return "newBook";
     }
 
     @PostMapping(value = "/new/save")
-    public String saveNewBook(Model model, @ModelAttribute Book book) {
+    public String saveNewBook(@Valid @ModelAttribute Book book, Model model) {
+        System.out.println(book.getAuthor());
+        System.out.println(book.getPublisher());
+
         bookService.createBook(book);
 
         return "redirect:/books/catalog";

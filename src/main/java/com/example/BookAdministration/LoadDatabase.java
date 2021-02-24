@@ -60,7 +60,7 @@ public class LoadDatabase {
                     1955, ks3.readAllBytes(), authorRepository.findById(1l).get(), publisherRepository.findById(1l).get());
             logger.info("Preloading:" + bookRepository.save(book3));
 
-            Book book4 = new Book("Re:zero Starting Life In Another World", "Vol. 1",
+            Book book4 = new Book("Re:zero Starting Life In Another World Vol. 1", "",
                     "Subaru Natsuki was just trying to get to the convenience store but wound up summoned to another world. He encounters the usual things--life-threatening situations, silver haired beauties, cat fairies--you know, normal stuff. All that would be bad enough, but he's also gained the most inconvenient magical ability of all--time travel, but he's got to die to use it. How do you repay someone who saved your life when all you can do is die?",
                     2014, ks4.readAllBytes(), authorRepository.findById(2l).get(), publisherRepository.findById(2l).get());
             logger.info("Preloading:" + bookRepository.save(book4));

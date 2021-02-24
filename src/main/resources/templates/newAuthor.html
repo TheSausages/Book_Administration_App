@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New Author</title>
+    <link href="../static/css/styleHead.css" th:href="@{/css/styleHead.css}" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>Book Administration Page</h1>
+        <h3>See all the necessary information about your favorite Book!</h3>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="/home">Home</a></li>
+            <li><a href="/books/catalog">Books</a></li>
+            <li><a href="/authors/list">Authors</a></li>
+            <li><a href="/publishers/list">Publishers</a></li>
+        </ul>
+    </nav>
+
+    <form action="#" th:action="@{/authors/new/save}" th:object="${author}" method="POST">
+        <h1>New Author</h1>
+        <p>Required fields are preceded by <strong><abbr title="required">*</abbr></strong></p>
+
+        <section>
+            <p>
+                <label for="firstName">
+                    <span>First Name: </span>
+                    <strong><abbr title="required">*</abbr></strong>
+                </label>
+                <input type="text" id="firstName" name="firstName" th:field="*{firstName}">
+            </p>
+
+            <p>
+                <label for="lastName">
+                    <span>Last Name: </span>
+                    <strong><abbr title="required">*</abbr></strong>
+                </label>
+                <input type="text" id="lastName" name="lastName" th:field="*{lastName}">
+            </p>
+
+            <p>
+                <label for="dateOfBirth">
+                    <span>Date of Birth </span>
+                </label>
+                <input type="date" id="dateOfBirth" name="dateOfBirth" th:field="*{dateOfBirth}">
+            </p>
+
+
+            <p>
+                <label for="primaryGenre">
+                    <span>Primary Genre:</span>
+                </label>
+                <select id="primaryGenre" name="primaryGenre" th:field="*{primaryGenre}">
+                    <option th:each="genre: ${T(com.example.BookAdministration.Entities.PrimaryGenre).values()}" th:value="${genre}" th:text="${genre}"></option>
+                </select>
+            </p>
+
+            <p>
+                <label for="file">
+                    <span>Portrait: </span>
+                </label>
+                <input type="file" name="file" id="file" accept="image/*" th:field="*{portrait}">
+            </p>
+        </section>
+
+        <p>
+            <button type="submit" id="submit" name="submit">Create</button>
+        </p>
+    </form>
+</body>
+</html>
