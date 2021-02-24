@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
 
 @Controller
 @RequestMapping(value = "/books")
@@ -33,7 +32,7 @@ public class BookController {
 
     @GetMapping(value = "/cover/{id}")
     public void showBookCover(@PathVariable Long id, HttpServletResponse response) throws IOException {
-        response.setContentType("image/png");
+        response.setContentType("image/jpeg");
 
         Book book = bookService.getBookById(id);
 

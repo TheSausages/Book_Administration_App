@@ -32,88 +32,104 @@ button {
 
 /*Author*/
 .author {
-    margin: auto;
     background-color: rgb(218, 212, 212);
     border: 1px solid black;
     font-size: 2rem;
     overflow: auto;
     inline-size: 85%;
+    margin: 2vh auto;
+    padding: 0;
+}
+
+.author li {
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+}
+
+.portrait {
+    width: 15%;
+    margin: auto 10px;
+    position: relative;
+}
+
+
+
+.portrait img {
+    max-block-size: 90%;
+    max-inline-size: 90%;
+
+    display: block;
+    margin: 10px auto;
+}
+
+.portrait:after {
     text-align: center;
-    margin-block: 3vh;
+    display: inline-block;
+
+    content: '';
+    position: absolute;
+    bottom: 10%;
+    height: 80%;
+    right: 0;
+    border-inline-end: 1px solid whitesmoke;
+}
+
+.authorInfo {
+    width: 15%;
+    height: 100%;
+
+    text-align: center;
+
+    margin: auto;
+
+    border-right: 1px solid whitesmoke;
+}
+
+
+.bookAdn {
+    width: 15%;
+
+    font-style: italic;
+    text-align: center;
+
+    border-right: 1px solid whitesmoke;
+}
+
+li:last-child {
+    width: 50%;
+}
+
+.booksFlex {
+    width: 100%;
 
     display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
-	justify-content: flex-start;
-	align-items: center;
-    justify-content: center;
-}
-
-.portrait {
-    margin: 1vh 1vw;
-    border-collapse: collapse;
-    padding: 0.5rem;
-    position: relative;
-}
-
-.portrait:after {
-    content: '';
-    position: absolute;
-    bottom: 15%;
-    height: 70%;
-    right: -15px;
-    border-inline-end: 1px solid whitesmoke;
-}
-
-.portrait img {
-    max-block-size: 20vh;
-    max-inline-size: 20vh;
-    flex: 1 1 0;
-}
-
-.authorInfo {
-    flex: 1 1 0;
-    text-align: center;
-    vertical-align: center;
-    margin-inline: 5%;
-    inline-size: 4vw;
-
-    margin: auto auto;
-    border-collapse: collapse;
-    padding: 0.5rem;
-    position: relative;
-}
-
-.authorInfo::after {
-    content: '';
-    position: absolute;
-    bottom: 15%;
-    height: 70%;
-    right: -15px;
-    border-inline-end: 1px solid whitesmoke;
-}
-
-.bookAdn {
-    flex: 1 1 0;
-    font-style: italic;
+    align-self: auto;
+    align-items: center;
 }
 
 .authorBooks {
     margin-inline: 5vh;
-    min-height: 100%;
-    text-align: center;
-    flex: 1 1 0;
+
+    flex: auto;
 }   
 
 .authorBooks img {
     max-block-size: 15vh;
     max-inline-size: 15vh;
+
     display: block;
-    margin: 0 auto;
+    align-self: center;
+    margin: auto;
 }
 
 
 .authorBooks p {
     font-style: italic;
-    margin: 1vh;
+    padding-top: 5px;
+    margin: 0;
+
+    text-align: center;
 }

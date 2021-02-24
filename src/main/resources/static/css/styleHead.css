@@ -25,7 +25,7 @@ header {
     border-block-start: 0.1px solid black; /*Must be, doesnt work without*/
 
     background-color: rebeccapurple;
-    background-image: url("../img/Head2.jpg");
+    background-image: url("../img/Head.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -38,7 +38,7 @@ header > h1 {
 
 /*Navigation Menu*/
 
-ul {
+nav ul {
     background-color: rgb(76, 76, 223);
     list-style-type: none;
     padding: 0;
@@ -46,25 +46,13 @@ ul {
     overflow: hidden;
 }
 
-li {
+nav li {
     font-size: 2rem;
     float: left;
     border-inline-end: 1px solid whitesmoke;
 }
 
-/*li::before {
-    text-align: center;
-    display: inline-block;
-
-    content: '';
-    position: absolute;
-    bottom: 15%;
-    height: 70%;
-    right: -5%;
-    border-inline-end: 1px solid whitesmoke;
-}*/
-
-li a {
+nav li a {
     display: block;
     padding: 8px;
     text-align: center;
@@ -74,14 +62,14 @@ li a {
     text-decoration: none;
 }
 
-li a:focus {
+nav li a:focus {
     background-color: rgb(52, 52, 212);
 }
 
-li a:hover {
+nav li a:hover {
     background-color: rgb(20, 20, 184);
 }
 
-li a:active {
+nav li a:active {
     background-color: rgb(1, 1, 107);
 }

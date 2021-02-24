@@ -16,6 +16,9 @@ public class Book {
     @NotBlank(message = "A book must have a title!")
     private String title;
 
+    private String subTitle;
+
+    @Column(length = 1024)
     private String description;
 
     @Range(min = 1400, max = 2100, message = "Invalid publishing year - outside of range <1400, 2100>")
@@ -34,8 +37,9 @@ public class Book {
 
     public Book() {}
 
-    public Book(String title, String description, Integer publishingYear, byte[] cover, Author author, Publisher publisher) {
+    public Book(String title, String subTitle, String description, Integer publishingYear, byte[] cover, Author author, Publisher publisher) {
         this.title = title;
+        this.subTitle = subTitle;
         this.description = description;
         this.publishingYear = publishingYear;
         this.author = author;
@@ -43,8 +47,9 @@ public class Book {
         this.cover = cover;
     }
 
-    public Book(String title, String description, Integer publishingYear, Author author, Publisher publisher) {
+    public Book(String title, String subTitle, String description, Integer publishingYear, Author author, Publisher publisher) {
         this.title = title;
+        this.subTitle = subTitle;
         this.description = description;
         this.publishingYear = publishingYear;
         this.author = author;
@@ -79,6 +84,10 @@ public class Book {
         return title;
     }
 
+    public String getSubTitle() {
+        return subTitle;
+    }
+
     public void setId(long id) {
         this.id = id;
     }
@@ -105,6 +114,10 @@ public class Book {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public void setSubTitle(String subTitle) {
+        this.subTitle = subTitle;
     }
 
     public void setParamsFromAnotherBook(Book book) {

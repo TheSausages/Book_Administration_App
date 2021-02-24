@@ -22,33 +22,41 @@
     </nav>
 
     <tr th:each="authorWithBooks: ${authors}" >
-        <div class="author">
-            <div class="portrait"><td><img th:src="@{'/authors/portrait/' + ${authorWithBooks.key.id}}"></td></div>
+        <ul class="author">
+                <li class="portrait">
+                    <td><img th:src="@{'/authors/portrait/' + ${authorWithBooks.key.id}}"></td>
+                </li>
 
-            <div class="authorInfo">
-                <p>
-                    <td th:text="${authorWithBooks.key.firstName} + ' ' + ${authorWithBooks.key.lastName}"></td>
-                </p>
+                <li class="authorInfo">
+                        <p>
+                            <td th:text="${authorWithBooks.key.firstName} + ' ' + ${authorWithBooks.key.lastName}"></td>
+                        </p>
+        
+                        <p>
+                            <td th:text="${#temporals.format(authorWithBooks.key.dateOfBirth, 'dd.MM.yyyy')}"></td>
+                        </p>
+                </li>
 
-                <p>
-                    <td th:text="${#temporals.format(authorWithBooks.key.dateOfBirth, 'dd.MM.yyyy')}"></td>
-                </p>
-            </div>
+                <li class="bookAdn">
+                    <p>
+                        Books written <br> by this author:
+                    </p>
+                </li>
 
-            <p class="bookAdn">
-                Books written <br> by this author:
-            </p>
-
-            <table>
-                <tr th:each="book: ${authorWithBooks.value}">
-                    <div class="authorBooks">
-                        <img th:src="@{'/books/cover/' + ${book.id}}">
-                    
-                        <p th:text="${book.title}"></p>
+                <li>
+                    <div class="booksFlex">
+                        <table>
+                            <tr th:each="book: ${authorWithBooks.value}">
+                                <div class="authorBooks">
+                                    <img th:src="@{'/books/cover/' + ${book.id}}">
+                                
+                                    <p th:text="${book.title}"></p>
+                                </div>
+                            </tr>
+                        </table>
                     </div>
-                </tr>
-            </table>
-        </div>
+                </li>
+        </ul>
     </tr>
 
     <button type="button"><a href="/authors/new">Add Author</a></button>

@@ -5,10 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Base64;
 import java.util.Set;
 
 @Entity
@@ -27,6 +24,8 @@ public class Author {
 
     private LocalDate dateOfBirth;
 
+    private PrimaryGenre primaryGenre;
+
     @Lob
     @Column(columnDefinition = "MEDIUMBLOB")
     private byte[] portrait;
@@ -36,17 +35,19 @@ public class Author {
 
     public Author() {};
 
-    public Author(String firstName, String lastName, LocalDate dateOfBirth, byte[] portrait) {
+    public Author(String firstName, String lastName, LocalDate dateOfBirth, byte[] portrait, PrimaryGenre primaryGenre) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.portrait = portrait;
         this.dateOfBirth = dateOfBirth;
+        this.primaryGenre = primaryGenre;
     }
 
-    public Author(String firstName, String lastName, LocalDate dateOfBirth) {
+    public Author(String firstName, String lastName, LocalDate dateOfBirth, PrimaryGenre primaryGenre) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
+        this.primaryGenre = primaryGenre;
     }
 
     public long getId() {
@@ -73,6 +74,10 @@ public class Author {
         return dateOfBirth;
     }
 
+    public PrimaryGenre getPrimaryGenre() {
+        return primaryGenre;
+    }
+
     public void setId(long id) {
         this.id = id;
     }
@@ -95,5 +100,9 @@ public class Author {
 
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public void setPrimaryGenre(PrimaryGenre primaryGenre) {
+        this.primaryGenre = primaryGenre;
     }
 }
