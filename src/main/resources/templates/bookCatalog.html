@@ -31,12 +31,12 @@
                 </p>
 
                 <p>
-                    <strong>By:</strong>
+                    <strong>By: </strong>
                     <td th:text="${book.author.firstName} + ' ' + ${book.author.lastName}"></td>
                 </p>
 
                 <p>
-                    <strong>Published:</strong>
+                    <strong>Published: </strong>
                     in <td th:text="${book.publishingYear}"></td>, by <td th:text="${book.publisher.name}"></td>
                 </p>
             </div>
@@ -51,6 +51,6 @@
         </div>
     </tr>
 
-    <button type="button"><a href="/books/new">Add Book</a></button>
+    <button type="button" class="addBook"><a href="/books/new">Add New Book</a></button>
 </body>
 </html>

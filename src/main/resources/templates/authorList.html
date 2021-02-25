@@ -33,11 +33,11 @@
                         </p>
         
                         <p>
-                            Born:<td th:text="${#temporals.format(authorWithBooks.key.dateOfBirth, 'dd.MM.yyyy')}"></td>
+                            Born: <td th:text="${#temporals.format(authorWithBooks.key.dateOfBirth, 'dd.MM.yyyy')}"></td>
                         </p>
 
                         <p>
-                            Primary Genre:<td th:text="${authorWithBooks.key.primaryGenre}"></td>
+                            Primary Genre: <td th:text="${authorWithBooks.key.primaryGenre}"></td>
                         </p>
                 </li>
 
@@ -63,6 +63,6 @@
         </ul>
     </tr>
 
-    <button type="button"><a href="/authors/new">Add Author</a></button>
+    <button type="button" class="addAuthor"><a href="/authors/new/false">Add Author</a></button>
 </body>
 </html>

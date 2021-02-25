@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -53,18 +54,30 @@ public class AuthorController {
         IOUtils.copy(is, response.getOutputStream());
     }
 
-    @GetMapping(value = "/new")
-    public String newAuthor(Model model) {
+    @GetMapping(value = "/new/{whatSite}")
+    public String newAuthor(@PathVariable Boolean whatSite, Model model) {
         model.addAttribute("author", new Author());
         model.addAttribute("genres", PrimaryGenre.values());
+        model.addAttribute("whatSite", whatSite);
 
         return "newAuthor";
     }
 
-    @PostMapping(value = "/new/save")
-    public String saveNewAuthor(@Valid @ModelAttribute Author author, Model model) {
+    @PostMapping(value = "/new/save/{whatSite}", consumes = "multipart/form-data")
+    public String saveNewAuthor(@Valid @ModelAttribute Author author, @RequestParam("portraitImg") MultipartFile file, @PathVariable Boolean whatSite, Model model) throws IOException {
+        if (!file.isEmpty()) {
+            author.setPortrait(file.getBytes());
+        } else {
+            InputStream noPortrait = (Thread.currentThread().getContextClassLoader().getResourceAsStream("static/img/NoCover.jpg"));
+            author.setPortrait(noPortrait.readAllBytes());
+        }
+
         authorService.createAuthor(author);
 
-        return "redirect:/authors/list";
+        if (whatSite) {
+            return "redirect:/books/new";
+        } else {
+            return "redirect:/authors/list";
+        }
     }
 }

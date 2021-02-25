@@ -39,14 +39,37 @@ body {
 
 /*Button for new Element*/
 
-button {
+.addPublisher {
+    font-size: 2rem;
     background-color: rgb(76, 76, 223);
-    font-weight: bold;
-    padding: 1rem;
-    border-radius: 5%;
-    
+    min-block-size: 4rem;
+    block-size: auto;
+    inline-size: 14rem;
+
     display: block;
     margin: 0 auto;
     position: sticky;
     bottom: 5%;
+}
+
+.addPublisher a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    inline-size: 100%;
+    block-size: 100%;
+}
+
+.addPublisher a:focus {
+    background-color: rgb(52, 52, 212);
+}
+
+.addPublisher a:hover {
+    background-color: rgb(36, 36, 172);
+}
+
+.addPublisher a:active {
+    background-color: rgb(1, 1, 107);
 }

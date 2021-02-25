@@ -1,16 +1,20 @@
 package com.example.BookAdministration.Services;
 
-import com.example.BookAdministration.Entities.Author;
 import com.example.BookAdministration.Entities.Book;
 import com.example.BookAdministration.Exceptions.EntityAlreadyExistException;
 import com.example.BookAdministration.Exceptions.EntityNotFoundException;
 import com.example.BookAdministration.Repositories.BookRepository;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import org.apache.tomcat.util.http.fileupload.IOUtils;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 @Service

@@ -5,8 +5,6 @@
     <title>Add a new Book</title>
     <link href="../static/css/styleHead.css" th:href="@{/css/styleHead.css}" rel="stylesheet">
     <link href="../static/css/styleBook.css" th:href="@{/css/styleBook.css}" rel="stylesheet">
-    <script src="../static/js/ChangeShownValue.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
 <body>
     <header>
@@ -24,7 +22,7 @@
     </nav>
 
     
-    <form action="#" th:action="@{/books/new/save}" th:object="${book}" method="POST">
+    <form action="#" th:action="@{/books/new/save}" th:object="${book}" method="POST" enctype="multipart/form-data">
         <h1>New Book</h1>
         <p>Required fields are preceded by <strong><abbr title="required">*</abbr></strong></p>
 
@@ -63,28 +61,36 @@
                     <span>Author: </span>
                     <strong><abbr title="required">*</abbr></strong>
                 </label>
-                <input list="authors" id="authorChoice" name="authorChoice" th:field="*{author}">
+                <input list="authors" id="authorChoice" name="authorChoice">
                 <datalist id="authors">
-                    <option th:each="author: ${authors}" th:value="${author.id}" th:text="${author.firstName} + ' ' + ${author.lastName}"></option>
+                    <option th:each="author: ${authors}" th:data-value="${author.id}" th:value="${author.firstName} + ' ' + ${author.lastName}"></option>
                 </datalist>
-            </p>
+                <input type="hidden" name="authorChoice-hidden" id="authorChoice-hidden" th:field="*{author}">
 
-            <p>
                 <label for="publisher">
                     <span>Publisher: </span>
                     <strong><abbr title="required">*</abbr></strong>
                 </label>
-                <input list="publishers" id="publisherChoice" name="publisherChoice" th:field="*{publisher}">
+                <input list="publishers" id="publisherChoice" name="publisherChoice">
                 <datalist id="publishers">
-                    <option th:each="publisher: ${publishers}" th:value="${publisher.id}" th:text="${publisher.name}"></option>
+                    <option th:each="publisher: ${publishers}" th:data-value="${publisher.id}" th:value="${publisher.name}"></option>
                 </datalist>
+                <input type="hidden" name="publisherChoice-hidden" id="publisherChoice-hidden" th:field="*{publisher}">
             </p>
 
             <p>
-                <label for="file">
+                <button type="button"><a href="/authors/new/true">Add Author</a></button>
+                <button type="button"><a href="/publishers/new/true">Add Publisher</a></button>
+            </p>
+
+            <p>
+                <label for="cover">
                     <span>Cover: </span>
                 </label>
-                <input type="file" name="file" id="file" accept="image/*" th:field="*{cover}">
+                <input type="file" name="coverImg" id="coverImg" accept="image/*">
+                <div class="coverPreview" id="coverPreview">
+                    <img alt="Cover Preview" class="coverPreview__cover">
+                </div>
             </p>
         </section>
 
@@ -92,8 +98,8 @@
             <button type="submit" id="submit" name="submit">Create</button>
         </p>
     </form>
-    
-    <button type="button"><a href="/authors/new">Add Author</a></button>
-    <button type="button"><a href="/publishers/new">Add Publisher</a></button>
+
+    <script type="text/javascript" src="../static/js/droplistShownDiffrentValue.js" th:src="@{/js/droplistShownDiffrentValue.js}"></script>
+    <script type="text/javascript" src="../static/js/coverPreviewScript.js" th:src="@{/js/coverPreviewScript.js}"></script>       
 </body>
 </html>

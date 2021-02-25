@@ -18,16 +18,39 @@ body {
 
 /*Button for new Element*/
 
-button {
+.addBook {
+    font-size: 2rem;
     background-color: rgb(76, 76, 223);
-    font-weight: bold;
-    padding: 1rem;
-    border-radius: 5%;
+    min-block-size: 4rem;
+    block-size: auto;
+    inline-size: 14rem;
 
     display: block;
     margin: 0 auto;
     position: sticky;
     bottom: 5%;
+}
+
+.addBook a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    inline-size: 100%;
+    block-size: 100%;
+}
+
+.addBook a:focus {
+    background-color: rgb(52, 52, 212);
+}
+
+.addBook a:hover {
+    background-color: rgb(36, 36, 172);
+}
+
+.addBook a:active {
+    background-color: rgb(1, 1, 107);
 }
 
 /*Not side wide*/
@@ -105,4 +128,30 @@ button {
     flex: 2;
     min-height: 100%;
     text-align: center;
+}
+
+/*Form*/
+
+.coverPreview {
+    width: 200px;
+    min-height: 300px;
+
+    border: 1px solid gray;
+    margin-top: 10px;
+
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: gray;
+
+    background-image: url("../img/NoCover.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+} 
+
+.coverPreview__cover {
+    display: none;
+    width: 100%;
 }

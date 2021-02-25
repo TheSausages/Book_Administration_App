@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -56,10 +57,14 @@ public class BookController {
         return "newBook";
     }
 
-    @PostMapping(value = "/new/save")
-    public String saveNewBook(@Valid @ModelAttribute Book book, Model model) {
-        System.out.println(book.getAuthor());
-        System.out.println(book.getPublisher());
+    @PostMapping(value = "/new/save", consumes = "multipart/form-data")
+    public String saveNewBook(@Valid @ModelAttribute Book book, @RequestParam("coverImg") MultipartFile file, Model model) throws IOException {
+        if (!file.isEmpty()) {
+            book.setCover(file.getBytes());
+        } else {
+            InputStream noCover = (Thread.currentThread().getContextClassLoader().getResourceAsStream("static/img/NoCover.jpg"));
+            book.setCover(noCover.readAllBytes());
+        }
 
         bookService.createBook(book);
 

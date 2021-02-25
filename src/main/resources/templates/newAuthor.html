@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>New Author</title>
+    <link href="../static/css/styleAuthor.css" th:href="@{/css/styleAuthor.css}" rel="stylesheet">
     <link href="../static/css/styleHead.css" th:href="@{/css/styleHead.css}" rel="stylesheet">
 </head>
 <body>
@@ -20,10 +21,10 @@
         </ul>
     </nav>
 
-    <form action="#" th:action="@{/authors/new/save}" th:object="${author}" method="POST">
+    <form action="#" th:action="@{/authors/new/save/} + ${whatSite}" th:object="${author}" method="POST" enctype="multipart/form-data">
         <h1>New Author</h1>
         <p>Required fields are preceded by <strong><abbr title="required">*</abbr></strong></p>
-
+        <p th:value="${whatSite}"></p>
         <section>
             <p>
                 <label for="firstName">
@@ -59,10 +60,13 @@
             </p>
 
             <p>
-                <label for="file">
+                <label for="portraitImg">
                     <span>Portrait: </span>
                 </label>
-                <input type="file" name="file" id="file" accept="image/*" th:field="*{portrait}">
+                <input type="file" th:name="portraitImg" id="portraitImg" accept="image/*">
+                <div class="portraitPreview" id="portraitPreview">
+                    <img alt="Portrait Preview" class="portraitPreview__portrait">
+                </div>
             </p>
         </section>
 
@@ -70,5 +74,7 @@
             <button type="submit" id="submit" name="submit">Create</button>
         </p>
     </form>
+
+    <script type="text/javascript" src="../static/js/portraitPreviewScript.js" th:src="@{/js/portraitPreviewScript.js}"></script>  
 </body>
 </html>

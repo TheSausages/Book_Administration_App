@@ -5,10 +5,7 @@ import com.example.BookAdministration.Services.PublisherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -29,17 +26,22 @@ public class PublisherController {
         return "publisherList";
     }
 
-    @GetMapping(value = "/new")
-    public String newPublisher(Model model) {
+    @GetMapping(value = "/new/{whatSite}")
+    public String newPublisher(@PathVariable Boolean whatSite, Model model) {
         model.addAttribute("publisher", new Publisher());
+        model.addAttribute("whatSite", whatSite);
 
         return "newPublisher";
     }
 
-    @PostMapping(value = "/new/save")
-    public String saveNewPublisher(@Valid @ModelAttribute Publisher publisher, Model model) {
+    @PostMapping(value = "/new/save/{whatSite}")
+    public String saveNewPublisher(@Valid @ModelAttribute Publisher publisher,@PathVariable Boolean whatSite , Model model) {
         publisherService.createPublisher(publisher);
 
-        return "redirect:/publishers/list";
+        if (whatSite) {
+            return "redirect:/books/new";
+        } else {
+            return "redirect:/publishers/list";
+        }
     }
 }
