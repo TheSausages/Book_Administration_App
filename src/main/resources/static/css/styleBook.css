@@ -9,6 +9,10 @@ html {
 button, input, select, textarea {
     font-family: inherit;
     font-size: 100%;
+    width: 45%;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
 
 body {
@@ -52,8 +56,6 @@ body {
 .addBook a:active {
     background-color: rgb(1, 1, 107);
 }
-
-/*Not side wide*/
 
 /*Book*/
 
@@ -131,6 +133,46 @@ body {
 }
 
 /*Form*/
+
+form {
+    font-size: 2rem;
+
+    width: 50%;
+    height: 80%;
+    margin: 5vh auto;
+    padding: 1rem;
+    box-sizing: border-box;
+    border:1px solid blue;
+}
+
+form h1, form>p {
+    margin-block: 1vh;
+    text-align: center;
+}
+
+form h1 {
+    font-weight: bold;
+    font-size: 5rem;
+}
+
+form section p {
+    display: flex;
+    text-align: center;
+    font-weight: bold;
+    font-size: 2.5rem;
+    margin-block: 1.5vh;
+}
+
+form section div {
+    text-align: center;
+}
+
+form section p label {
+    inline-size: 40%;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
 
 .coverPreview {
     width: 200px;

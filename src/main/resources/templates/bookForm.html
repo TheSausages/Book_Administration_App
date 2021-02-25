@@ -23,8 +23,10 @@
 
     
     <form action="#" th:action="@{/books/new/save}" th:object="${book}" method="POST" enctype="multipart/form-data">
-        <h1>New Book</h1>
-        <p>Required fields are preceded by <strong><abbr title="required">*</abbr></strong></p>
+        <h1>Create a new Book</h1>
+        <p>Required fields are preceded by <strong><abbr title="required">*</abbr></strong> symbol</p>
+
+        <br>
 
         <section>
             <p>
@@ -50,14 +52,17 @@
                 <input type="number" name="publishingYear" id="publishingYear" min="1400" max="2021" step="1" th:field="*{publishingYear}">
             </p>
 
-            <textarea cols="64" rows="16" th:field="*{description}"></textarea>
-
             <p>
-                If the Author or Publisher of the Book isn't nn the list - create them using the adequite button at the botton of the screen
+                <label for="desc">Description: </label>
+                <textarea id="desc" name="desc" cols="32" rows="16" th:field="*{description}"></textarea>
             </p>
 
+            <div>
+                If the Author or Publisher of the Book isn't on the list - create them using the adequite button bellow the lists
+            </div>
+
             <p>
-                <label for="author">
+                <label for="authorChoice">
                     <span>Author: </span>
                     <strong><abbr title="required">*</abbr></strong>
                 </label>
@@ -66,8 +71,10 @@
                     <option th:each="author: ${authors}" th:data-value="${author.id}" th:value="${author.firstName} + ' ' + ${author.lastName}"></option>
                 </datalist>
                 <input type="hidden" name="authorChoice-hidden" id="authorChoice-hidden" th:field="*{author}">
+            </p>
 
-                <label for="publisher">
+            <p>
+                <label for="publisherChoice">
                     <span>Publisher: </span>
                     <strong><abbr title="required">*</abbr></strong>
                 </label>
@@ -84,13 +91,13 @@
             </p>
 
             <p>
-                <label for="cover">
+                <label for="coverImg">
                     <span>Cover: </span>
                 </label>
-                <input type="file" name="coverImg" id="coverImg" accept="image/*">
-                <div class="coverPreview" id="coverPreview">
+                <span class="coverPreview" id="coverPreview">
                     <img alt="Cover Preview" class="coverPreview__cover">
-                </div>
+                </span>
+                <input type="file" name="coverImg" id="coverImg" accept="image/*">
             </p>
         </section>
 
