@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Head</title>
+    <link href="../static/css/styleHead.css" th:href="@{/css/styleHead.css}" rel="stylesheet">
+</head>
+<body>
+    <div th:fragment="header">
+        <header>
+            <h1>Book Administration Page</h1>
+            <h3>See all the necessary information about your favorite Book!</h3>
+        </header>
+
+        <nav>
+            <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/books/catalog">Books</a></li>
+                <li><a href="/authors/list">Authors</a></li>
+                <li><a href="/publishers/list">Publishers</a></li>
+            </ul>
+        </nav>
+    </div>
+</body>
+</html>

@@ -60,7 +60,7 @@ public class AuthorController {
         model.addAttribute("genres", PrimaryGenre.values());
         model.addAttribute("whatSite", whatSite);
 
-        return "newAuthor";
+        return "authorForm";
     }
 
     @PostMapping(value = "/new/save/{whatSite}", consumes = "multipart/form-data")
@@ -68,7 +68,7 @@ public class AuthorController {
         if (!file.isEmpty()) {
             author.setPortrait(file.getBytes());
         } else {
-            InputStream noPortrait = (Thread.currentThread().getContextClassLoader().getResourceAsStream("static/img/NoCover.jpg"));
+            InputStream noPortrait = (Thread.currentThread().getContextClassLoader().getResourceAsStream("static/img/NoPortrait.jpg"));
             author.setPortrait(noPortrait.readAllBytes());
         }
 

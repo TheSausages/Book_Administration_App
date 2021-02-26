@@ -9,6 +9,10 @@ html {
 button, input, select, textarea {
     font-family: inherit;
     font-size: 100%;
+    width: 45%;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
 
 body {
@@ -20,56 +24,106 @@ body {
     overflow: auto;
 
     text-align: center;
-    margin: auto;
-
-    display: grid;
-    grid-template-columns: repeat(4, minmax(200px, 1fr));
-    grid-auto-rows: minmax(100px, auto);
+    margin: 3vh auto;
 }
 
 .publisher {
-    background-color: rgb(218, 212, 212);
-    border: 1px solid black;
+    border: 1px solid rgb(184, 184, 184);
     font-size: 2rem;
-    
-    block-size: 10vh;
-    inline-size: 10vw;
-    margin: 50px auto;
+    inline-size: 60%;
+    block-size: 4rem;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    margin: 0 auto;
+    border-collapse: collapse;
+}
+
+.publisher:nth-child(odd) {
+    background-color: white;
+}
+
+.publisher:nth-child(even) {
+    background-color: rgb(209, 209, 209);
+}
+
+.publisher span {
+    flex: 1;
+    text-align: center;
+}
+
+.publisher span a{
+    border: 1px solid black;
+    block-size: 3rem;
+    inline-size: 3rem;
+    border-radius: 3px;
+}
+
+.editButton {
+    background-color: rgb(239, 255, 13);
+    content: url("../img/editIcon.png") ;
+}
+
+.editButton:focus {
+    background-color: rgb(223, 238, 14);
+}
+
+.editButton:hover {
+    background-color: rgb(206, 219, 19);
+}
+
+.editButton:active {
+    background-color: rgb(179, 190, 16);
+}
+
+.deleteButton {
+    background-color: rgb(241, 18, 18);
+    content: url("../img/deleteIcon.png") ;
+}
+
+.deleteButton:focus {
+    background-color: rgb(209, 18, 18);
+}
+
+.deleteButton:hover {
+    background-color: rgb(197, 14, 14);
+}
+
+.deleteButton:active {
+    background-color: rgb(153, 14, 14)
 }
 
 /*Button for new Element*/
 
 .addPublisher {
-    font-size: 2rem;
+    border: 1px solid black;
     background-color: rgb(76, 76, 223);
+    font-size: 2rem;
     min-block-size: 4rem;
     block-size: auto;
-    inline-size: 14rem;
+    min-inline-size: 10rem;
+    max-inline-size: 20rem;
+    color: white;
+    text-decoration: none;
+    border-radius: 7px;
 
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin: 0 auto;
     position: sticky;
     bottom: 5%;
 }
 
-.addPublisher a {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-    color: white;
-    inline-size: 100%;
-    block-size: 100%;
-}
 
-.addPublisher a:focus {
+.addPublisher:focus {
     background-color: rgb(52, 52, 212);
 }
 
-.addPublisher a:hover {
+.addPublisher:hover {
     background-color: rgb(36, 36, 172);
 }
 
-.addPublisher a:active {
+.addPublisher:active {
     background-color: rgb(1, 1, 107);
 }

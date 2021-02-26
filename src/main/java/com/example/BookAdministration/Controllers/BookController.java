@@ -48,13 +48,20 @@ public class BookController {
         IOUtils.copy(is, response.getOutputStream());
     }
 
+    @GetMapping(value = "/info/{id}")
+    public String viewBook(@PathVariable Long id, Model model) {
+        model.addAttribute("book", bookService.getBookById(id));
+
+        return "bookInfo";
+    }
+
     @GetMapping(value = "/new")
     public String newBook(Model model) {
         model.addAttribute("book", new Book());
         model.addAttribute("authors", authorService.getAllAuthors());
         model.addAttribute("publishers", publisherService.getAllPublishers());
 
-        return "newBook";
+        return "bookForm";
     }
 
     @PostMapping(value = "/new/save", consumes = "multipart/form-data")

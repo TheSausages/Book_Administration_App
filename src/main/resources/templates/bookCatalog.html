@@ -7,19 +7,7 @@
     <link href="../static/css/styleBook.css" th:href="@{/css/styleBook.css}" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <h1>Book Administration Page</h1>
-        <h3>See all the necessary information about your favorite Book!</h3>
-    </header>
-
-    <nav>
-        <ul>
-            <li><a href="/home">Home</a></li>
-            <li><a href="/books/catalog">Books</a></li>
-            <li><a href="/authors/list">Authors</a></li>
-            <li><a href="/publishers/list">Publishers</a></li>
-        </ul>
-    </nav>
+    <div th:replace="head :: header"></div>
 
     <tr th:each="book: ${books}" >
         <div class="book">
@@ -27,8 +15,16 @@
 
             <div class="bookInfo">
                 <p>
-                    <span id="titleOrDescr"><td th:text="${book.title}"></td></span>
+                    <p class="titleOrDescr">
+                        <td th:text="${book.title}"></td>
+                    </p>
+                    
+                    <p class="titleOrDescr">
+                        <td th:text="${book.subTitle}"></td>
+                    </p>
                 </p>
+
+                <br>
 
                 <p>
                     <strong>By: </strong>
@@ -46,11 +42,29 @@
                     <span id="titleOrDescr">Description</span>
                 </p>
                 
-                <td th:text="${book.description}" class="bookDesc"></td>
+                <p>
+                    <td th:text="${book.description}" class="bookDescText"></td>
+                    <div th:if="${book.description!=null and book.description.empty}" class="noBooks">No description was added to this book!</div>
+                </p>
+            </div>
+
+            <div class="buttons">
+                <p class="button">
+                    <a th:href="@{/books/info/{id}(id=${book.id})}" class="detailsButton"></a>
+                </p>
+
+                <p class="button">
+                    <a href="#" class="editButton"></a>
+                </p>
+
+                <p class="button">
+                    <a href="#" class="deleteButton"></a>
+                </p>
             </div>
         </div>
     </tr>
+    
 
-    <button type="button" class="addBook"><a href="/books/new">Add New Book</a></button>
+    <a href="/books/new" class="addBook">Add New Book</a>
 </body>
 </html>

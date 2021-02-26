@@ -23,37 +23,34 @@ body {
 /*Button for new Element*/
 
 .addBook {
-    font-size: 2rem;
+    border: 1px solid black;
     background-color: rgb(76, 76, 223);
+    font-size: 2rem;
     min-block-size: 4rem;
     block-size: auto;
-    inline-size: 14rem;
+    min-inline-size: 10rem;
+    max-inline-size: 20rem;
+    color: white;
+    text-decoration: none;
+    border-radius: 7px;
 
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin: 0 auto;
     position: sticky;
     bottom: 5%;
 }
 
-.addBook a {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-    color: white;
-    inline-size: 100%;
-    block-size: 100%;
-}
-
-.addBook a:focus {
+.addBook:focus {
     background-color: rgb(52, 52, 212);
 }
 
-.addBook a:hover {
+.addBook:hover {
     background-color: rgb(36, 36, 172);
 }
 
-.addBook a:active {
+.addBook:active {
     background-color: rgb(1, 1, 107);
 }
 
@@ -64,10 +61,11 @@ body {
     border: 1px solid black;
     font-size: 2rem;
     overflow: auto;
-    inline-size: 90%;
+    inline-size: 94%;
+    block-size: 25vh;
     text-align: center;
     margin: 3vh auto;
-    padding: 10px;
+    padding-inline-start: 1vw;
 
     display: flex;
 	flex-direction: row;
@@ -78,10 +76,9 @@ body {
 }
 
 .cover {
-    margin: 1vh 1vw;
-    border-collapse: collapse;
-    padding: 0.5rem;
+    margin-block-end: 1rem ;
     position: relative;
+    margin: auto;
 }
 
 .cover:after {
@@ -89,13 +86,14 @@ body {
     position: absolute;
     bottom: 15%;
     height: 70%;
-    right: -15px;
+    right: -1rem;
     border-inline-end: 1px solid whitesmoke;
 }
 
 .cover img {
-    max-block-size: 20vh;
-    max-inline-size: 20vh;
+    display: block;
+    inline-size: 15vh;
+    block-size: auto;
     flex: 1;
 }
 
@@ -104,7 +102,7 @@ body {
     text-align: center;
     vertical-align: center;
     margin-inline: 5%;
-    inline-size: 10vw;
+    max-inline-size: 15vw;
 
     margin: auto auto;
     border-collapse: collapse;
@@ -112,7 +110,12 @@ body {
     position: relative;
 }
 
-#titleOrDescr {
+.bookInfo > p {
+    max-inline-size: 80%;
+    margin: 0 auto;
+}
+
+.titleOrDescr {
     font-style: italic;
 }
 
@@ -121,46 +124,182 @@ body {
     position: absolute;
     bottom: 15%;
     height: 70%;
-    right: -15px;
+    right: 0;
     border-inline-end: 1px solid whitesmoke;
 }
 
 .bookDesc {
-    margin-inline: 5vh;
+    margin-inline-start: 1vw;
+    padding-inline-end: 1vw;
     flex: 2;
-    min-height: 100%;
-    text-align: center;
+    height: 100%;
+
+    position: relative;
+}
+
+.bookDescText {
+    margin: 0 auto;
+}
+
+.bookDesc::after {
+    content: '';
+    position: absolute;
+    bottom: 15%;
+    height: 70%;
+    right: 0;
+    border-inline-end: 1px solid whitesmoke;
+}
+
+.buttons {
+    margin-inline: 1vw;
+}
+
+.button {
+    margin: 1vw auto;
+    flex: 1;
+}
+
+.editButton, .deleteButton, .detailsButton {
+    border: 1px solid black;
+    max-block-size: 4rem;
+    max-inline-size: 4rem;
+    border-radius: 3px;
+}
+
+.detailsButton {
+    background-color: rgb(0, 255, 34);
+    content: url("../img/bookIcon.png") ;
+}
+
+.detailsButton:focus {
+    background-color: rgb(0, 224, 30);
+}
+
+.detailsButton:hover {
+    background-color: rgb(0, 170, 23);
+}
+
+.detailsButton:active {
+    background-color: rgb(0, 151, 20);
+}
+
+.editButton {
+    background-color: rgb(239, 255, 13);
+    content: url("../img/editIcon.png") ;
+}
+
+.editButton:focus {
+    background-color: rgb(223, 238, 14);
+}
+
+.editButton:hover {
+    background-color: rgb(206, 219, 19);
+}
+
+.editButton:active {
+    background-color: rgb(179, 190, 16);
+}
+
+.deleteButton {
+    background-color: rgb(241, 18, 18);
+    content: url("../img/deleteIcon.png") ;
+}
+
+.deleteButton:focus {
+    background-color: rgb(209, 18, 18);
+}
+
+.deleteButton:hover {
+    background-color: rgb(197, 14, 14);
+}
+
+.deleteButton:active {
+    background-color: rgb(153, 14, 14)
 }
 
 /*Form*/
 
 form {
-    font-size: 2rem;
+    font-size: 1.5rem;
 
     width: 50%;
     height: 80%;
     margin: 5vh auto;
     padding: 1rem;
     box-sizing: border-box;
-    border:1px solid blue;
+    border:2px solid blue;
 }
 
-form h1, form>p {
+form h1, form p {
     margin-block: 1vh;
     text-align: center;
 }
 
 form h1 {
     font-weight: bold;
-    font-size: 5rem;
+    font-size: 3.5rem;
 }
 
 form section p {
     display: flex;
     text-align: center;
     font-weight: bold;
-    font-size: 2.5rem;
+    font-size: 1.5rem;
     margin-block: 1.5vh;
+}
+
+form section p:last-child {
+    margin: auto;
+}
+
+.addButtons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.addButtons a{
+    border: 1px solid black;
+    background-color: rgb(76, 76, 223);
+    font-size: 1.5rem;
+    min-block-size: 2.5rem;
+    block-size: auto;
+    min-inline-size: 5rem;
+    max-inline-size: 10rem;
+    color: white;
+    text-decoration: none;
+    border-radius: 7px;
+
+    flex: 1;
+    margin: 0 1vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.createButton button{
+    border: 1px solid black;
+    background-color: rgb(76, 76, 223);
+    font-size: 2rem;
+    min-block-size: 4rem;
+    block-size: auto;
+    min-inline-size: 10rem;
+    max-inline-size: 20rem;
+    color: white;
+    text-decoration: none;
+    border-radius: 7px;
+}
+
+.addBook a:focus, .createButton button:focus {
+    background-color: rgb(52, 52, 212);
+}
+
+.addBook a:hover, .createButton button:hover {
+    background-color: rgb(36, 36, 172);
+}
+
+.addBook a:active, .createButton button:active {
+    background-color: rgb(1, 1, 107);
 }
 
 form section div {
@@ -173,12 +312,18 @@ form section p label {
     margin-bottom: auto;
 }
 
+form section p button, form p {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
 
 .coverPreview {
-    width: 200px;
-    min-height: 300px;
+    width: 300px;
+    min-height: 400px;
+    height: auto;
 
-    border: 1px solid gray;
+    border: 1px solid blue;
     margin-top: 10px;
 
     display:flex;
@@ -196,4 +341,28 @@ form section p label {
 .coverPreview__cover {
     display: none;
     width: 100%;
+}
+
+/*Book Info*/
+
+.bookData {
+    font-size: 1.5rem;
+
+    width: 50%;
+    height: 80%;
+    margin: 5vh auto;
+    padding: 1rem;
+    box-sizing: border-box;
+    border:2px solid blue;
+}
+
+.bookData h1 {
+    margin-block: 1vh;
+    text-align: center;
+}
+
+.dataGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(7, 1fr);
 }

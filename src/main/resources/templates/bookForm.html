@@ -7,20 +7,7 @@
     <link href="../static/css/styleBook.css" th:href="@{/css/styleBook.css}" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <h1>Book Administration Page</h1>
-        <h3>See all the necessary information about your favorite Book!</h3>
-    </header>
-
-    <nav>
-        <ul>
-            <li><a href="/home">Home</a></li>
-            <li><a href="/books/catalog">Books</a></li>
-            <li><a href="/authors/list">Authors</a></li>
-            <li><a href="/publishers/list">Publishers</a></li>
-        </ul>
-    </nav>
-
+    <div th:replace="head :: header"></div>
     
     <form action="#" th:action="@{/books/new/save}" th:object="${book}" method="POST" enctype="multipart/form-data">
         <h1>Create a new Book</h1>
@@ -57,8 +44,10 @@
                 <textarea id="desc" name="desc" cols="32" rows="16" th:field="*{description}"></textarea>
             </p>
 
+            <br>
+
             <div>
-                If the Author or Publisher of the Book isn't on the list - create them using the adequite button bellow the lists
+                If the Author or Publisher of the Book isn't on the list - create them using the adequite button bellow
             </div>
 
             <p>
@@ -85,23 +74,32 @@
                 <input type="hidden" name="publisherChoice-hidden" id="publisherChoice-hidden" th:field="*{publisher}">
             </p>
 
-            <p>
-                <button type="button"><a href="/authors/new/true">Add Author</a></button>
-                <button type="button"><a href="/publishers/new/true">Add Publisher</a></button>
+            <p class="addButtons">
+                <a href="/authors/new/true">Add Author</a>
+                <a href="/publishers/new/true">Add Publisher</a>
             </p>
+
+            <br>
+
+            <div>
+                Please Note that if you upload a Cover with proportions different <br> that 5x8 the Cover will be scalled down in the Book Catalog!
+            </div>
 
             <p>
                 <label for="coverImg">
                     <span>Cover: </span>
                 </label>
-                <span class="coverPreview" id="coverPreview">
-                    <img alt="Cover Preview" class="coverPreview__cover">
-                </span>
                 <input type="file" name="coverImg" id="coverImg" accept="image/*">
+            </p>
+
+            <p class="coverPreview" id="coverPreview">
+                <img alt="Cover Preview" class="coverPreview__cover">
             </p>
         </section>
 
-        <p>
+        <br>
+
+        <p class="createButton">
             <button type="submit" id="submit" name="submit">Create</button>
         </p>
     </form>

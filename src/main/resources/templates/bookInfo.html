@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">>
+<head>
+    <meta charset="UTF-8">
+    <title>Book Info Page</title>
+    <link href="../static/css/styleHead.css" th:href="@{/css/styleHead.css}" rel="stylesheet">
+    <link href="../static/css/styleBook.css" th:href="@{/css/styleBook.css}" rel="stylesheet">
+</head>
+<body>
+    <div th:replace="head :: header"></div>
+
+    <div class="bookData" th:object="${book}">
+        <h1>Book Information</h1>
+
+        <div class="dataGrid">
+            <p>
+                Title:
+            </p>
+            <p>
+                <td th:text="${book.title}"></td>
+            </p>
+    
+            <p>
+                Subtitle:
+            </p>
+            <p>
+                <td th:text="${book.subTitle}"></td>
+                <span th:if="${book.subTitle!=null and book.subTitle.empty}">No Subtitle</span>
+            </p>
+
+            <p>
+                Author:
+            </p>
+            <p>
+                <td th:text="${book.author.firstName} + ' ' + ${book.author.lastName}"></td>
+            </p>
+
+            <p>
+                Publisher:
+            </p>
+            <p>
+                <td th:text="${book.publisher.name}"></td>
+            </p>
+
+            <p>
+                Publishing Year:
+            </p>
+            <p>
+                <td th:text="${book.publishingYear}"></td>
+            </p>
+
+            <p>
+                Description
+            </p>
+            <p>
+                <td th:text="${book.description}" class="bookDescText"></td>
+                <div th:if="${book.description!=null and book.description.empty}" class="noBooks">No description was added to this book!</div>
+            </p>
+
+            <p>
+                Cover
+            </p>
+            <div class="cover"><td><img th:src="@{'/books/cover/' + ${book.id}}"></td></div>
+        </div>
+    </div>
+</body>
+</html>

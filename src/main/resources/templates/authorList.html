@@ -7,19 +7,7 @@
     <link href="../static/css/styleHead.css" th:href="@{/css/styleHead.css}" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <h1>Book Administration Page</h1>
-        <h3>See all the necessary information about your favorite Book!</h3>
-    </header>
-
-    <nav>
-        <ul>
-            <li><a href="/home">Home</a></li>
-            <li><a href="/books/catalog">Books</a></li>
-            <li><a href="/authors/list">Authors</a></li>
-            <li><a href="/publishers/list">Publishers</a></li>
-        </ul>
-    </nav>
+    <div th:replace="head :: header"></div>
 
     <tr th:each="authorWithBooks: ${authors}" >
         <ul class="author">
@@ -57,12 +45,30 @@
                                     <p th:text="${book.title}"></p>
                                 </div>
                             </tr>
+
+                            <div th:if="${authorWithBooks.value!=null and authorWithBooks.value.empty}" id="noBooks">No books of this Author have been added yet!</div>
                         </table>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="buttons">
+                        <p class="button">
+                            <a href="#" class="detailsButton"></a>
+                        </p>
+        
+                        <p class="button">
+                            <a href="#" class="editButton"></a>
+                        </p>
+        
+                        <p class="button">
+                            <a href="#" class="deleteButton"></a>
+                        </p>
                     </div>
                 </li>
         </ul>
     </tr>
 
-    <button type="button" class="addAuthor"><a href="/authors/new/false">Add Author</a></button>
+    <a href="/authors/new/false" class="addAuthor">Add New Author</a>
 </body>
 </html>

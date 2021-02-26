@@ -7,34 +7,41 @@
     <link href="../static/css/stylePublisher.css" th:href="@{/css/stylePublisher.css}" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <h1>Book Administration Page</h1>
-        <h3>See all the necessary information about your favorite Book!</h3>
-    </header>
-
-    <nav>
-        <ul>
-            <li><a href="/home">Home</a></li>
-            <li><a href="/books/catalog">Books</a></li>
-            <li><a href="/authors/list">Authors</a></li>
-            <li><a href="/publishers/list">Publishers</a></li>
-        </ul>
-    </nav>
+    <div th:replace="head :: header"></div>
 
     <div class="publisherList">
+        <span class="publisher">
+            <span>
+                Name
+            </span>
+
+            <span>
+                City
+            </span>
+
+            <span>
+                Edit/Delete
+            </span>
+        </span>
         <tr th:each="publisher: ${publishers}" class="publisher">
             <div class="publisher">
-                    <p>
-                        <td th:text="${publisher.name}"></td>
-                    </p>
+                <span>
+                    <td th:text="${publisher.name}"></td>
+                </span>
                     
-                    <p>
-                        <td th:text="${publisher.city}"></td>
-                    </p>
+                <span>
+                    <td th:text="${publisher.city}"></td>
+                </span>
+
+                <span>
+                    <a href="#" class="editButton"></a>
+                    /
+                    <a href="#" class="deleteButton"></a>
+                </span>
             </div>
         </tr>
     </div>
 
-    <button type="button" class="addPublisher"><a href="/publishers/new/false">Add New Publisher</a></button>
+    <a href="/publishers/new/false" class="addPublisher">Add New Publisher</a>
 </body>
 </html>

@@ -31,7 +31,7 @@ public class PublisherController {
         model.addAttribute("publisher", new Publisher());
         model.addAttribute("whatSite", whatSite);
 
-        return "newPublisher";
+        return "publisherForm";
     }
 
     @PostMapping(value = "/new/save/{whatSite}")

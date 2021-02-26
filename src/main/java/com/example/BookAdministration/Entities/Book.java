@@ -129,5 +129,6 @@ public class Book {
         this.cover = book.getCover();
         this.author = book.getAuthor();
         this.publisher = book.getPublisher();
+        this.subTitle = book.getSubTitle();
     }
 }
