@@ -9,11 +9,17 @@
 <body>
     <div th:replace="head :: header"></div>
     
-    <form action="#" th:action="@{/books/new/save}" th:object="${book}" method="POST" enctype="multipart/form-data">
+    <form action="#" th:action="@{/books/new/save}" th:object="${book}" method="POST" enctype="multipart/form-data" autocomplete="off">
+        <input autocomplete="false" name="hidden" type="text" style="display:none;">
+
         <h1>Create a new Book</h1>
         <p>Required fields are preceded by <strong><abbr title="required">*</abbr></strong> symbol</p>
 
-        <br>
+        <div th:class="${Exception} OR ${#fields.hasErrors('global')} OR ${#fields.hasErrors('all')} ? errorList">
+            <p th:if="${Exception}" th:text="${exceptionMessage}" class="error">Exception</p>
+            <p th:if="${#fields.hasErrors('global')}" th:errors="*{global}" class="error">Global Error</p>
+            <p th:if="${#fields.hasErrors('all')}" th:errors="*{all}" class="error">Incorrect Data</p>
+        </div>
 
         <section>
             <p>
@@ -21,14 +27,14 @@
                     <span>Title: </span>
                     <strong><abbr title="required">*</abbr></strong>
                 </label>
-                <input type="text" id="title" name="title" th:field="*{title}">
+                <input type="text" id="title" name="title" th:field="*{title}" placeholder="Enter the Title">
             </p>
 
             <p>
                 <label for="subtitle">
                     <span>Subtitle: </span>
                 </label>
-                <input type="text" id="subtitle" name="subtitle" th:field="*{subTitle}">
+                <input type="text" id="subtitle" name="subtitle" th:field="*{subTitle}" placeholder="Enter the Subtitle">
             </p>
 
             <p>
@@ -36,18 +42,18 @@
                     <span>Publishing Year: </span>
                     <strong><abbr title="required">*</abbr></strong>
                 </label>
-                <input type="number" name="publishingYear" id="publishingYear" min="1400" max="2021" step="1" th:field="*{publishingYear}">
+                <input type="number" name="publishingYear" id="publishingYear" min="1400" max="2021" step="1" th:field="*{publishingYear}" placeholder="Enter the year of publishing">
             </p>
 
             <p>
                 <label for="desc">Description: </label>
-                <textarea id="desc" name="desc" cols="32" rows="16" th:field="*{description}"></textarea>
+                <textarea id="desc" name="desc" cols="32" rows="16" th:field="*{description}" placeholder="Enter the Description - max length is 1024 symbols!"></textarea>
             </p>
 
             <br>
 
             <div>
-                If the Author or Publisher of the Book isn't on the list - create them using the adequite button bellow
+                If the Author or Publisher of the Book isn't on the list - create them using the adequite option bellow
             </div>
 
             <p>
@@ -55,7 +61,7 @@
                     <span>Author: </span>
                     <strong><abbr title="required">*</abbr></strong>
                 </label>
-                <input list="authors" id="authorChoice" name="authorChoice">
+                <input list="authors" id="authorChoice" name="authorChoice" placeholder="Select the Author" onfocus="this.value=''; document.getElementById('authorChoice-hidden').value=''">
                 <datalist id="authors">
                     <option th:each="author: ${authors}" th:data-value="${author.id}" th:value="${author.firstName} + ' ' + ${author.lastName}"></option>
                 </datalist>
@@ -67,7 +73,7 @@
                     <span>Publisher: </span>
                     <strong><abbr title="required">*</abbr></strong>
                 </label>
-                <input list="publishers" id="publisherChoice" name="publisherChoice">
+                <input list="publishers" id="publisherChoice" name="publisherChoice" placeholder="Select the Publisher" onfocus="this.value=''; document.getElementById('publisherChoice-hidden').value=''">
                 <datalist id="publishers">
                     <option th:each="publisher: ${publishers}" th:data-value="${publisher.id}" th:value="${publisher.name}"></option>
                 </datalist>
@@ -86,18 +92,22 @@
             </div>
 
             <p>
-                <label for="coverImg">
-                    <span>Cover: </span>
+                <label for="coverImgSpan">
+                    Book Cover:
                 </label>
-                <input type="file" name="coverImg" id="coverImg" accept="image/*">
+
+                <span id="coverImgSpan">
+                    <label for="coverImg">
+                        <span>Choose File</span>
+                    </label>
+                    <input type="file" name="coverImg" id="coverImg" accept="image/*">
+                </span>
             </p>
 
             <p class="coverPreview" id="coverPreview">
                 <img alt="Cover Preview" class="coverPreview__cover">
             </p>
         </section>
-
-        <br>
 
         <p class="createButton">
             <button type="submit" id="submit" name="submit">Create</button>

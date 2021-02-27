@@ -41,7 +41,7 @@ public class BookService {
     }
 
     public List<Book> get3BooksByAuthorId(Long id) {
-        logger.info("Find 3 book by Author with id:" + id);
+        logger.info("Find first 3 books by Author with id:" + id);
 
         return bookRepository.findFirst3BooksByAuthorId(id)
                 .orElseThrow(() -> new EntityNotFoundException("No books of given Author in database"));
@@ -50,7 +50,7 @@ public class BookService {
     public Book createBook(Book book) {
         logger.info("Create new Book");
 
-        if (bookRepository.findByTitleAndPublishingYearAndAuthorAndPublisher(book.getTitle(), book.getPublishingYear(), book.getAuthor(), book.getPublisher()).isPresent()) {
+        if (bookRepository.findBookByTitleAndSubTitleAndPublishingYearAndAuthorAndPublisher(book.getTitle(), book.getSubTitle(), book.getPublishingYear(), book.getAuthor(), book.getPublisher()).isPresent()) {
             throw new EntityAlreadyExistException("This Book already exists!");
         } else {
             return bookRepository.save(book);

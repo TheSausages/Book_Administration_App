@@ -9,17 +9,25 @@
 <body>
     <div th:replace="head :: header"></div>
 
-    <form action="#" th:action="@{/authors/new/save/} + ${whatSite}" th:object="${author}" method="POST" enctype="multipart/form-data">
-        <h1>New Author</h1>
-        <p>Required fields are preceded by <strong><abbr title="required">*</abbr></strong></p>
-        <p th:value="${whatSite}"></p>
+    <form action="#" th:action="@{/authors/new/save/} + ${whatSite}" th:object="${author}" method="POST" enctype="multipart/form-data" autocomplete="off">
+        <input autocomplete="false" name="hidden" type="text" style="display:none;">
+
+        <h1>Create a new Book</h1>
+        <p>Required fields are preceded by <strong><abbr title="required">*</abbr></strong> symbol</p>
+
+        <div th:class="${Exception} OR ${#fields.hasErrors('global')} OR ${#fields.hasErrors('all')} ? errorList">
+            <p th:if="${Exception}" th:text="${exceptionMessage}" class="error">Exception</p>
+            <p th:if="${#fields.hasErrors('global')}" th:errors="*{global}" class="error">Global Error</p>
+            <p th:if="${#fields.hasErrors('all')}" th:errors="*{all}" class="error">Incorrect Data</p>
+        </div>
+        
         <section>
             <p>
                 <label for="firstName">
                     <span>First Name: </span>
                     <strong><abbr title="required">*</abbr></strong>
                 </label>
-                <input type="text" id="firstName" name="firstName" th:field="*{firstName}">
+                <input type="text" id="firstName" name="firstName" th:field="*{firstName}" placeholder="First Name">
             </p>
 
             <p>
@@ -27,14 +35,14 @@
                     <span>Last Name: </span>
                     <strong><abbr title="required">*</abbr></strong>
                 </label>
-                <input type="text" id="lastName" name="lastName" th:field="*{lastName}">
+                <input type="text" id="lastName" name="lastName" th:field="*{lastName}" placeholder="Last Name">
             </p>
 
             <p>
                 <label for="dateOfBirth">
                     <span>Date of Birth </span>
                 </label>
-                <input type="date" id="dateOfBirth" name="dateOfBirth" th:field="*{dateOfBirth}">
+                <input type="date" id="dateOfBirth" name="dateOfBirth" th:field="*{dateOfBirth}" placeholder="Date of Birth">
             </p>
 
 
@@ -48,17 +56,24 @@
             </p>
 
             <p>
-                <label for="portraitImg">
-                    <span>Portrait: </span>
+                <label for="portraitImgSpan">
+                    Book Cover:
                 </label>
-                <input type="file" th:name="portraitImg" id="portraitImg" accept="image/*">
-                <div class="portraitPreview" id="portraitPreview">
-                    <img alt="Portrait Preview" class="portraitPreview__portrait">
-                </div>
+                
+                <span id="portraitImgSpan" name="portraitImgSpan">
+                    <label for="portraitImg">
+                        <span>Portrait</span>
+                    </label>
+                    <input type="file" th:name="portraitImg" id="portraitImg" accept="image/*">
+                </span>
+            </p>
+            
+            <p class="portraitPreview" id="portraitPreview">
+                <img alt="Portrait Preview" class="portraitPreview__portrait">
             </p>
         </section>
 
-        <p>
+        <p class="createButton">
             <button type="submit" id="submit" name="submit">Create</button>
         </p>
     </form>

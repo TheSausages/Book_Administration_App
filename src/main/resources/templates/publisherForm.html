@@ -8,7 +8,7 @@
 <body>
     <div th:replace="head :: header"></div>
 
-    <form action="#" th:action="@{/publishers/new/save/} + ${whatSite}" th:object="${publisher}" method="POST">
+    <form action="#" th:action="@{/publishers/new/save/} + ${whatSite}" th:object="${publisher}" method="POST" autocomplete="off">
         <h1>New Publisher</h1>
         <p>Required fields are preceded by <strong><abbr title="required">*</abbr></strong></p>
 

@@ -1,6 +1,7 @@
 package com.example.BookAdministration.Controllers;
 
 import com.example.BookAdministration.Entities.Book;
+import com.example.BookAdministration.Exceptions.EntityAlreadyExistException;
 import com.example.BookAdministration.Services.AuthorService;
 import com.example.BookAdministration.Services.BookService;
 import com.example.BookAdministration.Services.PublisherService;
@@ -8,6 +9,7 @@ import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -65,15 +67,29 @@ public class BookController {
     }
 
     @PostMapping(value = "/new/save", consumes = "multipart/form-data")
-    public String saveNewBook(@Valid @ModelAttribute Book book, @RequestParam("coverImg") MultipartFile file, Model model) throws IOException {
-        if (!file.isEmpty()) {
-            book.setCover(file.getBytes());
-        } else {
-            InputStream noCover = (Thread.currentThread().getContextClassLoader().getResourceAsStream("static/img/NoCover.jpg"));
-            book.setCover(noCover.readAllBytes());
-        }
+    public String saveNewBook(@Valid @ModelAttribute Book book, BindingResult bindingResult, @RequestParam("coverImg") MultipartFile file, Model model) throws IOException {
+        if (bindingResult.hasErrors()) {
 
-        bookService.createBook(book);
+            //when reloading these attributes where lost so need to add again
+            model.addAttribute("authors", authorService.getAllAuthors());
+            model.addAttribute("publishers", publisherService.getAllPublishers());
+            return "bookForm";
+        } else {
+            if (!file.isEmpty()) {
+                book.setCover(file.getBytes());
+            } else {
+                InputStream noCover = (Thread.currentThread().getContextClassLoader().getResourceAsStream("static/img/NoCover.jpg"));
+                book.setCover(noCover.readAllBytes());
+            }
+
+            try {
+                bookService.createBook(book);
+            } catch (EntityAlreadyExistException e) {
+                model.addAttribute("Exception", true);
+                model.addAttribute("exceptionMessage", e.getMessage());
+                return "bookForm";
+            }
+        }
 
         return "redirect:/books/catalog";
     }

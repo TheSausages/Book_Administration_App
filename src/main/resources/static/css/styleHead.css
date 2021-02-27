@@ -73,3 +73,124 @@ nav ul li a:hover {
 nav ul li a:active {
     background-color: rgb(1, 1, 107);
 }
+
+/*Error*/
+
+.errorList {
+    background: rgb(255, 193, 193);
+    color: red;
+    line-height: 150%;
+    font-weight: bold;
+    margin: 2vh auto;
+    min-height: 5rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/*Form*/
+
+form {
+    font-size: 1.7rem;
+
+    width: 50%;
+    height: 80%;
+    margin: 5vh auto;
+    box-sizing: border-box;
+    border:2px solid blue;
+}
+
+form h1, form p {
+    margin-block: 1vh;
+    text-align: center;
+}
+
+form h1 {
+    font-weight: bold;
+    font-size: 4rem;
+}
+
+form section p {
+    display: flex;
+    text-align: center;
+    font-weight: bold;
+    font-size: 2rem;
+    margin-block: 1.5vh;
+}
+
+.createButton {
+    margin-block: 3vh;
+}
+
+.createButton button {
+    border: 1px solid black;
+    background-color: rgb(76, 76, 223);
+    font-size: 2rem;
+    min-block-size: 4rem;
+    block-size: auto;
+    min-inline-size: 10rem;
+    max-inline-size: 20rem;
+    color: white;
+    text-decoration: none;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+input[type="file"] {
+    height: 0;
+    padding: 0;
+    opacity: 0;
+}
+
+.createButton button:focus {
+    background-color: rgb(52, 52, 212);
+}
+
+.createButton button:hover {
+    background-color: rgb(36, 36, 172);
+}
+
+.createButton button:active {
+    background-color: rgb(1, 1, 107);
+}
+
+form section div {
+    text-align: center;
+}
+
+form section p label {
+    inline-size: 40%;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+form section p button, form p {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+form section p input, form section p textarea::placeholder {
+    text-align: center;
+}
+
+form section p input:focus, form section p textarea:focus {
+    background   : rgba(0,0,0,.1);
+    border-radius: 5px;
+}

@@ -42,18 +42,6 @@ body {
     bottom: 5%;
 }
 
-.addAuthor:focus {
-    background-color: rgb(52, 52, 212);
-}
-
-.addAuthor:hover {
-    background-color: rgb(36, 36, 172);
-}
-
-.addAuthor:active {
-    background-color: rgb(1, 1, 107);
-}
-
 /*Author*/
 .author {
     background-color: rgb(218, 212, 212);
@@ -255,11 +243,32 @@ body {
 
 /*Form*/
 
+form section p:last-child {
+    margin: 2vh auto;
+    border-collapse: collapse;
+}
+
+#portraitcoverImgSpan {
+    font-size: 1.5rem;
+}
+
+label[for="portraitImg"] {
+    background-color: rgb(76, 76, 223);
+    border: 1px solid black;
+    border-radius: 7px;
+    text-align: center;
+    line-height: 1.5rem;
+    color: white;
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+
 .portraitPreview {
     width: 300px;
     min-height: 300px;
 
-    border: 1px solid gray;
+    border: 1px solid blue;
     margin-top: 10px;
 
     display:flex;
@@ -277,4 +286,16 @@ body {
 .portraitPreview__portrait {
     display: none;
     width: 100%;
+}
+
+.addAuthor:focus, label[for="portraitImg"]:focus {
+    background-color: rgb(52, 52, 212);
+}
+
+.addAuthor:hover, label[for="portraitImg"]:hover {
+    background-color: rgb(36, 36, 172);
+}
+
+.addAuthor:active, label[for="portraitImg"]:active {
+    background-color: rgb(1, 1, 107);
 }
