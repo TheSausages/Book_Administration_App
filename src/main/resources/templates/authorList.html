@@ -9,6 +9,10 @@
 <body>
     <div th:replace="head :: header"></div>
 
+    <div th:class="${Exception} ? errorList">
+        <p th:if="${Exception}" th:text="${exceptionMessage}" class="error">Exception</p>
+    </div>
+
     <tr th:each="authorWithBooks: ${authors}" >
         <ul class="author">
                 <li class="portrait">
@@ -54,15 +58,17 @@
                 <li>
                     <div class="buttons">
                         <p class="button">
-                            <a href="#" class="detailsButton"></a>
+                            <a th:href="'/authors/edit/' + ${authorWithBooks.key.id}" class="detailsButton"></a>
                         </p>
         
                         <p class="button">
-                            <a href="#" class="editButton"></a>
+                            <a th:href="'/authors/edit/' + ${authorWithBooks.key.id}" class="editButton"></a>
                         </p>
         
                         <p class="button">
-                            <a href="#" class="deleteButton"></a>
+                            <form action="#" th:action="@{/authors/delete/{id}(id=${authorWithBooks.key.id})}" th:method="post" class="buttonForm" th:id="'deleteEntityButton' + ${authorWithBooks.key.id}">
+                                <a class="deleteButton" th:id="${authorWithBooks.key.id}" th:onclick="'SubmitDeleteButton(\'' + ${authorWithBooks.key.id} + '\')'"></a>
+                            </form>
                         </p>
                     </div>
                 </li>
@@ -70,5 +76,7 @@
     </tr>
 
     <a href="/authors/new/false" class="addAuthor">Add New Author</a>
+
+    <script type="text/javascript" src="../static/js/makeLinkSubmit.js" th:src="@{/js/makeLinkSubmit.js}"></script> 
 </body>
 </html>

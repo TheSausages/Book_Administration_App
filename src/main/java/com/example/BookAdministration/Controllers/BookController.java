@@ -1,7 +1,10 @@
 package com.example.BookAdministration.Controllers;
 
+import com.example.BookAdministration.Entities.Author;
 import com.example.BookAdministration.Entities.Book;
 import com.example.BookAdministration.Exceptions.EntityAlreadyExistException;
+import com.example.BookAdministration.Exceptions.EntityHasChildrenException;
+import com.example.BookAdministration.Exceptions.EntityNotFoundException;
 import com.example.BookAdministration.Services.AuthorService;
 import com.example.BookAdministration.Services.BookService;
 import com.example.BookAdministration.Services.PublisherService;
@@ -92,5 +95,43 @@ public class BookController {
         }
 
         return "redirect:/books/catalog";
+    }
+
+    @PostMapping(value = "/delete/{id}")
+    public String deletePublisher(@PathVariable Long id, Model model) {
+        try {
+            bookService.deleteBookById(id);
+        } catch (EntityNotFoundException | EntityHasChildrenException e) {
+            model.addAttribute("Exception", true);
+            model.addAttribute("exceptionMessage", e.getMessage());
+            model.addAttribute("books", bookService.getAllBooks());
+            return "bookCatalog";
+        }
+
+        return "redirect:/books/catalog";
+    }
+
+    @GetMapping(value = "/edit/{id}")
+    public String changePublisher(@PathVariable Long id, Model model) {
+        model.addAttribute("author", bookService.getBookById(id));
+
+        return "bookEdit";
+    }
+
+    @PostMapping(value = "/edit/{id}/save")
+    public String savePublisherChanges(@PathVariable Long id, @Valid @ModelAttribute Book book, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "bookEdit";
+        } else {
+            try {
+                bookService.updateBook(book, id);
+            } catch (EntityAlreadyExistException e) {
+                model.addAttribute("Exception", true);
+                model.addAttribute("exceptionMessage", e.getMessage());
+                return "bookEdit";
+            }
+
+            return "redirect:/books/catalog";
+        }
     }
 }

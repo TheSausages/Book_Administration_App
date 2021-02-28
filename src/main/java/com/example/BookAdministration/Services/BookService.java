@@ -89,8 +89,16 @@ public class BookService {
     public void checkIfAnyBooksByPublisherId(Long id) {
         logger.info("Checked if any there is any Book by publisher with id:" + id);
 
-        if (bookRepository.countByPublisherId(id) > 0) {
-            throw new EntityHasChildrenException("There are Book in the database that state this Publisher! Delete them and attempt again");
+        if (bookRepository.existsByPublisherId(id)) {
+            throw new EntityHasChildrenException("There are Books in the database that state this Publisher! Delete them and attempt again");
+        }
+    }
+
+    public void checkIfAnyBooksByAuthorId(Long id) {
+        logger.info("Checked if any there is any Book by publisher with id:" + id);
+
+        if (bookRepository.existsByAuthorId(id)) {
+            throw new EntityHasChildrenException("There are Books in the database that state this Author! Delete them and attempt again");
         }
     }
 }

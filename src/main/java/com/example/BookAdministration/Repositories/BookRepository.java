@@ -16,7 +16,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     Optional<List<Book>> findFirst3BooksByAuthorId(Long id);
 
-    Long countByPublisherId(Long id);
+    boolean existsByPublisherId(Long id);
 
-    Long countByAuthorId(Long id);
+    boolean existsByAuthorId(Long id);
 }
