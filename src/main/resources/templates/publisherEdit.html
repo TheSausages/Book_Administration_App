@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Publisher Edit</title>
+    <link href="../static/css/styleHead.css" th:href="@{/css/styleHead.css}" rel="stylesheet">
+    <link href="../static/css/stylePublisher.css" th:href="@{/css/stylePublisher.css}" rel="stylesheet">
+</head>
+<body>
+    <div th:replace="head :: header"></div>
+
+    <form  action="#" th:action="@{'/publishers/edit/' + ${publisher.id} + '/save'}" th:object="${publisher}" method="POST" autocomplete="off"> 
+        <input autocomplete="false" name="hidden" type="text" style="display:none;">
+
+        <h1 th:value="'Change' + ${publisher.name}"></h1>
+        <p>Required fields are preceded by <strong><abbr title="required">*</abbr></strong></p>
+
+        <div th:class="${Exception} OR ${#fields.hasErrors('global')} OR ${#fields.hasErrors('all')} ? errorList">
+            <p th:if="${Exception}" th:text="${exceptionMessage}" class="error">Exception</p>
+            <p th:if="${#fields.hasErrors('global')}" th:errors="*{global}" class="error">Global Error</p>
+            <p th:if="${#fields.hasErrors('all')}" th:errors="*{all}" class="error">Incorrect Data</p>
+        </div>
+
+        <section>
+            <section>
+                <p>
+                    <label for="name">
+                        <span>Name: </span>
+                        <strong><abbr title="required">*</abbr></strong>
+                    </label>
+                    <input type="text" id="name" name="name" th:field="*{name}" th:placeholder="${publisher.name}">
+                </p>
+    
+                <p>
+                    <label for="city">
+                        <span>City: </span>
+                        <strong><abbr title="required">*</abbr></strong>
+                    </label>
+                    <input type="text" id="city" name="city" th:field="*{city}" th:placeholder="${publisher.city}">
+                </p>
+            </section>
+    
+            <p class="createButton">
+                <button type="submit" id="submit" name="submit">Save Changes</button>
+                <a href="/publishers/list"><span>Back</span></a>
+            </p>
+        </section>
+    </form>
+</body>
+</html>

@@ -52,11 +52,15 @@ body {
     text-align: center;
 }
 
-.publisher span a{
+.publisher span .buttonForm a, .publisher span a{
     border: 1px solid black;
     block-size: 3rem;
     inline-size: 3rem;
     border-radius: 3px;
+}
+
+.buttonForm {
+    display: inline;
 }
 
 .editButton {

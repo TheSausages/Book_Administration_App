@@ -2,6 +2,7 @@ package com.example.BookAdministration.Services;
 
 import com.example.BookAdministration.Entities.Publisher;
 import com.example.BookAdministration.Exceptions.EntityAlreadyExistException;
+import com.example.BookAdministration.Exceptions.EntityHasChildrenException;
 import com.example.BookAdministration.Exceptions.EntityNotFoundException;
 import com.example.BookAdministration.Repositories.PublisherRepository;
 import org.slf4j.Logger;
@@ -62,6 +63,10 @@ public class PublisherService {
 
         return publisherRepository.findById(id)
                 .map(publisher1 -> {
+                    if (publisherRepository.existsByName(publisher.getName())) {
+                        throw new EntityAlreadyExistException("Publisher with this Name already Exists!");
+                    }
+
                     publisher1.setCity(publisher.getCity());
                     publisher1.setName(publisher.getName());
 

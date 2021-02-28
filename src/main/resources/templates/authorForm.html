@@ -12,7 +12,7 @@
     <form action="#" th:action="@{/authors/new/save/} + ${whatSite}" th:object="${author}" method="POST" enctype="multipart/form-data" autocomplete="off">
         <input autocomplete="false" name="hidden" type="text" style="display:none;">
 
-        <h1>Create a new Book</h1>
+        <h1>Add New Author</h1>
         <p>Required fields are preceded by <strong><abbr title="required">*</abbr></strong> symbol</p>
 
         <div th:class="${Exception} OR ${#fields.hasErrors('global')} OR ${#fields.hasErrors('all')} ? errorList">

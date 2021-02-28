@@ -9,8 +9,16 @@
     <div th:replace="head :: header"></div>
 
     <form action="#" th:action="@{/publishers/new/save/} + ${whatSite}" th:object="${publisher}" method="POST" autocomplete="off">
-        <h1>New Publisher</h1>
+        <input autocomplete="false" name="hidden" type="text" style="display:none;">
+
+        <h1>Add New Publisher</h1>
         <p>Required fields are preceded by <strong><abbr title="required">*</abbr></strong></p>
+
+        <div th:class="${Exception} OR ${#fields.hasErrors('global')} OR ${#fields.hasErrors('all')} ? errorList">
+            <p th:if="${Exception}" th:text="${exceptionMessage}" class="error">Exception</p>
+            <p th:if="${#fields.hasErrors('global')}" th:errors="*{global}" class="error">Global Error</p>
+            <p th:if="${#fields.hasErrors('all')}" th:errors="*{all}" class="error">Incorrect Data</p>
+        </div>
 
         <section>
             <p>
@@ -28,11 +36,11 @@
                 </label>
                 <input type="text" id="city" name="city" th:field="*{city}">
             </p>
-        </section>
 
-        <p>
-            <button type="submit" id="submit" name="submit">Create</button>
-        </p>
-    </form>
+            <p class="createButton">
+                <button type="submit" id="submit" name="submit">Create</button>
+                <a href="/publishers/list"><span>Back</span></a>
+            </p>
+        </section>
 </body>
 </html>

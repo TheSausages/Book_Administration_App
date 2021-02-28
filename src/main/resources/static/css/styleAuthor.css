@@ -243,6 +243,10 @@ body {
 
 /*Form*/
 
+#primaryGenre {
+    text-align: center;
+}
+
 form section p:last-child {
     margin: 2vh auto;
     border-collapse: collapse;

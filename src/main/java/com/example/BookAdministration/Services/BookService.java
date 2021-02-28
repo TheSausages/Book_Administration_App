@@ -2,6 +2,7 @@ package com.example.BookAdministration.Services;
 
 import com.example.BookAdministration.Entities.Book;
 import com.example.BookAdministration.Exceptions.EntityAlreadyExistException;
+import com.example.BookAdministration.Exceptions.EntityHasChildrenException;
 import com.example.BookAdministration.Exceptions.EntityNotFoundException;
 import com.example.BookAdministration.Repositories.BookRepository;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
@@ -83,5 +84,13 @@ public class BookService {
 
                     return bookRepository.save(book);
                 });
+    }
+
+    public void checkIfAnyBooksByPublisherId(Long id) {
+        logger.info("Checked if any there is any Book by publisher with id:" + id);
+
+        if (bookRepository.countByPublisherId(id) > 0) {
+            throw new EntityHasChildrenException("There are Book in the database that state this Publisher! Delete them and attempt again");
+        }
     }
 }

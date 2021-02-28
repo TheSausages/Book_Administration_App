@@ -9,6 +9,10 @@
 <body>
     <div th:replace="head :: header"></div>
 
+    <div th:class="${Exception} ? errorList">
+        <p th:if="${Exception}" th:text="${exceptionMessage}" class="error">Exception</p>
+    </div>
+
     <div class="publisherList">
         <span class="publisher">
             <span>
@@ -34,14 +38,19 @@
                 </span>
 
                 <span>
-                    <a href="#" class="editButton"></a>
+                    <a th:href="'/publishers/edit/' + ${publisher.id}" class="editButton"></a>
+
                     /
-                    <a href="#" class="deleteButton"></a>
+                    <form action="#" th:action="@{/publishers/delete/{id}(id=${publisher.id})}" th:method="post" class="buttonForm" th:id="'deleteEntityButton' + ${publisher.id}">
+                        <a class="deleteButton" th:id="${publisher.id}" th:onclick="'SubmitDeleteButton(\'' + ${publisher.id} + '\')'"></a>
+                    </form>
                 </span>
             </div>
         </tr>
     </div>
 
     <a href="/publishers/new/false" class="addPublisher">Add New Publisher</a>
+
+    <script type="text/javascript" src="../static/js/makeLinkSubmit.js" th:src="@{/js/makeLinkSubmit.js}"></script>     
 </body>
 </html>
