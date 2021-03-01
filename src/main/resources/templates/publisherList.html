@@ -38,7 +38,7 @@
                 </span>
 
                 <span>
-                    <a th:href="'/publishers/edit/' + ${publisher.id}" class="editButton"></a>
+                    <a th:href="@{/publishers/edit/{id}(id=${publisher.id})}" class="editButton"></a>
 
                     /
                     <form action="#" th:action="@{/publishers/delete/{id}(id=${publisher.id})}" th:method="post" class="buttonForm" th:id="'deleteEntityButton' + ${publisher.id}">

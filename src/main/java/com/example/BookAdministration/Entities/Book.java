@@ -126,9 +126,12 @@ public class Book {
         this.title = book.getTitle();
         this.publishingYear = book.getPublishingYear();
         this.description = book.getDescription();
-        this.cover = book.getCover();
         this.author = book.getAuthor();
         this.publisher = book.getPublisher();
         this.subTitle = book.getSubTitle();
+
+        if (book.getCover() != null) {
+            this.cover = book.getCover();
+        }
     }
 }

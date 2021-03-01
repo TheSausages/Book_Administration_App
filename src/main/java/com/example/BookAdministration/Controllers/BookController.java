@@ -113,7 +113,7 @@ public class BookController {
 
     @GetMapping(value = "/edit/{id}")
     public String changePublisher(@PathVariable Long id, Model model) {
-        model.addAttribute("author", bookService.getBookById(id));
+        model.addAttribute("book", bookService.getBookById(id));
 
         return "bookEdit";
     }

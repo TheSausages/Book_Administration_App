@@ -61,9 +61,9 @@ public class AuthorController {
 
     @GetMapping(value = "/info/{id}")
     public String viewBook(@PathVariable Long id, Model model) {
-        model.addAttribute("book", authorService.getAuthorById(id));
+        model.addAttribute("author", authorService.getAuthorById(id));
 
-        return "bookInfo";
+        return "authorInfo";
     }
 
     @GetMapping(value = "/new/{whatSite}")
@@ -134,20 +134,26 @@ public class AuthorController {
         return "authorEdit";
     }
 
-    @PostMapping(value = "/edit/{id}/save")
-    public String savePublisherChanges(@PathVariable Long id, @Valid @ModelAttribute Author author, BindingResult bindingResult, Model model) {
+    @PostMapping(value = "/edit/{id}/save", consumes = "multipart/form-data")
+    public String savePublisherChanges(@PathVariable Long id, @RequestParam(value = "primaryGenreSelected") PrimaryGenre genre, @RequestParam("portraitImg") MultipartFile file, @Valid @ModelAttribute Author author, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return "authorEdit";
         } else {
             try {
+                if (!file.isEmpty()) {
+                    author.setPortrait(file.getBytes());
+                }
+
+                author.setPrimaryGenre(genre);
+
                 authorService.updateAuthor(author, id);
-            } catch (EntityAlreadyExistException e) {
+            } catch (EntityAlreadyExistException | IOException e) {
                 model.addAttribute("Exception", true);
                 model.addAttribute("exceptionMessage", e.getMessage());
                 return "authorEdit";
             }
 
-            return "redirect:/author/list";
+            return "redirect:/authors/list";
         }
     }
 }

@@ -58,11 +58,11 @@
                 <li>
                     <div class="buttons">
                         <p class="button">
-                            <a th:href="'/authors/edit/' + ${authorWithBooks.key.id}" class="detailsButton"></a>
+                            <a th:href="@{/authors/info/{id}(id=${authorWithBooks.key.id})}" class="detailsButton"></a>
                         </p>
         
                         <p class="button">
-                            <a th:href="'/authors/edit/' + ${authorWithBooks.key.id}" class="editButton"></a>
+                            <a th:href="@{/authors/edit/{id}(id=${authorWithBooks.key.id})}" class="editButton"></a>
                         </p>
         
                         <p class="button">

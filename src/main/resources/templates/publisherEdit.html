@@ -9,7 +9,7 @@
 <body>
     <div th:replace="head :: header"></div>
 
-    <form  action="#" th:action="@{'/publishers/edit/' + ${publisher.id} + '/save'}" th:object="${publisher}" method="POST" autocomplete="off"> 
+    <form  action="#" th:action="@{/publishers/edit/{id}/save(id=${publisher.id})}" th:object="${publisher}" method="POST" autocomplete="off"> 
         <input autocomplete="false" name="hidden" type="text" style="display:none;">
 
         <h1 th:value="'Change' + ${publisher.name}"></h1>

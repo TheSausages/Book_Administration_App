@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -64,7 +65,13 @@ public class AuthorService {
                 .map(author1 -> {
                     author1.setFirstName(author.getFirstName());
                     author1.setLastName(author.getLastName());
-                    author1.setPortrait(author.getPortrait());
+                    author1.setPrimaryGenre(author.getPrimaryGenre());
+                    author1.setDateOfBirth(author.getDateOfBirth());
+
+                    if (author.getPortrait() != null) {
+                        author1.setPortrait(author.getPortrait());
+                    }
+
 
                     return authorRepository.save(author1);
                 })

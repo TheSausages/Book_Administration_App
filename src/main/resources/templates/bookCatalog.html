@@ -9,6 +9,10 @@
 <body>
     <div th:replace="head :: header"></div>
 
+    <div th:class="${Exception} ? errorList">
+        <p th:if="${Exception}" th:text="${exceptionMessage}" class="error">Exception</p>
+    </div>
+
     <tr th:each="book: ${books}" >
         <div class="book">
             <div class="cover"><td><img th:src="@{'/books/cover/' + ${book.id}}"></td></div>
@@ -54,11 +58,13 @@
                 </p>
 
                 <p class="button">
-                    <a href="#" class="editButton"></a>
+                    <a th:href="@{/books/edit/{id}(id=${book.id})}" class="editButton"></a>
                 </p>
 
                 <p class="button">
-                    <a href="#" class="deleteButton"></a>
+                    <form action="#" th:action="@{/books/delete/{id}(id=${book.id})}" th:method="post" class="buttonForm" th:id="'deleteEntityButton' + ${book.id}">
+                        <a class="deleteButton" th:id="${book.id}" th:onclick="'SubmitDeleteButton(\'' + ${book.id} + '\')'"></a>
+                    </form>
                 </p>
             </div>
         </div>
@@ -66,5 +72,7 @@
     
 
     <a href="/books/new" class="addBook">Add New Book</a>
+
+    <script type="text/javascript" src="../static/js/makeLinkSubmit.js" th:src="@{/js/makeLinkSubmit.js}"></script>    
 </body>
 </html>

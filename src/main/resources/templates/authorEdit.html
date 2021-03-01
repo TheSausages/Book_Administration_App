@@ -3,8 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <title>Author Edit</title>
+    <link href="../static/css/styleAuthor.css" th:href="@{/css/styleAuthor.css}" rel="stylesheet">
+    <link href="../static/css/styleHead.css" th:href="@{/css/styleHead.css}" rel="stylesheet">
 </head>
 <body>
+    <div th:replace="head :: header"></div>
 
+    <form action="#" th:action="@{/authors/edit/{id}/save(id=${author.id})}" th:object="${author}" method="POST" enctype="multipart/form-data" autocomplete="off">
+        <input autocomplete="false" name="hidden" type="text" style="display:none;">
+
+        <h1 th:value="'Change Author ' + ${author.firstName} + ' ' + ${author.lastName}"></h1>
+        <p>Required fields are preceded by <strong><abbr title="required">*</abbr></strong> symbol</p>
+
+        <div th:class="${Exception} OR ${#fields.hasErrors('global')} OR ${#fields.hasErrors('all')} ? errorList">
+            <p th:if="${Exception}" th:text="${exceptionMessage}" class="error">Exception</p>
+            <p th:if="${#fields.hasErrors('global')}" th:errors="*{global}" class="error">Global Error</p>
+            <p th:if="${#fields.hasErrors('all')}" th:errors="*{all}" class="error">Incorrect Data</p>
+        </div>
+        
+        <section>
+            <p>
+                <label for="firstName">
+                    <span>First Name: </span>
+                    <strong><abbr title="required">*</abbr></strong>
+                </label>
+                <input type="text" id="firstName" name="firstName" th:field="*{firstName}" th:placeholder="${author.firstName}">
+            </p>
+
+            <p>
+                <label for="lastName">
+                    <span>Last Name: </span>
+                    <strong><abbr title="required">*</abbr></strong>
+                </label>
+                <input type="text" id="lastName" name="lastName" th:field="*{lastName}" th:placeholder="${author.lastName}">
+            </p>
+
+            <p>
+                <label for="dateOfBirth">
+                    <span>Date of Birth </span>
+                </label>
+                <input type="date" id="dateOfBirth" name="dateOfBirth" th:field="*{dateOfBirth}" placeholder="${author.dateOfBirth}">
+            </p>
+
+
+            <p>
+                <label for="primaryGenre">
+                    <span>Primary Genre:</span>
+                </label>
+                <select id="primaryGenre" name="primaryGenreSelected">
+                    <option th:each="genre: ${T(com.example.BookAdministration.Entities.PrimaryGenre).values()}" th:value="${genre}" th:text="${genre}" th:selected="${#strings.equals(genre, author.primaryGenre)}"></option>
+                </select>
+            </p>
+
+            <p>
+                <label for="portraitImgSpan">
+                    Author Portrait:
+                </label>
+                
+                <span id="portraitImgSpan" name="portraitImgSpan">
+                    <label for="portraitImg">
+                        <span>Portrait</span>
+                    </label>
+                    <input type="file" th:name="portraitImg" id="portraitImg" accept="image/*">
+                </span>
+            </p>
+            
+            <p class="portraitPreview" id="portraitPreview">
+                <img alt="Portrait Preview" class="portraitPreview__portrait" th:src="@{/authors/portrait/{id}(id=${author.id})}">
+            </p>
+        </section>
+
+        <p class="createButton">
+            <button type="submit" id="submit" name="submit">Save Changes</button>
+            <a href="/authors/list"><span>Back</span></a>
+        </p>
+    </form>
+
+    <script type="text/javascript" src="../static/js/portraitPreviewScript.js" th:src="@{/js/portraitPreviewScript.js}"></script>  
 </body>
 </html>
