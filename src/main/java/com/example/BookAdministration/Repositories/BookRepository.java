@@ -12,9 +12,15 @@ import java.util.Optional;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
 
-    Optional<Book> findBookByTitleAndSubTitleAndPublishingYearAndAuthorAndPublisher(String title, String subTitle, Integer publishingYear, Author author, Publisher publisher);
+    boolean existsBookByTitleAndSubTitleAndPublishingYearAndAuthorAndPublisher(String title, String subTitle, Integer publishingYear, Author author, Publisher publisher);
+
+    Optional<Book> findByTitleAndSubTitleAndPublishingYearAndAuthorAndPublisher(String title, String subTitle, Integer publishingYear, Author author, Publisher publisher);
+
+    Optional<Book> findByTitleAndSubTitleAndPublishingYear(String title, String subTitle, Integer publishingYear);
 
     Optional<List<Book>> findFirst3BooksByAuthorId(Long id);
+
+    Optional<List<Book>> findFirst5BooksByAuthorId(Long id);
 
     boolean existsByPublisherId(Long id);
 

@@ -2,9 +2,59 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Author Indo</title>
+    <link href="../static/css/styleAuthor.css" th:href="@{/css/styleAuthor.css}" rel="stylesheet">
+    <link href="../static/css/styleHead.css" th:href="@{/css/styleHead.css}" rel="stylesheet">
 </head>
 <body>
+    <div th:replace="head :: header"></div>
 
+    <div th:class="${Exception} ? errorList">
+        <p th:if="${Exception}" th:text="${exceptionMessage}" class="error">Exception</p>
+    </div>
+
+    <div class="authorData">
+        <h1>Author Information</h1>
+
+        <p class="portraitData">
+            <img th:src="@{'/authors/portrait/' + ${author.id}}" class="portraitDataImg">  
+        </p>
+
+        <p>
+            <span th:text="${author.firstName} + ' ' + ${author.lastName}" class="bold"></span>
+        </p>
+
+        <p>
+            <span class="bold">Born on: </span><span th:text="${#temporals.format(author.dateOfBirth, 'dd.MM.yyyy')}"></span>
+        </p>
+
+        <p>
+            <span class="bold">Primary Genre: </span>
+            <span th:text="${author.primaryGenre}"></span>
+        </p>
+
+        <p class="topBorderInfo">
+            Some Books written by This Author
+        </p>
+        
+        <div class="booksFlex">
+            <table>
+                <tr th:each="book: ${books}">
+                    <div class="authorBooks">
+                        <img th:src="@{'/books/cover/' + ${book.id}}">
+                    
+                        <p th:text="${book.title}"></p>
+                        <p th:text="${book.subTitle}"></p>
+                    </div>
+                </tr>
+
+                <div th:if="${books!=null and books.empty}" id="noBooks">No books of this Author have been added yet!</div>
+            </table>
+        </div>
+
+        <p class="createButton">
+            <a href="/authors/list" id="backButton"><span>Back</span></a>
+        </p>
+    </div>
 </body>
 </html>

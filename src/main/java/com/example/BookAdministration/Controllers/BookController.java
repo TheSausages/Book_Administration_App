@@ -114,20 +114,33 @@ public class BookController {
     @GetMapping(value = "/edit/{id}")
     public String changePublisher(@PathVariable Long id, Model model) {
         model.addAttribute("book", bookService.getBookById(id));
+        model.addAttribute("authors", authorService.getAllAuthors());
+        model.addAttribute("publishers", publisherService.getAllPublishers());
 
         return "bookEdit";
     }
 
-    @PostMapping(value = "/edit/{id}/save")
-    public String savePublisherChanges(@PathVariable Long id, @Valid @ModelAttribute Book book, BindingResult bindingResult, Model model) {
+    @PostMapping(value = "/edit/{id}/save", consumes = "multipart/form-data")
+    public String savePublisherChanges(@PathVariable Long id, @RequestParam("coverImg") MultipartFile file, @Valid @ModelAttribute Book book, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("authors", authorService.getAllAuthors());
+            model.addAttribute("publishers", publisherService.getAllPublishers());
+
             return "bookEdit";
         } else {
             try {
+                if (!file.isEmpty()) {
+                    book.setCover(file.getBytes());
+                }
+
                 bookService.updateBook(book, id);
-            } catch (EntityAlreadyExistException e) {
+            } catch (EntityAlreadyExistException | IOException e) {
                 model.addAttribute("Exception", true);
                 model.addAttribute("exceptionMessage", e.getMessage());
+
+                model.addAttribute("authors", authorService.getAllAuthors());
+                model.addAttribute("publishers", publisherService.getAllPublishers());
+
                 return "bookEdit";
             }
 

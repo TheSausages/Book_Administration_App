@@ -74,7 +74,7 @@ public class LoadDatabase {
                     2016, ks5.readAllBytes(), authorRepository.findById(3l).get(), publisherRepository.findById(3l).get());
             logger.info("Preloading:" + bookRepository.save(book5));
 
-            Book book6 = new Book("Historia bez cenzury 3", "Poland first to fight... czyli II wojna światowa ",
+            Book book6 = new Book("Historia bez cenzury 3", "Poland first to fight... czyli II wojna swiatowa",
                     "Do trzech razy sztuka!\n" +
                             "\n" +
                             "Byli polscy władcy, były wielkie koksy… Nadszedł czas na trzecią część serii! Oto przed wami II Wojna Światowa bez cenzury!\n" +

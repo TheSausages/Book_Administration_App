@@ -62,6 +62,7 @@ public class AuthorController {
     @GetMapping(value = "/info/{id}")
     public String viewBook(@PathVariable Long id, Model model) {
         model.addAttribute("author", authorService.getAuthorById(id));
+        model.addAttribute("books", bookService.findFirst5BooksByAuthorId(id));
 
         return "authorInfo";
     }

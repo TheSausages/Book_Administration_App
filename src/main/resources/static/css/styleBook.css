@@ -43,6 +43,21 @@ body {
     bottom: 5%;
 }
 
+.addBook:focus, .addButtons a:focus, 
+label[for="coverImg"]:focus {
+    background-color: rgb(52, 52, 212);
+}
+
+.addBook:hover, .addButtons a:hover, 
+label[for="coverImg"]:hover {
+    background-color: rgb(36, 36, 172);
+}
+
+.addBook:active, .addButtons a:active, 
+label[for="coverImg"]:active {
+    background-color: rgb(1, 1, 107);
+}
+
 /*Book*/
 
 .book {
@@ -279,7 +294,6 @@ label[for="coverImg"] {
 } 
 
 .coverPreview__cover {
-    display: none;
     width: 100%;
 }
 
@@ -305,20 +319,5 @@ label[for="coverImg"] {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(7, 1fr);
-}
-
-.addBook:focus, .addButtons a:focus, 
-label[for="coverImg"]:focus {
-    background-color: rgb(52, 52, 212);
-}
-
-.addBook:hover, .addButtons a:hover, 
-label[for="coverImg"]:hover {
-    background-color: rgb(36, 36, 172);
-}
-
-.addBook:active, .addButtons a:active, 
-label[for="coverImg"]:active {
-    background-color: rgb(1, 1, 107);
 }
 

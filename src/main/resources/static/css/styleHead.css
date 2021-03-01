@@ -229,3 +229,7 @@ form section p input:focus, form section p textarea:focus {
     background   : rgba(0,0,0,.1);
     border-radius: 5px;
 }
+
+#noneDisplay {
+    display: none;
+}

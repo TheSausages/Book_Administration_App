@@ -12,7 +12,7 @@
     <form action="#" th:action="@{/authors/edit/{id}/save(id=${author.id})}" th:object="${author}" method="POST" enctype="multipart/form-data" autocomplete="off">
         <input autocomplete="false" name="hidden" type="text" style="display:none;">
 
-        <h1 th:value="'Change Author ' + ${author.firstName} + ' ' + ${author.lastName}"></h1>
+        <h1 th:text="'Change ' + ${author.firstName} + ' ' + ${author.lastName}">Author Edit</h1>
         <p>Required fields are preceded by <strong><abbr title="required">*</abbr></strong> symbol</p>
 
         <div th:class="${Exception} OR ${#fields.hasErrors('global')} OR ${#fields.hasErrors('all')} ? errorList">

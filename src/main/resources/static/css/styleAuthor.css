@@ -302,3 +302,50 @@ label[for="portraitImg"] {
 .addAuthor:active, label[for="portraitImg"]:active {
     background-color: rgb(1, 1, 107);
 }
+
+/*Info*/
+
+.authorData {
+    font-size: 1.5rem;
+
+    width: 50%;
+    height: 80%;
+    margin: 5vh auto;
+    box-sizing: border-box;
+    border:2px solid blue;
+    padding-bottom: 2rem;
+}
+
+.authorData h1 {
+    margin-block: 1vh;
+    text-align: center;
+}
+
+.authorData p {
+    text-align: center;
+}
+
+.top5AuthorBooks {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.topBorderInfo {
+    border-block-start: 1px solid blue;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.portraitData {
+    margin: 0 auto;
+}
+
+.portraitDataImg {
+    height: 25vh;
+    width: auto;
+}

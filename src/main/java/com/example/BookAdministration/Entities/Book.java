@@ -131,6 +131,8 @@ public class Book {
         this.subTitle = book.getSubTitle();
 
         if (book.getCover() != null) {
+            System.out.println("weszlo");
+
             this.cover = book.getCover();
         }
     }

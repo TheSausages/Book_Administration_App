@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AuthorService {
@@ -39,7 +40,7 @@ public class AuthorService {
     public Author createAuthor(Author author) {
         logger.info("Create new Author");
 
-        if (authorRepository.findByFirstNameAndLastName(author.getFirstName(), author.getLastName()).isPresent()) {
+        if (authorRepository.existsByFirstNameAndLastNameAndDateOfBirth(author.getFirstName(), author.getLastName(), author.getDateOfBirth())) {
             throw new EntityAlreadyExistException("This Author already exists!");
         } else {
             return authorRepository.save(author);
@@ -63,6 +64,12 @@ public class AuthorService {
 
         return authorRepository.findById(id)
                 .map(author1 -> {
+                    Optional<Author> possibleDup = authorRepository.findByFirstNameAndLastNameAndDateOfBirth(author.getFirstName(), author.getLastName(), author.getDateOfBirth());
+
+                    if (possibleDup.isPresent() && (possibleDup.get().getId() != author.getId())) {
+                        throw new EntityAlreadyExistException("Author with those information already Exists!");
+                    }
+
                     author1.setFirstName(author.getFirstName());
                     author1.setLastName(author.getLastName());
                     author1.setPrimaryGenre(author.getPrimaryGenre());
@@ -81,5 +88,6 @@ public class AuthorService {
                     return authorRepository.save(author);
                 });
     }
+    //existsByFirstNameAndLastNameAndDateOfBirthAndPortraitAndPrimaryGenre(author.getFirstName(), author.getLastName(), author.getDateOfBirth(), author.getPortrait(), author.getPrimaryGenre())
 
 }

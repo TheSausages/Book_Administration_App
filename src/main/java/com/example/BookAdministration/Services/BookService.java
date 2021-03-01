@@ -17,6 +17,7 @@ import org.apache.tomcat.util.http.fileupload.IOUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookService {
@@ -48,10 +49,17 @@ public class BookService {
                 .orElseThrow(() -> new EntityNotFoundException("No books of given Author in database"));
     }
 
+    public List<Book> findFirst5BooksByAuthorId(Long id) {
+        logger.info("Get 5 random books by Author with id:" + id);
+
+        return bookRepository.findFirst5BooksByAuthorId(id)
+                .orElseThrow(() -> new EntityNotFoundException("No books of given Author in database"));
+    }
+
     public Book createBook(Book book) {
         logger.info("Create new Book");
 
-        if (bookRepository.findBookByTitleAndSubTitleAndPublishingYearAndAuthorAndPublisher(book.getTitle(), book.getSubTitle(), book.getPublishingYear(), book.getAuthor(), book.getPublisher()).isPresent()) {
+        if (bookRepository.existsBookByTitleAndSubTitleAndPublishingYearAndAuthorAndPublisher(book.getTitle(), book.getSubTitle(), book.getPublishingYear(), book.getAuthor(), book.getPublisher())) {
             throw new EntityAlreadyExistException("This Book already exists!");
         } else {
             return bookRepository.save(book);
@@ -75,6 +83,12 @@ public class BookService {
 
         return bookRepository.findById(id)
                 .map(book1 -> {
+                    Optional<Book> possibleDub = bookRepository.findByTitleAndSubTitleAndPublishingYearAndAuthorAndPublisher(book.getTitle(), book.getSubTitle(), book.getPublishingYear(), book.getAuthor(), book.getPublisher());
+
+                    if (possibleDub.isPresent() && (possibleDub.get().getId() != book.getId())) {
+                        throw new EntityAlreadyExistException("This Book already exists!");
+                    }
+
                     book1.setParamsFromAnotherBook(book);
 
                     return bookRepository.save(book1);

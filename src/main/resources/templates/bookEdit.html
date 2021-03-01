@@ -3,8 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <title>Book Edit</title>
+    <link href="../static/css/styleHead.css" th:href="@{/css/styleHead.css}" rel="stylesheet">
+    <link href="../static/css/styleBook.css" th:href="@{/css/styleBook.css}" rel="stylesheet">
 </head>
 <body>
+    <div th:replace="head :: header"></div>
+    
+    <form action="#" th:action="@{/books/edit/{id}/save(id=${book.id})}" th:object="${book}" method="POST" enctype="multipart/form-data" autocomplete="off">
+        <input autocomplete="false" name="hidden" type="text" style="display:none;">
 
+        <h1>Edit Book</h1>
+        <p>Required fields are preceded by <strong><abbr title="required">*</abbr></strong> symbol</p>
+
+        <div th:class="${Exception} OR ${#fields.hasErrors('global')} OR ${#fields.hasErrors('all')} ? errorList">
+            <p th:if="${Exception}" th:text="${exceptionMessage}" class="error">Exception</p>
+            <p th:if="${#fields.hasErrors('global')}" th:errors="*{global}" class="error">Global Error</p>
+            <p th:if="${#fields.hasErrors('all')}" th:errors="*{all}" class="error">Incorrect Data</p>
+        </div>
+
+        <section>
+            <p>
+                <label for="title">
+                    <span>Title: </span>
+                    <strong><abbr title="required">*</abbr></strong>
+                </label>
+                <input type="text" id="title" name="title" th:field="*{title}" th:placeholder="${book.title}">
+            </p>
+
+            <p>
+                <label for="subtitle">
+                    <span>Subtitle: </span>
+                </label>
+                <input type="text" id="subtitle" name="subtitle" th:field="*{subTitle}" th:placeholder="${book.subTitle}">
+            </p>
+
+            <p>
+                <label for="publishingYear">
+                    <span>Publishing Year: </span>
+                    <strong><abbr title="required">*</abbr></strong>
+                </label>
+                <input type="number" name="publishingYear" id="publishingYear" min="1400" max="2021" step="1" th:field="*{publishingYear}" th:placeholder="${book.publishingYear}">
+            </p>
+
+            <p>
+                <label for="desc">Description: </label>
+                <textarea id="desc" name="desc" cols="32" rows="16" th:field="*{description}" th:placeholder="${book.description}"></textarea>
+            </p>
+
+            <br>
+
+            <div>
+                If the Author or Publisher of the Book isn't on the list - create them using the adequite option bellow
+            </div>
+
+            <p>
+                <label for="authorChoice">
+                    <span>Author: </span>
+                    <strong><abbr title="required">*</abbr></strong>
+                </label>
+                <input list="authors" id="authorChoice" name="authorChoice" th:value="${book.author.firstName + ' ' + book.author.lastName}" onfocus="this.value=''; document.getElementById('authorChoice-hidden').value=''">
+                <datalist id="authors">
+                    <option th:each="author: ${authors}" th:data-value="${author.id}" th:value="${author.firstName} + ' ' + ${author.lastName}" th:selected="${#strings.equals(author.id, book.author.id)}"></option>
+                </datalist>
+                <input type="hidden" name="authorChoice-hidden" id="authorChoice-hidden" th:field="*{author}">
+            </p>
+
+            <p>
+                <label for="publisherChoice">
+                    <span>Publisher: </span>
+                    <strong><abbr title="required">*</abbr></strong>
+                </label>
+                <input list="publishers" id="publisherChoice" name="publisherChoice" th:value="${book.publisher.name}" onfocus="this.value=''; document.getElementById('publisherChoice-hidden').value=''">
+                <datalist id="publishers">
+                    <option th:each="publisher: ${publishers}" th:data-value="${publisher.id}" th:value="${publisher.name}" th:selected="${#strings.equals(publisher.id, book.publisher.id)}"></option>
+                </datalist>
+                <input type="hidden" name="publisherChoice-hidden" id="publisherChoice-hidden" th:field="*{publisher}">
+            </p>
+
+            <p class="addButtons">
+                <a href="/authors/new/true">Add Author</a>
+                <a href="/publishers/new/true">Add Publisher</a>
+            </p>
+
+            <br>
+
+            <div>
+                Please Note that if you upload a Cover with proportions different <br> that 5x8 the Cover will be scalled down in the Book Catalog!
+            </div>
+
+            <p>
+                <label for="coverImgSpan">
+                    Book Cover:
+                </label>
+
+                <span id="coverImgSpan">
+                    <label for="coverImg">
+                        <span>Choose File</span>
+                    </label>
+                    <input type="file" name="coverImg" id="coverImg" accept="image/*">
+                </span>
+            </p>
+
+            <p class="coverPreview" id="coverPreview">
+                <img alt="Cover Preview" class="coverPreview__cover" th:src="@{/books/cover/{id}(id=${book.id})}">
+            </p>
+        </section>
+
+        <p class="createButton">
+            <button type="submit" id="submit" name="submit">Save Changes</button>
+            <a href="/books/catalog"><span>Back</span></a>
+        </p>
+    </form>
+
+    <script type="text/javascript" src="../static/js/droplistShownDiffrentValue.js" th:src="@{/js/droplistShownDiffrentValue.js}"></script>
+    <script type="text/javascript" src="../static/js/coverPreviewScript.js" th:src="@{/js/coverPreviewScript.js}"></script>       
 </body>
 </html>
