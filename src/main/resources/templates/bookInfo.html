@@ -13,55 +13,41 @@
         <h1>Book Information</h1>
 
         <div class="dataGrid">
-            <p>
-                Title:
-            </p>
-            <p>
-                <td th:text="${book.title}"></td>
-            </p>
-    
-            <p>
-                Subtitle:
-            </p>
-            <p>
-                <td th:text="${book.subTitle}"></td>
-                <span th:if="${book.subTitle!=null and book.subTitle.empty}">No Subtitle</span>
-            </p>
+            <div class="bookInfoData">
 
-            <p>
-                Author:
-            </p>
-            <p>
-                <td th:text="${book.author.firstName} + ' ' + ${book.author.lastName}"></td>
-            </p>
+                <div>
+                    <p th:text="${book.title}"></p>
+                    <p th:text="${book.subTitle}"></p>
+                </div>
 
-            <p>
-                Publisher:
-            </p>
-            <p>
-                <td th:text="${book.publisher.name}"></td>
-            </p>
+                <div>
+                    <strong>Author</strong>
+                    <p th:text="${book.author.firstName} + ' ' + ${book.author.lastName}"></p>
+                </div>
 
-            <p>
-                Publishing Year:
-            </p>
-            <p>
-                <td th:text="${book.publishingYear}"></td>
-            </p>
+                <div>
+                    <strong>Publishing</strong>
+                    <p th:text="'In ' + ${book.publishingYear}"></p>
+                    <p th:text="'By ' + ${book.publisher.name}"></p>
+                </div>
+            </div>
 
-            <p>
-                Description
-            </p>
-            <p>
-                <td th:text="${book.description}" class="bookDescText"></td>
-                <div th:if="${book.description!=null and book.description.empty}" class="noBooks">No description was added to this book!</div>
-            </p>
+            <div class="coverData">
+                <img th:src="@{'/books/cover/' + ${book.id}}">
+            </div>
 
-            <p>
-                Cover
-            </p>
-            <div class="cover"><td><img th:src="@{'/books/cover/' + ${book.id}}"></td></div>
-        </div>
+            <div class="descriptionData">
+                <p>
+                    <strong>Description</strong>
+                </p>
+
+                <p th:text="${book.description}"></p>
+            </div>
+          </div>
+
+        <p class="createButton buttonData">
+            <a href="/books/catalog"><span>Back</span></a>
+        </p>
     </div>
 </body>
 </html>
