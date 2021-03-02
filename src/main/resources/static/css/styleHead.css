@@ -52,6 +52,12 @@ nav ul li  {
     border-inline-end: 1px solid whitesmoke;
 }
 
+#logOut {
+    float: right;
+    border-inline-start: 1px solid whitesmoke;
+    border-inline-end: none;
+}
+
 nav ul li a {
     display: block;
     padding: 8px;
@@ -98,7 +104,7 @@ nav ul li a:active {
 
 /*Form*/
 
-form:not(.buttonForm) {
+form:not(.buttonForm, .loginForm) {
     font-size: 1.7rem;
 
     width: 50%;
@@ -232,4 +238,59 @@ form section p input:focus, form section p textarea:focus {
 
 #noneDisplay {
     display: none;
+}
+
+.loginForm {
+    font-size: 2rem;
+    inline-size: 25%;
+    block-size: 40%;
+    margin: 5vh auto;
+    box-sizing: border-box;
+    border:2px solid rgb(76, 76, 223);
+    text-align: center;
+}
+
+.loginForm h1 {
+    background-color: rgb(76, 76, 223);
+    color: white;
+    margin: 0;
+}
+
+.loginForm p input {
+    font-size: 2rem;
+    inline-size: 50%;
+    margin-block: 1vh;
+    text-align: center;
+}
+
+#logInButton {
+    background-color: rgb(76, 76, 223);
+    color: white;
+    font-size: 2rem;
+    border-radius: 7px;
+    cursor: pointer;
+    margin: 2vh auto;
+}
+
+#logInButton:focus {
+    background-color: rgb(52, 52, 212);
+}
+
+#logInButton:hover {
+    background-color: rgb(36, 36, 172);
+}
+
+#logInButton:active {
+    background-color: rgb(1, 1, 107);
+}
+
+#welcomeMessage {
+    text-align: center;
+    font-size: 5rem;
+    font-style: italic;
+}
+
+#welcomeMessage span {
+    font-style: normal;
+    font-size: 3rem;
 }

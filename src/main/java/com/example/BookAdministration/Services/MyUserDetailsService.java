@@ -1,0 +1,36 @@
+package com.example.BookAdministration.Services;
+
+import com.example.BookAdministration.Entities.User;
+import com.example.BookAdministration.Exceptions.EntityNotFoundException;
+import com.example.BookAdministration.Repositories.UserRepository;
+import com.example.BookAdministration.Security.UserPrincipal;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+
+@Service
+public class MyUserDetailsService implements UserDetailsService {
+
+    private final Logger logger = LoggerFactory.getLogger(MyUserDetailsService.class);
+    private final UserRepository userRepository;
+
+    @Autowired
+    public MyUserDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        logger.info("Load user with username:" + username);
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("No such User!"));
+
+        return new UserPrincipal(user);
+    }
+}

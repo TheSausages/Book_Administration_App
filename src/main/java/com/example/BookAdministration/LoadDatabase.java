@@ -1,18 +1,18 @@
 package com.example.BookAdministration;
 
-import com.example.BookAdministration.Entities.Author;
-import com.example.BookAdministration.Entities.Book;
-import com.example.BookAdministration.Entities.PrimaryGenre;
-import com.example.BookAdministration.Entities.Publisher;
+import com.example.BookAdministration.Entities.*;
 import com.example.BookAdministration.Repositories.AuthorRepository;
 import com.example.BookAdministration.Repositories.BookRepository;
 import com.example.BookAdministration.Repositories.PublisherRepository;
+import com.example.BookAdministration.Repositories.UserRepository;
 import com.example.BookAdministration.Services.BookService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.InputStream;
 import java.time.LocalDate;
@@ -21,7 +21,7 @@ import java.time.LocalDate;
 public class LoadDatabase {
 
     @Bean
-    public CommandLineRunner initDatabase(BookRepository bookRepository, AuthorRepository authorRepository, PublisherRepository publisherRepository, BookService bookService) {
+    public CommandLineRunner initDatabase(BookRepository bookRepository, AuthorRepository authorRepository, PublisherRepository publisherRepository, UserRepository userRepository) {
         return args -> {
             Logger logger = LoggerFactory.getLogger(LoadDatabase.class);
 
@@ -82,6 +82,10 @@ public class LoadDatabase {
                             "Załóż mundur, zgarnij karabin pod pachę i wyrusz w podróż po najsłynniejszych frontach II wojny światowej. Poznaj tajemnice, o których nie dowiesz się z lekcji w szkole. Odkryj kulisy rozszyfrowania enigmy, unieś się w przestworza podczas bitwy o Anglię i dowiedz się, czemu zawsze to my Polacy byliśmy \"First to fight\" chociaż nikt się z nami nie cackał.",
                     2018, ks6.readAllBytes(), authorRepository.findById(3l).get(), publisherRepository.findById(4l).get());
             logger.info("Preloading:" + bookRepository.save(book6));
+
+            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+            logger.info("Preloading" + userRepository.save(new User("user", passwordEncoder.encode("pass"))));
         };
     }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Head</title>
@@ -18,6 +18,10 @@
                 <li><a href="/books/catalog">Books</a></li>
                 <li><a href="/authors/list">Authors</a></li>
                 <li><a href="/publishers/list">Publishers</a></li>
+                <li sec:authorize="isAuthenticated()" id="logOut"><a href="javascript: document.logoutForm.submit()">Log Out</a></li>
+                <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                    <input hidden="true" type="submit">
+                </form> 
             </ul>
         </nav>
     </div>

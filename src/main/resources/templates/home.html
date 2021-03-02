@@ -1,12 +1,45 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Home Page of the Libary</title>
     <link href="../static/css/styleHead.css" th:href="@{/css/styleHead.css}" rel="stylesheet">
-    <link href="../static/css/styleBook.css" th:href="@{/css/styleBook.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
     <div th:replace="head :: header"></div>
+
+    <div sec:authorize="isAnonymous()">
+        <form th:action="@{/login}" method="POST" class="loginForm">
+            <h1>Login</h1>
+
+            <div th:class="${Exception} OR ${loginError} ? errorList">
+                <p th:if="${Exception}" th:text="${exceptionMessage}" class="error">Exception</p>
+                <p th:if="${loginError}" th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}"  class="error">Error </p>
+            </div>
+
+            <p class="username">
+                <i class="fa fa-user"></i>
+                <input type="text" id="username" name="username" autofocus="autofocus" placeholder="Enter Username">
+            </p>
+    
+            <p class="password">
+                <i class="fa fa-lock"></i>
+                <input type="password" id="password" name="password" placeholder="Enter Password">
+            </p>
+    
+            <p>
+                <button type="Submit" id="logInButton">Log In</button>
+            </p>
+        </form>
+    </div>
+
+    <div sec:authorize="isAuthenticated()" id="welcomeMessage">
+        <p>
+            You are already logged in! 
+        </p>
+
+        <span>Using the navigation menu, see what the app offers</span>
+    </div>
 </body>
 </html>
