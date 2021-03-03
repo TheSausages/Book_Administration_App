@@ -49,15 +49,6 @@ public class Book {
         this.cover = cover;
     }
 
-    public Book(String title, String subTitle, String description, Integer publishingYear, Author author, Publisher publisher) {
-        this.title = title;
-        this.subTitle = subTitle;
-        this.description = description;
-        this.publishingYear = publishingYear;
-        this.author = author;
-        this.publisher = publisher;
-    }
-
     public long getId() {
         return id;
     }
@@ -131,8 +122,6 @@ public class Book {
         this.subTitle = book.getSubTitle();
 
         if (book.getCover() != null) {
-            System.out.println("weszlo");
-
             this.cover = book.getCover();
         }
     }

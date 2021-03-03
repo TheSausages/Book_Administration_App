@@ -12,7 +12,6 @@ public class User {
     private Long id;
 
     @NotBlank(message = "Username cannot be empty!")
-    @Column(unique = true)
     private String username;
 
     @NotBlank(message = "Password cannot be empty!")

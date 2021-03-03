@@ -2,11 +2,12 @@ package com.example.BookAdministration.Services;
 
 import com.example.BookAdministration.Entities.Publisher;
 import com.example.BookAdministration.Exceptions.EntityAlreadyExistException;
-import com.example.BookAdministration.Exceptions.EntityHasChildrenException;
 import com.example.BookAdministration.Exceptions.EntityNotFoundException;
 import com.example.BookAdministration.Repositories.PublisherRepository;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -41,21 +42,21 @@ public class PublisherService {
 
         if (publisherRepository.findByNameAndCity(publisher.getName(), publisher.getCity()).isPresent()) {
             throw new EntityAlreadyExistException("This Publisher already exists");
-        } else {
-            return publisherRepository.save(publisher);
         }
+
+        return publisherRepository.save(publisher);
     }
 
     public HttpStatus deletePublisherById(Long id) {
         logger.info("Delete publisher with id:" + id);
 
-        if (publisherRepository.findById(id).isPresent()) {
-            publisherRepository.deleteById(id);
-
-            return HttpStatus.OK;
-        } else {
+        if (publisherRepository.findById(id).isEmpty()) {
             throw new EntityNotFoundException("Could not find Publisher with id:" + id);
         }
+
+        publisherRepository.deleteById(id);
+
+        return HttpStatus.OK;
     }
 
     public Publisher updatePublisher(Publisher publisher, Long id) {

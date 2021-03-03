@@ -5,17 +5,13 @@ import com.example.BookAdministration.Exceptions.EntityAlreadyExistException;
 import com.example.BookAdministration.Exceptions.EntityHasChildrenException;
 import com.example.BookAdministration.Exceptions.EntityNotFoundException;
 import com.example.BookAdministration.Repositories.BookRepository;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import org.apache.tomcat.util.http.fileupload.IOUtils;
-
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,21 +57,21 @@ public class BookService {
 
         if (bookRepository.existsBookByTitleAndSubTitleAndPublishingYearAndAuthorAndPublisher(book.getTitle(), book.getSubTitle(), book.getPublishingYear(), book.getAuthor(), book.getPublisher())) {
             throw new EntityAlreadyExistException("This Book already exists!");
-        } else {
-            return bookRepository.save(book);
         }
+
+        return bookRepository.save(book);
     }
 
     public HttpStatus deleteBookById(Long id) {
         logger.info("Delete book with id:" + id);
 
-        if (bookRepository.findById(id).isPresent()) {
-            bookRepository.deleteById(id);
-
-            return HttpStatus.OK;
-        } else {
+        if (bookRepository.findById(id).isEmpty()) {
             throw new EntityNotFoundException("Could not find author with id:" + id);
         }
+
+        bookRepository.deleteById(id);
+
+        return HttpStatus.OK;
     }
 
     public Book updateBook(Book book, Long id) {

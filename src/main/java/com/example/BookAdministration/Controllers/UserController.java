@@ -4,6 +4,7 @@ import com.example.BookAdministration.Entities.User;
 import com.example.BookAdministration.Exceptions.EntityAlreadyExistException;
 import com.example.BookAdministration.Exceptions.PasswordsNotMatchingException;
 import com.example.BookAdministration.Services.MyUserDetailsService;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -38,16 +39,16 @@ public class UserController {
     public String registrationSave(@Valid @ModelAttribute User user, @ModelAttribute String matchingPass, BindingResult bindingResult, Model model, Errors errors) {
         if (bindingResult.hasErrors()) {
             return "registration";
-        } else {
-            try {
-                myUserDetailsService.createNewUser(user);
-            } catch (EntityAlreadyExistException | PasswordsNotMatchingException e) {
-                model.addAttribute("Exception", true);
-                model.addAttribute("exceptionMessage", e.getMessage());
-                return "registration";
-            }
-
-            return "redirect:/home";
         }
+
+        try {
+            myUserDetailsService.createNewUser(user);
+        } catch (EntityAlreadyExistException | PasswordsNotMatchingException e) {
+            model.addAttribute("Exception", true);
+            model.addAttribute("exceptionMessage", e.getMessage());
+            return "registration";
+        }
+
+        return "redirect:/home";
     }
 }

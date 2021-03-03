@@ -5,7 +5,6 @@ import com.example.BookAdministration.Repositories.AuthorRepository;
 import com.example.BookAdministration.Repositories.BookRepository;
 import com.example.BookAdministration.Repositories.PublisherRepository;
 import com.example.BookAdministration.Repositories.UserRepository;
-import com.example.BookAdministration.Services.BookService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -30,20 +29,20 @@ public class LoadDatabase {
             logger.info("Preloading:" + publisherRepository.save(new Publisher("Publisher3", "Wrocław")));
             logger.info("Preloading:" + publisherRepository.save(new Publisher("Publisher4", "Warszawa")));
 
-            InputStream au1 = (Thread.currentThread().getContextClassLoader().getResourceAsStream("static/img/JRRTolkien.jpg"));
-            InputStream au2 = (Thread.currentThread().getContextClassLoader().getResourceAsStream("static/img/TappeiNagatsuki.jpg"));
-            InputStream au3 = (Thread.currentThread().getContextClassLoader().getResourceAsStream("static/img/WojciechDrewniak.jpg"));
+            InputStream au1 = (Thread.currentThread().getContextClassLoader().getResourceAsStream("static/img/LoadDatabase/JRRTolkien.jpg"));
+            InputStream au2 = (Thread.currentThread().getContextClassLoader().getResourceAsStream("static/img/LoadDatabase/TappeiNagatsuki.jpg"));
+            InputStream au3 = (Thread.currentThread().getContextClassLoader().getResourceAsStream("static/img/LoadDatabase/WojciechDrewniak.jpg"));
 
             logger.info("Preloading:" + authorRepository.save(new Author("John Ronald Reuel", "Tolkien", LocalDate.of(1892,1,3), au1.readAllBytes(), PrimaryGenre.Fantasy)));
             logger.info("Preloading:" + authorRepository.save(new Author("Tappei", "Nagatsuki", LocalDate.of(1987,3,11), au2.readAllBytes(), PrimaryGenre.Fantasy)));
             logger.info("Preloading:" + authorRepository.save(new Author("Wojciech", "Drewniak", LocalDate.of(1977,10,26), au3.readAllBytes(), PrimaryGenre.Nonfiction)));
 
-            InputStream ks1 = (Thread.currentThread().getContextClassLoader().getResourceAsStream("static/img/TheFellowshipOfTheRing.jpg"));
-            InputStream ks2 = (Thread.currentThread().getContextClassLoader().getResourceAsStream("static/img/TheTwoTowers.jpg"));
-            InputStream ks3 = (Thread.currentThread().getContextClassLoader().getResourceAsStream("static/img/theReturnOfTheKing.jpg"));
-            InputStream ks4 = (Thread.currentThread().getContextClassLoader().getResourceAsStream("static/img/ReZeroVol1.jpg"));
-            InputStream ks5 = (Thread.currentThread().getContextClassLoader().getResourceAsStream("static/img/HistoriaBezCenzury3.jpeg"));
-            InputStream ks6 = (Thread.currentThread().getContextClassLoader().getResourceAsStream("static/img/HistoriaBezCenzury1.jpg"));
+            InputStream ks1 = (Thread.currentThread().getContextClassLoader().getResourceAsStream("static/img/LoadDatabase/TheFellowshipOfTheRing.jpg"));
+            InputStream ks2 = (Thread.currentThread().getContextClassLoader().getResourceAsStream("static/img/LoadDatabase/TheTwoTowers.jpg"));
+            InputStream ks3 = (Thread.currentThread().getContextClassLoader().getResourceAsStream("static/img/LoadDatabase/theReturnOfTheKing.jpg"));
+            InputStream ks4 = (Thread.currentThread().getContextClassLoader().getResourceAsStream("static/img/LoadDatabase/ReZeroVol1.jpg"));
+            InputStream ks5 = (Thread.currentThread().getContextClassLoader().getResourceAsStream("static/img/LoadDatabase/HistoriaBezCenzury3.jpeg"));
+            InputStream ks6 = (Thread.currentThread().getContextClassLoader().getResourceAsStream("static/img/LoadDatabase/HistoriaBezCenzury1.jpg"));
 
             Book book1 = new Book("The Fellowship of the Ring", "The Lord of the Rings Part One",
                     "The Lord of the Rings.Sauron, the Dark Lord, has gathered to him all the Rings of Power the means by which he intends to rule Middle-earth. All he lacks in his plans for dominion is the One Ring the ring that rules them all which has fallen into the hands of the hobbit, Bilbo Baggins.In a sleepy village in the Shire, young Frodo Baggins finds himself faced with an immense task, as his elderly cousin Bilbo entrusts the Ring to his care. Frodo must leave his home and make a perilous journey across Middle-earth to the Cracks of Doom, there to destroy the Ring and foil the Dark Lord in his evil purpose.",

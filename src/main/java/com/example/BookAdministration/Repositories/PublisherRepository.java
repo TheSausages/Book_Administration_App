@@ -1,8 +1,8 @@
 package com.example.BookAdministration.Repositories;
 
 import com.example.BookAdministration.Entities.Publisher;
+
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 

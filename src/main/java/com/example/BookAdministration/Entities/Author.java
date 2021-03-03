@@ -1,8 +1,6 @@
 package com.example.BookAdministration.Entities;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -41,13 +39,6 @@ public class Author {
         this.firstName = firstName;
         this.lastName = lastName;
         this.portrait = portrait;
-        this.dateOfBirth = dateOfBirth;
-        this.primaryGenre = primaryGenre;
-    }
-
-    public Author(String firstName, String lastName, LocalDate dateOfBirth, PrimaryGenre primaryGenre) {
-        this.firstName = firstName;
-        this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
         this.primaryGenre = primaryGenre;
     }

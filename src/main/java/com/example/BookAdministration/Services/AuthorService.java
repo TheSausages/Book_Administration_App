@@ -4,13 +4,14 @@ import com.example.BookAdministration.Entities.Author;
 import com.example.BookAdministration.Exceptions.EntityNotFoundException;
 import com.example.BookAdministration.Exceptions.EntityAlreadyExistException;
 import com.example.BookAdministration.Repositories.AuthorRepository;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,21 +43,21 @@ public class AuthorService {
 
         if (authorRepository.existsByFirstNameAndLastNameAndDateOfBirth(author.getFirstName(), author.getLastName(), author.getDateOfBirth())) {
             throw new EntityAlreadyExistException("This Author already exists!");
-        } else {
-            return authorRepository.save(author);
         }
+
+        return authorRepository.save(author);
     }
 
     public HttpStatus deleteAuthorById(Long id) {
         logger.info("Delete author with id:" + id);
 
-        if (authorRepository.findById(id).isPresent()) {
-            authorRepository.deleteById(id);
-
-            return HttpStatus.OK;
-        } else {
+        if (authorRepository.findById(id).isEmpty()) {
             throw new EntityNotFoundException("Could not find author with id:" + id);
         }
+
+        authorRepository.deleteById(id);
+
+        return HttpStatus.OK;
     }
 
     public Author updateAuthor(Author author, Long id) {
@@ -88,6 +89,4 @@ public class AuthorService {
                     return authorRepository.save(author);
                 });
     }
-    //existsByFirstNameAndLastNameAndDateOfBirthAndPortraitAndPrimaryGenre(author.getFirstName(), author.getLastName(), author.getDateOfBirth(), author.getPortrait(), author.getPrimaryGenre())
-
 }
