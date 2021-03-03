@@ -47,7 +47,7 @@ public class UserController {
                 return "registration";
             }
 
-            return "home";
+            return "redirect:/home";
         }
     }
 }
