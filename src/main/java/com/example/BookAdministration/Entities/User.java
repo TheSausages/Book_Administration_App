@@ -18,11 +18,15 @@ public class User {
     @NotBlank(message = "Password cannot be empty!")
     private String password;
 
+    @NotBlank(message = "Matching password cannot be empty!")
+    private String matchingPassword;
+
     public User() {}
 
     public User(String username, String password) {
         this.username = username;
         this.password = password;
+        this.matchingPassword = password;
     }
 
     public void setPassword(String password) {
@@ -37,6 +41,10 @@ public class User {
         this.id = id;
     }
 
+    public void setMatchingPassword(String matchingPassword) {
+        this.matchingPassword = matchingPassword;
+    }
+
     public Long getId() {
         return id;
     }
@@ -47,5 +55,9 @@ public class User {
 
     public String getUsername() {
         return username;
+    }
+
+    public String getMatchingPassword() {
+        return matchingPassword;
     }
 }

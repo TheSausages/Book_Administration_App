@@ -13,9 +13,12 @@
         <form th:action="@{/login}" method="POST" class="loginForm">
             <h1>Login</h1>
 
-            <div th:class="${Exception} OR ${loginError} ? errorList">
-                <p th:if="${Exception}" th:text="${exceptionMessage}" class="error">Exception</p>
-                <p th:if="${loginError}" th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}"  class="error">Error </p>
+            <div th:if="${param.error}" class="errorList">    
+                <span class="error">Invalid username and password.</span>
+            </div>
+
+            <div th:class="${param.logout} ? 'errorList logOut'">
+                <span th:if="${param.logout}">Logged out Sucessfully!</span>
             </div>
 
             <p class="username">
@@ -23,14 +26,16 @@
                 <input type="text" id="username" name="username" autofocus="autofocus" placeholder="Enter Username">
             </p>
     
-            <p class="password">
+            <p class="passworsd">
                 <i class="fa fa-lock"></i>
                 <input type="password" id="password" name="password" placeholder="Enter Password">
             </p>
     
-            <p>
-                <button type="Submit" id="logInButton">Log In</button>
+            <p class="createButton" id="logInButton">
+                <button type="Submit">Log In</button>
             </p>
+
+            <a href="/registration" id="registationLink">No account? Register now!</a>
         </form>
     </div>
 

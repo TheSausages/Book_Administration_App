@@ -1,6 +1,5 @@
 package com.example.BookAdministration.Controllers;
 
-import com.example.BookAdministration.Entities.Author;
 import com.example.BookAdministration.Entities.Book;
 import com.example.BookAdministration.Exceptions.EntityAlreadyExistException;
 import com.example.BookAdministration.Exceptions.EntityHasChildrenException;

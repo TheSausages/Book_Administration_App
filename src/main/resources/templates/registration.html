@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../static/css/styleHead.css" th:href="@{/css/styleHead.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <div th:replace="head :: header"></div>
+
+    <form th:action="@{/registration/save}" th:object="${user}" method="POST" class="loginForm">
+        <h1>Registration</h1>
+
+        <div th:class="${Exception} OR ${#fields.hasErrors('global')} OR ${#fields.hasErrors('all')} ? errorList">
+            <p th:if="${Exception}" th:text="${exceptionMessage}" class="error">Exception</p>
+            <p th:if="${#fields.hasErrors('global')}" th:errors="*{global}" class="error">Global Error</p>
+            <p th:if="${#fields.hasErrors('all')}" th:errors="*{all}" class="error">Incorrect Data</p>
+        </div>
+
+        <p class="username">
+            <i class="fa fa-user"></i>
+            <input type="text" id="username" name="username" th:field="*{username}" autofocus="autofocus" placeholder="Enter Username">
+        </p>
+
+        <p class="password">
+            <i class="fa fa-lock"></i>
+            <input type="password" id="password" name="password" th:field="*{password}" placeholder="Enter Password">
+        </p>
+
+        <p class="matchingPassword">
+            <i class="fa fa-lock"></i>
+            <input type="password" id="matchingPassword" name="matchingPassword" th:field="*{matchingPassword}" placeholder="Enter Password Again">
+        </p>
+
+        <p class="createButton" id="logInButton">
+            <button type="Submit">Register</button>
+            <a href="/home">Back</a>
+        </p>
+    </form>
+</body>
+</html>

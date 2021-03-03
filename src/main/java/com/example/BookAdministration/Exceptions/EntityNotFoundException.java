@@ -1,10 +1,11 @@
 package com.example.BookAdministration.Exceptions;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
-public class EntityNotFoundException extends RuntimeException {
+public class EntityNotFoundException extends AuthenticationException {
 
     public EntityNotFoundException(String message) {
         super(message);
