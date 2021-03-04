@@ -78,7 +78,8 @@ public class AuthorController {
     }
 
     @PostMapping(value = "/new/save/{whatSite}", consumes = "multipart/form-data")
-    public String saveNewAuthor(@Valid @ModelAttribute Author author, BindingResult bindingResult, @RequestParam("portraitImg") MultipartFile file, @PathVariable Boolean whatSite, Model model) throws IOException {
+    public String saveNewAuthor(@Valid @ModelAttribute Author author, BindingResult bindingResult,
+                                @RequestParam("portraitImg") MultipartFile file, @PathVariable Boolean whatSite, Model model) throws IOException {
         if (bindingResult.hasErrors()) {
             return "authorForm";
         } else {
