@@ -98,7 +98,7 @@ public class BookController {
     }
 
     @PostMapping(value = "/delete/{id}")
-    public String deletePublisher(@PathVariable Long id, Model model) {
+    public String deleteBook(@PathVariable Long id, Model model) {
         try {
             bookService.deleteBookById(id);
         } catch (EntityNotFoundException | EntityHasChildrenException e) {
@@ -113,7 +113,7 @@ public class BookController {
     }
 
     @GetMapping(value = "/edit/{id}")
-    public String changePublisher(@PathVariable Long id, Model model) {
+    public String changeBook(@PathVariable Long id, Model model) {
         model.addAttribute("book", bookService.getBookById(id));
         model.addAttribute("authors", authorService.getAllAuthors());
         model.addAttribute("publishers", publisherService.getAllPublishers());
@@ -122,7 +122,7 @@ public class BookController {
     }
 
     @PostMapping(value = "/edit/{id}/save", consumes = "multipart/form-data")
-    public String savePublisherChanges(@PathVariable Long id, @RequestParam("coverImg") MultipartFile file, @Valid @ModelAttribute Book book, BindingResult bindingResult, Model model) {
+    public String saveBookChanges(@PathVariable Long id, @RequestParam("coverImg") MultipartFile file, @Valid @ModelAttribute Book book, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("authors", authorService.getAllAuthors());
             model.addAttribute("publishers", publisherService.getAllPublishers());

@@ -47,11 +47,11 @@ public class AuthorController {
 
         model.addAttribute("authors", authorsWithBooks);
 
-        return "AuthorList";
+        return "authorList";
     }
 
     @GetMapping(value = "/portrait/{id}")
-    public void showBookCover(@PathVariable Long id, HttpServletResponse response) throws IOException {
+    public void showAuthorPortrait(@PathVariable Long id, HttpServletResponse response) throws IOException {
         response.setContentType("image/png");
 
         Author author = authorService.getAuthorById(id);
@@ -61,7 +61,7 @@ public class AuthorController {
     }
 
     @GetMapping(value = "/info/{id}")
-    public String viewBook(@PathVariable Long id, Model model) {
+    public String viewAuthor(@PathVariable Long id, Model model) {
         model.addAttribute("author", authorService.getAuthorById(id));
         model.addAttribute("books", bookService.findFirst5BooksByAuthorId(id));
 
@@ -106,7 +106,7 @@ public class AuthorController {
     }
 
     @PostMapping(value = "/delete/{id}")
-    public String deletePublisher(@PathVariable Long id, Model model) {
+    public String deleteAuthor(@PathVariable Long id, Model model) {
         try {
             bookService.checkIfAnyBooksByAuthorId(id);
 
@@ -130,14 +130,14 @@ public class AuthorController {
     }
 
     @GetMapping(value = "/edit/{id}")
-    public String changePublisher(@PathVariable Long id, Model model) {
+    public String changeAuthor(@PathVariable Long id, Model model) {
         model.addAttribute("author", authorService.getAuthorById(id));
 
         return "authorEdit";
     }
 
     @PostMapping(value = "/edit/{id}/save", consumes = "multipart/form-data")
-    public String savePublisherChanges(@PathVariable Long id, @RequestParam(value = "primaryGenreSelected") PrimaryGenre genre, @RequestParam("portraitImg") MultipartFile file, @Valid @ModelAttribute Author author, BindingResult bindingResult, Model model) {
+    public String saveAuthorChanges(@PathVariable Long id, @RequestParam(value = "primaryGenreSelected") PrimaryGenre genre, @RequestParam("portraitImg") MultipartFile file, @Valid @ModelAttribute Author author, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return "authorEdit";
         } else {
