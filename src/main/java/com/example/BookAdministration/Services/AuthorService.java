@@ -65,7 +65,8 @@ public class AuthorService {
 
         return authorRepository.findById(id)
                 .map(author1 -> {
-                    Optional<Author> possibleDup = authorRepository.findByFirstNameAndLastNameAndDateOfBirth(author.getFirstName(), author.getLastName(), author.getDateOfBirth());
+                    Optional<Author> possibleDup = authorRepository.findByFirstNameAndLastNameAndDateOfBirth(author.getFirstName()
+                            , author.getLastName(), author.getDateOfBirth());
 
                     if (possibleDup.isPresent() && (possibleDup.get().getId() != author.getId())) {
                         throw new EntityAlreadyExistException("Author with those information already Exists!");

@@ -57,7 +57,7 @@ class AuthorControllerTest {
     }
 
     @Test
-    void viewAuthor() throws Exception {
+    void viewAuthorTest() throws Exception {
         when(authorService.getAuthorById(1l)).thenReturn(new Author());
 
         this.mockMvc
@@ -69,7 +69,7 @@ class AuthorControllerTest {
     }
 
     @Test
-    void newAuthorFromBookForm() throws Exception {
+    void newAuthorFromBookFormTest() throws Exception {
         this.mockMvc
                 .perform(get("/authors/new/true"))
                 .andExpect(status().isOk())
@@ -80,7 +80,7 @@ class AuthorControllerTest {
     }
 
     @Test
-    void newAuthorFromAuthorList() throws Exception {
+    void newAuthorFromAuthorListTest() throws Exception {
         this.mockMvc
                 .perform(get("/authors/new/false"))
                 .andExpect(status().isOk())
@@ -91,7 +91,7 @@ class AuthorControllerTest {
     }
 
     @Test
-    void saveNewAuthorThrowException() throws Exception {
+    void saveNewAuthorThrowExceptionTest() throws Exception {
         Author authorWithValues = new Author();
         setTypicalParams(authorWithValues);
 
@@ -113,11 +113,12 @@ class AuthorControllerTest {
 
 
     @Test
-    void saveNewAuthorNoValuesFromBookFormNoPortrait() throws Exception {
+    void saveNewAuthorNoValuesFromBookFormNoPortraitTest() throws Exception {
         Author authorNull = new Author();
         authorNull.setId(1);
 
-        MockMultipartFile portraitImg = new MockMultipartFile("portraitImg", "portraitImg", String.valueOf(MediaType.MULTIPART_FORM_DATA), (byte[]) null);
+        MockMultipartFile portraitImg = new MockMultipartFile("portraitImg", "portraitImg"
+                , String.valueOf(MediaType.MULTIPART_FORM_DATA), (byte[]) null);
 
         this.mockMvc
                 .perform(multipart("/authors/new/save/true")
@@ -129,7 +130,7 @@ class AuthorControllerTest {
     }
 
     @Test
-    void saveNewAuthorNoValuesFromBookForm() throws Exception {
+    void saveNewAuthorNoValuesFromBookFormTest() throws Exception {
         Author authorNull = new Author();
         authorNull.setId(1);
 
@@ -145,7 +146,7 @@ class AuthorControllerTest {
     }
 
     @Test
-    void saveNewAuthorNoValuesFromAuthorList() throws Exception {
+    void saveNewAuthorNoValuesFromAuthorListTest() throws Exception {
         Author authorNull = new Author();
         authorNull.setId(1);
 
@@ -161,7 +162,7 @@ class AuthorControllerTest {
     }
 
     @Test
-    void saveNewAuthorWithValuesFromBookForm() throws Exception {
+    void saveNewAuthorWithValuesFromBookFormTest() throws Exception {
         Author authorWithValues = new Author();
         setTypicalParams(authorWithValues);
 
@@ -177,7 +178,7 @@ class AuthorControllerTest {
     }
 
     @Test
-    void saveNewAuthorWithValuesFromAuthorList() throws Exception {
+    void saveNewAuthorWithValuesFromAuthorListTest() throws Exception {
         Author authorWithValues = new Author();
         setTypicalParams(authorWithValues);
 
@@ -194,7 +195,7 @@ class AuthorControllerTest {
 
 
     @Test
-    void deleteAuthorNoAuthor() throws Exception {
+    void deleteAuthorNoAuthorTest() throws Exception {
         when(authorService.getAllAuthors()).thenReturn(Arrays.asList(new Author()));
         doThrow(new EntityNotFoundException("No such Author")).when(bookService).checkIfAnyBooksByAuthorId(1l);
 
@@ -209,7 +210,7 @@ class AuthorControllerTest {
     }
 
     @Test
-    void deleteAuthorFoundAuthor() throws Exception {
+    void deleteAuthorFoundAuthorTest() throws Exception {
         doNothing().when(bookService).checkIfAnyBooksByAuthorId(1l);
 
         this.mockMvc
@@ -220,7 +221,7 @@ class AuthorControllerTest {
     }
 
     @Test
-    void changeAuthor() throws Exception {
+    void changeAuthorTest() throws Exception {
         Author author = new Author();
         author.setId(1);
 
@@ -234,7 +235,7 @@ class AuthorControllerTest {
     }
 
     @Test
-    void saveAuthorChangesAuthorNull() throws Exception {
+    void saveAuthorChangesAuthorNullTest() throws Exception {
         Author author = new Author();
         author.setId(1);
 
@@ -251,7 +252,7 @@ class AuthorControllerTest {
     }
 
     @Test
-    void saveAuthorChangesThrowException() throws Exception {
+    void saveAuthorChangesThrowExceptionTest() throws Exception {
         Author author = new Author();
         setTypicalParams(author);
 
@@ -271,7 +272,7 @@ class AuthorControllerTest {
     }
 
     @Test
-    void saveAuthorChangesCorrectChanges() throws Exception {
+    void saveAuthorChangesCorrectChangesTest() throws Exception {
         Author author = new Author();
         setTypicalParams(author);
 
@@ -288,7 +289,7 @@ class AuthorControllerTest {
     }
 
     @Test
-    void saveAuthorChangesCorrectChangesNoPortrait() throws Exception {
+    void saveAuthorChangesCorrectChangesNoPortraitTest() throws Exception {
         Author author = new Author();
         setTypicalParams(author);
 
