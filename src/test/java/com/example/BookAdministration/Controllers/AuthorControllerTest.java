@@ -3,10 +3,10 @@ package com.example.BookAdministration.Controllers;
 import com.example.BookAdministration.Entities.Author;
 import com.example.BookAdministration.Entities.PrimaryGenre;
 import com.example.BookAdministration.Exceptions.EntityAlreadyExistException;
+import com.example.BookAdministration.Exceptions.EntityHasChildrenException;
 import com.example.BookAdministration.Exceptions.EntityNotFoundException;
 import com.example.BookAdministration.Services.AuthorService;
 import com.example.BookAdministration.Services.BookService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -44,7 +44,7 @@ class AuthorControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    void viewAuthorListTest() throws Exception {
+    void viewAuthorList_Test() throws Exception {
         Author author = new Author();
 
         when(authorService.getAllAuthors()).thenReturn(Arrays.asList(author));
@@ -57,19 +57,22 @@ class AuthorControllerTest {
     }
 
     @Test
-    void viewAuthorTest() throws Exception {
-        when(authorService.getAuthorById(1l)).thenReturn(new Author());
+    void viewAuthor_NoErrors_NormalBehavior() throws Exception {
+        Author author = new Author();
+        setTypicalParams(author);
+
+        when(authorService.getAuthorById(1l)).thenReturn(author);
 
         this.mockMvc
                 .perform(get("/authors/info/1"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("authorInfo"))
-                .andExpect(model().attributeExists("author"))
+                .andExpect(model().attribute("author", author))
                 .andExpect(model().attributeExists("books"));
     }
 
     @Test
-    void newAuthorFromBookFormTest() throws Exception {
+    void newAuthor_FromBookForm_NormalBehavior() throws Exception {
         this.mockMvc
                 .perform(get("/authors/new/true"))
                 .andExpect(status().isOk())
@@ -80,7 +83,7 @@ class AuthorControllerTest {
     }
 
     @Test
-    void newAuthorFromAuthorListTest() throws Exception {
+    void newAuthor_FromAuthorList_NormalBehavior() throws Exception {
         this.mockMvc
                 .perform(get("/authors/new/false"))
                 .andExpect(status().isOk())
@@ -91,7 +94,7 @@ class AuthorControllerTest {
     }
 
     @Test
-    void saveNewAuthorThrowExceptionTest() throws Exception {
+    void saveNewAuthor_FromAuthorListTest_ThrowException() throws Exception {
         Author authorWithValues = new Author();
         setTypicalParams(authorWithValues);
 
@@ -113,7 +116,7 @@ class AuthorControllerTest {
 
 
     @Test
-    void saveNewAuthorNoValuesFromBookFormNoPortraitTest() throws Exception {
+    void saveNewAuthor_NoValuesNoPortraitFromBookForm_BindingResults() throws Exception {
         Author authorNull = new Author();
         authorNull.setId(1);
 
@@ -130,7 +133,7 @@ class AuthorControllerTest {
     }
 
     @Test
-    void saveNewAuthorNoValuesFromBookFormTest() throws Exception {
+    void saveNewAuthor_NoValuesFromBookForm_BindingResults() throws Exception {
         Author authorNull = new Author();
         authorNull.setId(1);
 
@@ -146,7 +149,7 @@ class AuthorControllerTest {
     }
 
     @Test
-    void saveNewAuthorNoValuesFromAuthorListTest() throws Exception {
+    void saveNewAuthor_NoValuesFromAuthorList_BindingResults() throws Exception {
         Author authorNull = new Author();
         authorNull.setId(1);
 
@@ -162,7 +165,7 @@ class AuthorControllerTest {
     }
 
     @Test
-    void saveNewAuthorWithValuesFromBookFormTest() throws Exception {
+    void saveNewAuthor_WithValuesFromBookForm_NormalBehavior() throws Exception {
         Author authorWithValues = new Author();
         setTypicalParams(authorWithValues);
 
@@ -178,7 +181,7 @@ class AuthorControllerTest {
     }
 
     @Test
-    void saveNewAuthorWithValuesFromAuthorListTest() throws Exception {
+    void saveNewAuthor_WithValuesFromAuthorList_NormalBehavior() throws Exception {
         Author authorWithValues = new Author();
         setTypicalParams(authorWithValues);
 
@@ -195,22 +198,35 @@ class AuthorControllerTest {
 
 
     @Test
-    void deleteAuthorNoAuthorTest() throws Exception {
-        when(authorService.getAllAuthors()).thenReturn(Arrays.asList(new Author()));
-        doThrow(new EntityNotFoundException("No such Author")).when(bookService).checkIfAnyBooksByAuthorId(1l);
+    void deleteAuthor_AuthorHasChildren_ThrowException() throws Exception {
+        doThrow(new EntityHasChildrenException("Author has books!")).when(bookService).checkIfAnyBooksByAuthorId(1l);
 
         this.mockMvc
                 .perform(post("/authors/delete/1")
-                .with(csrf()))
+                    .with(csrf()))
+                .andExpect(view().name("authorList"))
+                .andExpect(model().attribute("Exception", true))
+                .andExpect(model().attribute("exceptionMessage", "Author has books!"))
+                .andExpect(model().attributeExists("authors"));
+    }
+
+    @Test
+    void deleteAuthor_NoAuthor_ThrowException() throws Exception {
+        doNothing().when(bookService).checkIfAnyBooksByAuthorId(1l);
+        when(authorService.deleteAuthorById(1l)).thenThrow(new EntityNotFoundException("No such Author"));
+
+        this.mockMvc
+                .perform(post("/authors/delete/1")
+                        .with(csrf()))
                 .andExpect(view().name("authorList"))
                 .andExpect(model().attribute("Exception", true))
                 .andExpect(model().attribute("exceptionMessage", "No such Author"))
                 .andExpect(model().attributeExists("authors"));
-
     }
 
+
     @Test
-    void deleteAuthorFoundAuthorTest() throws Exception {
+    void deleteAuthor_NoErrors_NormalBehavior() throws Exception {
         doNothing().when(bookService).checkIfAnyBooksByAuthorId(1l);
 
         this.mockMvc
@@ -221,7 +237,7 @@ class AuthorControllerTest {
     }
 
     @Test
-    void changeAuthorTest() throws Exception {
+    void changeAuthor_NoErrors_NormalBehavior() throws Exception {
         Author author = new Author();
         author.setId(1);
 
@@ -235,7 +251,7 @@ class AuthorControllerTest {
     }
 
     @Test
-    void saveAuthorChangesAuthorNullTest() throws Exception {
+    void saveAuthorChanges_NoValues_BindingResults() throws Exception {
         Author author = new Author();
         author.setId(1);
 
@@ -252,7 +268,7 @@ class AuthorControllerTest {
     }
 
     @Test
-    void saveAuthorChangesThrowExceptionTest() throws Exception {
+    void saveAuthorChanges_AuthorAlreadyExists_ThrowException() throws Exception {
         Author author = new Author();
         setTypicalParams(author);
 
@@ -272,7 +288,7 @@ class AuthorControllerTest {
     }
 
     @Test
-    void saveAuthorChangesCorrectChangesTest() throws Exception {
+    void saveAuthorChanges_WithPortraitNoErrors_NormalBehavior() throws Exception {
         Author author = new Author();
         setTypicalParams(author);
 
@@ -289,7 +305,7 @@ class AuthorControllerTest {
     }
 
     @Test
-    void saveAuthorChangesCorrectChangesNoPortraitTest() throws Exception {
+    void saveAuthorChanges_NoPortraitNoErrors_NormalBehavior() throws Exception {
         Author author = new Author();
         setTypicalParams(author);
 

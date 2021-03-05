@@ -2,7 +2,6 @@ package com.example.BookAdministration.Controllers;
 
 import com.example.BookAdministration.Entities.Book;
 import com.example.BookAdministration.Exceptions.EntityAlreadyExistException;
-import com.example.BookAdministration.Exceptions.EntityHasChildrenException;
 import com.example.BookAdministration.Exceptions.EntityNotFoundException;
 import com.example.BookAdministration.Services.AuthorService;
 import com.example.BookAdministration.Services.BookService;
@@ -71,7 +70,8 @@ public class BookController {
     }
 
     @PostMapping(value = "/new/save", consumes = "multipart/form-data")
-    public String saveNewBook(@Valid @ModelAttribute Book book, BindingResult bindingResult, @RequestParam("coverImg") MultipartFile file, Model model) throws IOException {
+    public String saveNewBook(@Valid @ModelAttribute Book book, BindingResult bindingResult
+            , @RequestParam("coverImg") MultipartFile file, Model model) throws IOException {
         if (bindingResult.hasErrors()) {
             model.addAttribute("authors", authorService.getAllAuthors());
             model.addAttribute("publishers", publisherService.getAllPublishers());
@@ -101,7 +101,7 @@ public class BookController {
     public String deleteBook(@PathVariable Long id, Model model) {
         try {
             bookService.deleteBookById(id);
-        } catch (EntityNotFoundException | EntityHasChildrenException e) {
+        } catch (EntityNotFoundException e) {
             model.addAttribute("Exception", true);
             model.addAttribute("exceptionMessage", e.getMessage());
             model.addAttribute("books", bookService.getAllBooks());
@@ -122,7 +122,8 @@ public class BookController {
     }
 
     @PostMapping(value = "/edit/{id}/save", consumes = "multipart/form-data")
-    public String saveBookChanges(@PathVariable Long id, @RequestParam("coverImg") MultipartFile file, @Valid @ModelAttribute Book book, BindingResult bindingResult, Model model) {
+    public String saveBookChanges(@PathVariable Long id, @RequestParam("coverImg") MultipartFile file, @Valid @ModelAttribute Book book
+            , BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("authors", authorService.getAllAuthors());
             model.addAttribute("publishers", publisherService.getAllPublishers());
