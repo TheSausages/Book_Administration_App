@@ -1,14 +1,14 @@
 package com.example.BookAdministration.Controllers;
 
 import com.example.BookAdministration.Entities.Author;
+import com.example.BookAdministration.Entities.PrimaryGenre;
+import com.example.BookAdministration.Exceptions.EntityAlreadyExistException;
+import com.example.BookAdministration.Exceptions.EntityNotFoundException;
 import com.example.BookAdministration.Services.AuthorService;
 import com.example.BookAdministration.Services.BookService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -16,19 +16,17 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
+
+import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.util.Arrays;
-
-import static org.mockito.Mockito.when;
 
 @WebMvcTest(controllers = AuthorController.class)
 @WithMockUser
@@ -60,9 +58,7 @@ class AuthorControllerTest {
 
     @Test
     void viewAuthor() throws Exception {
-        Author author = new Author();
-
-        when(authorService.getAuthorById(1l)).thenReturn(author);
+        when(authorService.getAuthorById(1l)).thenReturn(new Author());
 
         this.mockMvc
                 .perform(get("/authors/info/1"))
@@ -73,7 +69,7 @@ class AuthorControllerTest {
     }
 
     @Test
-    void newAuthor() throws Exception {
+    void newAuthorFromBookForm() throws Exception {
         this.mockMvc
                 .perform(get("/authors/new/true"))
                 .andExpect(status().isOk())
@@ -81,7 +77,10 @@ class AuthorControllerTest {
                 .andExpect(model().attributeExists("author"))
                 .andExpect(model().attributeExists("genres"))
                 .andExpect(model().attribute("whatSite", true));
+    }
 
+    @Test
+    void newAuthorFromAuthorList() throws Exception {
         this.mockMvc
                 .perform(get("/authors/new/false"))
                 .andExpect(status().isOk())
@@ -92,54 +91,231 @@ class AuthorControllerTest {
     }
 
     @Test
-    void saveNewAuthor() throws Exception {
-        Author author = new Author();
+    void saveNewAuthorThrowException() throws Exception {
+        Author authorWithValues = new Author();
+        setTypicalParams(authorWithValues);
 
-        InputStream ks1 = Thread.currentThread().getContextClassLoader().getResourceAsStream("static/img/noPortrait.jpg");
-        MockMultipartFile portraitImg = new MockMultipartFile("portraitImg", "portraitImg", String.valueOf(MediaType.MULTIPART_FORM_DATA), ks1.readAllBytes());
+        when(authorService.createAuthor(authorWithValues)).thenThrow(new EntityAlreadyExistException("Author Already Exist"));
 
-        MockMultipartFile jsonFile = new MockMultipartFile("author", "", "application/json", toJsonString(author).getBytes());
+        MockMultipartFile portraitImg = createMockFile();
 
         this.mockMvc
                 .perform(multipart("/authors/new/save/true")
-                .file(portraitImg)
-                        .file(jsonFile)
+                        .file(portraitImg)
+                        .flashAttr("author", authorWithValues)
                         .with(csrf()))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(view().name("authorForm"))
+                .andExpect(model().attribute("Exception", true))
+                .andExpect(model().attribute("exceptionMessage", "Author Already Exist"));
+    }
 
-        /*this.mockMvc
-                .perform(post("/authors/new/save/true").with(csrf())
-                .accept(MediaType.MULTIPART_FORM_DATA)
-                .param("author", toJsonString(author))
-                .requestAttr("portraitImg", portraitImg)
-                .contentType(MediaType.MULTIPART_FORM_DATA))
-                .andExpect(status().isOk());*/
 
-        /*this.mockMvc
+
+    @Test
+    void saveNewAuthorNoValuesFromBookFormNoPortrait() throws Exception {
+        Author authorNull = new Author();
+        authorNull.setId(1);
+
+        MockMultipartFile portraitImg = new MockMultipartFile("portraitImg", "portraitImg", String.valueOf(MediaType.MULTIPART_FORM_DATA), (byte[]) null);
+
+        this.mockMvc
                 .perform(multipart("/authors/new/save/true")
-                .file(mockMultipartFile)
-                .param("author", toJsonString(author))
+                        .file(portraitImg)
+                        .flashAttr("author", authorNull)
+                        .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(view().name("authorForm"));
+    }
+
+    @Test
+    void saveNewAuthorNoValuesFromBookForm() throws Exception {
+        Author authorNull = new Author();
+        authorNull.setId(1);
+
+        MockMultipartFile portraitImg = createMockFile();
+
+        this.mockMvc
+                .perform(multipart("/authors/new/save/true")
+                    .file(portraitImg)
+                    .flashAttr("author", authorNull)
+                    .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(view().name("authorForm"));
+    }
+
+    @Test
+    void saveNewAuthorNoValuesFromAuthorList() throws Exception {
+        Author authorNull = new Author();
+        authorNull.setId(1);
+
+        MockMultipartFile portraitImg = createMockFile();
+
+        this.mockMvc
+                .perform(multipart("/authors/new/save/false")
+                        .file(portraitImg)
+                        .flashAttr("author", authorNull)
+                        .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(view().name("authorForm"));
+    }
+
+    @Test
+    void saveNewAuthorWithValuesFromBookForm() throws Exception {
+        Author authorWithValues = new Author();
+        setTypicalParams(authorWithValues);
+
+        MockMultipartFile portraitImg = createMockFile();
+
+        this.mockMvc
+                .perform(multipart("/authors/new/save/true")
+                        .file(portraitImg)
+                        .flashAttr("author", authorWithValues)
+                        .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/books/new"));
+    }
+
+    @Test
+    void saveNewAuthorWithValuesFromAuthorList() throws Exception {
+        Author authorWithValues = new Author();
+        setTypicalParams(authorWithValues);
+
+        MockMultipartFile portraitImg = createMockFile();
+
+        this.mockMvc
+                .perform(multipart("/authors/new/save/false")
+                        .file(portraitImg)
+                        .flashAttr("author", authorWithValues)
+                        .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/authors/list"));
+    }
+
+
+    @Test
+    void deleteAuthorNoAuthor() throws Exception {
+        when(authorService.getAllAuthors()).thenReturn(Arrays.asList(new Author()));
+        doThrow(new EntityNotFoundException("No such Author")).when(bookService).checkIfAnyBooksByAuthorId(1l);
+
+        this.mockMvc
+                .perform(post("/authors/delete/1")
                 .with(csrf()))
-                .andExpect(status().isOk());*/
-    }
+                .andExpect(view().name("authorList"))
+                .andExpect(model().attribute("Exception", true))
+                .andExpect(model().attribute("exceptionMessage", "No such Author"))
+                .andExpect(model().attributeExists("authors"));
 
-    /*@Test
-    void deleteAuthor() {
-    }
-
-    @Test
-    void changeAuthor() {
     }
 
     @Test
-    void saveAuthorChanges() {
-    }*/
+    void deleteAuthorFoundAuthor() throws Exception {
+        doNothing().when(bookService).checkIfAnyBooksByAuthorId(1l);
 
-    public static String toJsonString(Object object) {
-        try {
-            return new ObjectMapper().writeValueAsString(object);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        this.mockMvc
+                .perform(post("/authors/delete/1")
+                        .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/authors/list"));
+    }
+
+    @Test
+    void changeAuthor() throws Exception {
+        Author author = new Author();
+        author.setId(1);
+
+        when(authorService.getAuthorById(1l)).thenReturn(author);
+
+        this.mockMvc
+                .perform(get("/authors/edit/1"))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("author", author))
+                .andExpect(view().name("authorEdit"));
+    }
+
+    @Test
+    void saveAuthorChangesAuthorNull() throws Exception {
+        Author author = new Author();
+        author.setId(1);
+
+        MockMultipartFile portraitImg = createMockFile();
+
+        this.mockMvc
+                .perform(multipart("/authors/edit/1/save")
+                        .file(portraitImg)
+                        .flashAttr("author", author)
+                        .param("primaryGenreSelected", PrimaryGenre.Fantasy.toString())
+                        .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(view().name("authorEdit"));
+    }
+
+    @Test
+    void saveAuthorChangesThrowException() throws Exception {
+        Author author = new Author();
+        setTypicalParams(author);
+
+        MockMultipartFile portraitImg = createMockFile();
+
+        when(authorService.updateAuthor(author, 1l)).thenThrow(new EntityAlreadyExistException("Author Already Exists"));
+
+        this.mockMvc
+                .perform(multipart("/authors/edit/1/save")
+                        .file(portraitImg)
+                        .flashAttr("author", author)
+                        .param("primaryGenreSelected", PrimaryGenre.Fantasy.toString())
+                        .with(csrf()))
+                .andExpect(view().name("authorEdit"))
+                .andExpect(model().attribute("Exception", true))
+                .andExpect(model().attribute("exceptionMessage", "Author Already Exists"));
+    }
+
+    @Test
+    void saveAuthorChangesCorrectChanges() throws Exception {
+        Author author = new Author();
+        setTypicalParams(author);
+
+        MockMultipartFile portraitImg = createMockFile();
+
+        this.mockMvc
+                .perform(multipart("/authors/edit/1/save")
+                    .file(portraitImg)
+                    .flashAttr("author", author)
+                    .param("primaryGenreSelected", PrimaryGenre.Fantasy.toString())
+                    .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/authors/list"));
+    }
+
+    @Test
+    void saveAuthorChangesCorrectChangesNoPortrait() throws Exception {
+        Author author = new Author();
+        setTypicalParams(author);
+
+        MockMultipartFile portraitImg = new MockMultipartFile("portraitImg", "portraitImg", String.valueOf(MediaType.MULTIPART_FORM_DATA), (byte[]) null);
+
+        this.mockMvc
+                .perform(multipart("/authors/edit/1/save")
+                        .file(portraitImg)
+                        .flashAttr("author", author)
+                        .param("primaryGenreSelected", PrimaryGenre.Fantasy.toString())
+                        .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/authors/list"));
+    }
+
+
+
+    private static void setTypicalParams(Author author) {
+        author.setId(1);
+        author.setFirstName("firstName");
+        author.setLastName("lastName");
+        author.setDateOfBirth(LocalDate.of(1999,9,26));
+        author.setPrimaryGenre(PrimaryGenre.Fantasy);
+    }
+
+    private static MockMultipartFile createMockFile() throws IOException {
+        InputStream ks1 = Thread.currentThread().getContextClassLoader().getResourceAsStream("static/img/noPortrait.jpg");
+        return new MockMultipartFile("portraitImg", "portraitImg", String.valueOf(MediaType.MULTIPART_FORM_DATA), ks1.readAllBytes());
     }
 }

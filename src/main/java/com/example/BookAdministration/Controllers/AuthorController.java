@@ -138,7 +138,9 @@ public class AuthorController {
     }
 
     @PostMapping(value = "/edit/{id}/save", consumes = "multipart/form-data")
-    public String saveAuthorChanges(@PathVariable Long id, @RequestParam(value = "primaryGenreSelected") PrimaryGenre genre, @RequestParam("portraitImg") MultipartFile file, @Valid @ModelAttribute Author author, BindingResult bindingResult, Model model) {
+    public String saveAuthorChanges(@PathVariable Long id, @RequestParam(value = "primaryGenreSelected") PrimaryGenre genre,
+                                    @RequestParam("portraitImg") MultipartFile file, @Valid @ModelAttribute Author author,
+                                    BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return "authorEdit";
         } else {
