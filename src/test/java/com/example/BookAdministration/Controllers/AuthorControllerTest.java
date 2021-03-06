@@ -7,6 +7,7 @@ import com.example.BookAdministration.Exceptions.EntityHasChildrenException;
 import com.example.BookAdministration.Exceptions.EntityNotFoundException;
 import com.example.BookAdministration.Services.AuthorService;
 import com.example.BookAdministration.Services.BookService;
+import com.example.BookAdministration.Services.MyUserDetailsService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -31,6 +32,7 @@ import java.util.Arrays;
 @WebMvcTest(controllers = AuthorController.class)
 @WithMockUser
 class AuthorControllerTest {
+
     @MockBean
     private AuthorService authorService;
 
@@ -38,7 +40,7 @@ class AuthorControllerTest {
     private BookService bookService;
 
     @MockBean
-    private UserDetailsService userDetailsService;
+    private MyUserDetailsService userDetailsService;
 
     @Autowired
     private MockMvc mockMvc;
@@ -94,28 +96,6 @@ class AuthorControllerTest {
     }
 
     @Test
-    void saveNewAuthor_FromAuthorListTest_ThrowException() throws Exception {
-        Author authorWithValues = new Author();
-        setTypicalParams(authorWithValues);
-
-        when(authorService.createAuthor(authorWithValues)).thenThrow(new EntityAlreadyExistException("Author Already Exist"));
-
-        MockMultipartFile portraitImg = createMockFile();
-
-        this.mockMvc
-                .perform(multipart("/authors/new/save/true")
-                        .file(portraitImg)
-                        .flashAttr("author", authorWithValues)
-                        .with(csrf()))
-                .andExpect(status().isOk())
-                .andExpect(view().name("authorForm"))
-                .andExpect(model().attribute("Exception", true))
-                .andExpect(model().attribute("exceptionMessage", "Author Already Exist"));
-    }
-
-
-
-    @Test
     void saveNewAuthor_NoValuesNoPortraitFromBookForm_BindingResults() throws Exception {
         Author authorNull = new Author();
         authorNull.setId(1);
@@ -162,6 +142,26 @@ class AuthorControllerTest {
                         .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(view().name("authorForm"));
+    }
+
+    @Test
+    void saveNewAuthor_FromAuthorListTest_ThrowException() throws Exception {
+        Author authorWithValues = new Author();
+        setTypicalParams(authorWithValues);
+
+        when(authorService.createAuthor(authorWithValues)).thenThrow(new EntityAlreadyExistException("Author Already Exist"));
+
+        MockMultipartFile portraitImg = createMockFile();
+
+        this.mockMvc
+                .perform(multipart("/authors/new/save/true")
+                        .file(portraitImg)
+                        .flashAttr("author", authorWithValues)
+                        .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(view().name("authorForm"))
+                .andExpect(model().attribute("Exception", true))
+                .andExpect(model().attribute("exceptionMessage", "Author Already Exist"));
     }
 
     @Test

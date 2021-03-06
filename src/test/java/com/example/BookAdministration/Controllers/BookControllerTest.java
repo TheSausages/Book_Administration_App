@@ -7,6 +7,7 @@ import com.example.BookAdministration.Exceptions.EntityAlreadyExistException;
 import com.example.BookAdministration.Exceptions.EntityNotFoundException;
 import com.example.BookAdministration.Services.AuthorService;
 import com.example.BookAdministration.Services.BookService;
+import com.example.BookAdministration.Services.MyUserDetailsService;
 import com.example.BookAdministration.Services.PublisherService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(controllers = BookController.class)
 @WithMockUser
 class BookControllerTest {
+
     @MockBean
     private BookService bookService;
 
@@ -40,7 +42,7 @@ class BookControllerTest {
     private PublisherService publisherService;
 
     @MockBean
-    private UserDetailsService userDetailsService;
+    private MyUserDetailsService userDetailsService;
 
     @Autowired
     private MockMvc mockMvc;

@@ -41,7 +41,7 @@ public class MyUserDetailsService implements UserDetailsService {
         return new UserPrincipal(user);
     }
 
-    public void createNewUser(User user) {
+    public User createNewUser(User user) {
         logger.info("Register new User");
 
         if (userRepository.findByUsername(user.getUsername()).isPresent()) {
@@ -55,6 +55,6 @@ public class MyUserDetailsService implements UserDetailsService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setMatchingPassword(user.getPassword());
 
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 }
