@@ -72,14 +72,7 @@ public class AuthorService {
                         throw new EntityAlreadyExistException("Author with those information already Exists!");
                     }
 
-                    author1.setFirstName(author.getFirstName());
-                    author1.setLastName(author.getLastName());
-                    author1.setPrimaryGenre(author.getPrimaryGenre());
-                    author1.setDateOfBirth(author.getDateOfBirth());
-
-                    if (author.getPortrait() != null) {
-                        author1.setPortrait(author.getPortrait());
-                    }
+                    author1.setParamsFromAnotherAuthor(author);
 
 
                     return authorRepository.save(author1);

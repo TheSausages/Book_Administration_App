@@ -98,4 +98,15 @@ public class Author {
     public void setPrimaryGenre(PrimaryGenre primaryGenre) {
         this.primaryGenre = primaryGenre;
     }
+
+    public void setParamsFromAnotherAuthor(Author author) {
+        this.firstName = author.getFirstName();
+        this.lastName = author.getLastName();
+        this.primaryGenre = author.getPrimaryGenre();
+        this.dateOfBirth = author.getDateOfBirth();
+
+        if (author.getPortrait() != null) {
+            this.portrait = author.getPortrait();
+        }
+    }
 }
