@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface PublisherRepository extends JpaRepository<Publisher, Long> {
 
-    Optional<Publisher> findByNameAndCity(String name, String city);
+    boolean existsByNameAndCity(String name, String city);
 
-    boolean existsByName(String name);
+    Optional<Publisher> findByName(String name);
 }

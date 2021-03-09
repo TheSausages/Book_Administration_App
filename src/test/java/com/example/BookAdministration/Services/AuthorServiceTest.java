@@ -48,7 +48,7 @@ class AuthorServiceTest {
     @Test
     void getAuthorById_NoSuchAuthor_throwException() {
         //given
-        when(authorRepository.findById(1L)).thenThrow(new EntityNotFoundException("No Such Author"));
+        when(authorRepository.findById(1L)).thenReturn(Optional.empty());
 
         //when
         RuntimeException exception = assertThrows(EntityNotFoundException.class, () -> {
@@ -56,7 +56,7 @@ class AuthorServiceTest {
         });
 
         //then
-        assertEquals("No Such Author", exception.getMessage());
+        assertEquals("Could not find author with id:1", exception.getMessage());
     }
 
     @Test
@@ -135,8 +135,8 @@ class AuthorServiceTest {
         Author author = setTypicalParams(new Author());
         author.setId(2);
         when(authorRepository.findById(1L)).thenReturn(Optional.of(author));
-        when(authorRepository.findByFirstNameAndLastNameAndDateOfBirth("firstName", "lastName",
-                LocalDate.of(1999, 9, 26))).thenReturn(Optional.of(setTypicalParams(new Author())));
+        when(authorRepository.findByFirstNameAndLastNameAndDateOfBirth(author.getFirstName(), author.getLastName(),
+                author.getDateOfBirth())).thenReturn(Optional.of(setTypicalParams(new Author())));
 
         //when
         RuntimeException exception = assertThrows(EntityAlreadyExistException.class, () -> {
@@ -152,8 +152,8 @@ class AuthorServiceTest {
         //given
         Author author = setTypicalParams(new Author());
         when(authorRepository.findById(1L)).thenReturn(Optional.of(author));
-        when(authorRepository.findByFirstNameAndLastNameAndDateOfBirth("firstName", "lastName",
-                LocalDate.of(1999, 9, 26))).thenReturn(Optional.of(setTypicalParams(new Author())));
+        when(authorRepository.findByFirstNameAndLastNameAndDateOfBirth(author.getFirstName(), author.getLastName(),
+                author.getDateOfBirth())).thenReturn(Optional.of(setTypicalParams(new Author())));
         when(authorRepository.save(author)).thenReturn(author);
 
         //when

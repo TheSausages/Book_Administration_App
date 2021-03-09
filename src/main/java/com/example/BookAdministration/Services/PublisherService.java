@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PublisherService {
@@ -40,7 +41,7 @@ public class PublisherService {
     public Publisher createPublisher(Publisher publisher) {
         logger.info("Create new Publisher");
 
-        if (publisherRepository.findByNameAndCity(publisher.getName(), publisher.getCity()).isPresent()) {
+        if (publisherRepository.existsByNameAndCity(publisher.getName(), publisher.getCity())) {
             throw new EntityAlreadyExistException("This Publisher already exists");
         }
 
@@ -64,7 +65,9 @@ public class PublisherService {
 
         return publisherRepository.findById(id)
                 .map(publisher1 -> {
-                    if (publisherRepository.existsByName(publisher.getName())) {
+                    Optional<Publisher> possibleDup = publisherRepository.findByName(publisher.getName());
+
+                    if (possibleDup.isPresent() && (possibleDup.get().getId() != publisher.getId())) {
                         throw new EntityAlreadyExistException("Publisher with this Name already Exists!");
                     }
 

@@ -65,7 +65,7 @@ public class BookService {
     public HttpStatus deleteBookById(Long id) {
         logger.info("Delete book with id:" + id);
 
-        if (bookRepository.findById(id).isEmpty()) {
+        if (!bookRepository.existsById(id)) {
             throw new EntityNotFoundException("Could not find author with id:" + id);
         }
 
@@ -79,7 +79,11 @@ public class BookService {
 
         return bookRepository.findById(id)
                 .map(book1 -> {
-                    Optional<Book> possibleDub = bookRepository.findByTitleAndSubTitleAndPublishingYearAndAuthorAndPublisher(book.getTitle(), book.getSubTitle(), book.getPublishingYear(), book.getAuthor(), book.getPublisher());
+                    Optional<Book> possibleDub = bookRepository.findByTitleAndSubTitleAndPublishingYearAndAuthorAndPublisher(book.getTitle(),
+                            book.getSubTitle(), book.getPublishingYear(), book.getAuthor(), book.getPublisher());
+
+                    System.out.println(book.getId());
+                    System.out.println(possibleDub.get().getId());
 
                     if (possibleDub.isPresent() && (possibleDub.get().getId() != book.getId())) {
                         throw new EntityAlreadyExistException("This Book already exists!");

@@ -44,12 +44,12 @@ public class MyUserDetailsService implements UserDetailsService {
     public User createNewUser(User user) {
         logger.info("Register new User");
 
-        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
+        if (userRepository.existsByUsername(user.getUsername())) {
             throw new EntityAlreadyExistException("This username is already taken!");
         }
 
         if (!user.getPassword().equals(user.getMatchingPassword())) {
-            throw new PasswordsNotMatchingException("Password are not the same!");
+            throw new PasswordsNotMatchingException("Passwords are not the same!");
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
