@@ -34,6 +34,15 @@ Web Application for managing a book Collection
 
 ## Screenshots
 
+![Login Page](/src/main/resources/static/img/GithubScreens/Login.png)
+![Registration Page](/src/main/resources/static/img/GithubScreens/Registration.png)
+![Book Catalog](/src/main/resources/static/img/GithubScreens/Books.png)
+![Author List](/src/main/resources/static/img/GithubScreens/Authors.png)
+![Publisher List](/src/main/resources/static/img/GithubScreens/Publishers.png)
+![Add Book 1](/src/main/resources/static/img/GithubScreens/AddBook1.png)
+![Add Book 2](/src/main/resources/static/img/GithubScreens/AddBook2.png)
+![Logout Page](/src/main/resources/static/img/GithubScreens/LogOut.png)
+
 ## Technologies used:
 - Java 11
 - Spring boot 2.4.3
