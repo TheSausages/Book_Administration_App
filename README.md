@@ -13,7 +13,7 @@ Comes with preloded data:
 ## Table of Content
 - [Features](#Features)
 - [Screenshot](#Screenshots)
-- [Technologies](#Technologies)
+- [Technologies used](#Technologies-used)
 - [Author](#Author)
 
 ## Features
@@ -52,7 +52,7 @@ Comes with preloded data:
 ![Add Book 2](/src/main/resources/static/img/GithubScreens/AddBook2.png)
 ![Logout Page](/src/main/resources/static/img/GithubScreens/LogOut.png)
 
-## Technologies used:
+## Technologies used
 - Java 11
 - Spring boot 2.4.3
 - Spring 
