@@ -1,5 +1,14 @@
 # Book Administration App
-Web Application for managing a book Collection
+Web Application for managing a book Collection. User can perforn multiple operations(add, delete, change) on 3 objects: Books, Authors and Publishers. 
+Uses a simple web interface made using thymeleaf with a CRUD backend. The app is secured using Spring Security.
+
+Comes with preloded data:
+- A User:
+- - Username: user
+- - Password: pass
+- 5 Book
+- 3 Authors
+- 4 Publishers
 
 ## Table of Content
 - Features
