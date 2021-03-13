@@ -11,10 +11,10 @@ Comes with preloded data:
 - 4 Publishers
 
 ## Table of Content
-- Features
-- Technologies
-- Screenshot
-- Author
+- [Features](#Features)
+- [Screenshot](#Screenshots)
+- [Technologies](#Technologies)
+- [Author](#Author)
 
 ## Features
 - Login and User Registration
