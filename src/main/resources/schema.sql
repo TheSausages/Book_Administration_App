@@ -49,4 +49,5 @@ CREATE TABLE Books (
     FOREIGN KEY (author_id) REFERENCES Authors(id),
     FOREIGN KEY (publisher_id) REFERENCES Publishers(id),
     CONSTRAINT NoBlackTitle CHECK (title != '')
+
 );
