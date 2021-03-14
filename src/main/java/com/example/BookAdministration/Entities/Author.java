@@ -24,6 +24,7 @@ public class Author {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
 
+    @Enumerated(EnumType.ORDINAL)
     private PrimaryGenre primaryGenre;
 
     @Lob
