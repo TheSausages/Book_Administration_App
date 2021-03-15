@@ -66,7 +66,11 @@ public class PublisherController {
 
     @PostMapping(value = "/delete/{id}")
     public String deletePublisher(@PathVariable Long id, Model model) {
-        try {
+        bookService.checkIfAnyBooksByPublisherId(id);
+
+        publisherService.deletePublisherById(id);
+
+        /*try {
             bookService.checkIfAnyBooksByPublisherId(id);
 
             publisherService.deletePublisherById(id);
@@ -75,7 +79,7 @@ public class PublisherController {
             model.addAttribute("exceptionMessage", e.getMessage());
             model.addAttribute("publishers", publisherService.getAllPublishers());
             return "publisherList";
-        }
+        }*/
 
         return "redirect:/publishers/list";
     }

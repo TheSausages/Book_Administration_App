@@ -108,7 +108,11 @@ public class AuthorController {
 
     @PostMapping(value = "/delete/{id}")
     public String deleteAuthor(@PathVariable Long id, Model model) {
-        try {
+        bookService.checkIfAnyBooksByAuthorId(id);
+
+        authorService.deleteAuthorById(id);
+
+        /*try {
             bookService.checkIfAnyBooksByAuthorId(id);
 
             authorService.deleteAuthorById(id);
@@ -125,7 +129,7 @@ public class AuthorController {
             model.addAttribute("authors", authorsWithBooks);
 
             return "authorList";
-        }
+        }*/
 
         return "redirect:/authors/list";
     }
