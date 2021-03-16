@@ -1,8 +1,6 @@
 package com.example.BookAdministration.Controllers;
 
 import com.example.BookAdministration.Entities.Book;
-import com.example.BookAdministration.Exceptions.EntityAlreadyExistException;
-import com.example.BookAdministration.Exceptions.EntityNotFoundException;
 import com.example.BookAdministration.Services.AuthorService;
 import com.example.BookAdministration.Services.BookService;
 import com.example.BookAdministration.Services.PublisherService;
@@ -79,35 +77,21 @@ public class BookController {
             return "bookForm";
         }
 
-        try {
-            if (!file.isEmpty()) {
-                book.setCover(file.getBytes());
-            } else {
-                InputStream noCover = (Thread.currentThread().getContextClassLoader().getResourceAsStream("static/img/NoCover.jpg"));
-                book.setCover(noCover.readAllBytes());
-            }
-
-            bookService.createBook(book);
-        } catch (EntityAlreadyExistException e) {
-            model.addAttribute("Exception", true);
-            model.addAttribute("exceptionMessage", e.getMessage());
-            return "bookForm";
+        if (!file.isEmpty()) {
+            book.setCover(file.getBytes());
+        } else {
+            InputStream noCover = (Thread.currentThread().getContextClassLoader().getResourceAsStream("static/img/NoCover.jpg"));
+            book.setCover(noCover.readAllBytes());
         }
+
+        bookService.createBook(book);
 
         return "redirect:/books/catalog";
     }
 
     @PostMapping(value = "/delete/{id}")
     public String deleteBook(@PathVariable Long id, Model model) {
-        try {
-            bookService.deleteBookById(id);
-        } catch (EntityNotFoundException e) {
-            model.addAttribute("Exception", true);
-            model.addAttribute("exceptionMessage", e.getMessage());
-            model.addAttribute("books", bookService.getAllBooks());
-
-            return "bookCatalog";
-        }
+        bookService.deleteBookById(id);
 
         return "redirect:/books/catalog";
     }
@@ -123,7 +107,7 @@ public class BookController {
 
     @PostMapping(value = "/edit/{id}/save", consumes = "multipart/form-data")
     public String saveBookChanges(@PathVariable Long id, @RequestParam("coverImg") MultipartFile file, @Valid @ModelAttribute Book book
-            , BindingResult bindingResult, Model model) {
+            , BindingResult bindingResult, Model model) throws IOException {
         if (bindingResult.hasErrors()) {
             model.addAttribute("authors", authorService.getAllAuthors());
             model.addAttribute("publishers", publisherService.getAllPublishers());
@@ -131,22 +115,20 @@ public class BookController {
             return "bookEdit";
         }
 
-        try {
-            if (!file.isEmpty()) {
-                book.setCover(file.getBytes());
-            }
-
-            bookService.updateBook(book, id);
-        } catch (EntityAlreadyExistException | IOException e) {
-            model.addAttribute("Exception", true);
-            model.addAttribute("exceptionMessage", e.getMessage());
-
-            model.addAttribute("authors", authorService.getAllAuthors());
-            model.addAttribute("publishers", publisherService.getAllPublishers());
-
-            return "bookEdit";
+        if (!file.isEmpty()) {
+            book.setCover(file.getBytes());
         }
 
+        bookService.updateBook(book, id);
+
         return "redirect:/books/catalog";
+    }
+
+    @GetMapping(value = "/add/{view}")
+    public String addAuthorsAndPublisherThenView(Model model, @PathVariable String view) {
+        model.addAttribute("authors", authorService.getAllAuthors());
+        model.addAttribute("publishers", publisherService.getAllPublishers());
+
+        return view;
     }
 }

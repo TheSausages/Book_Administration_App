@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
 
-    boolean existsBookByTitleAndSubTitleAndPublishingYearAndAuthorAndPublisher(String title, String subTitle, Integer publishingYear, Author author, Publisher publisher);
+    boolean existsByTitleAndSubTitleAndPublishingYearAndAuthorAndPublisher(String title, String subTitle, Integer publishingYear, Author author, Publisher publisher);
 
     Optional<Book> findByTitleAndSubTitleAndPublishingYearAndAuthorAndPublisher(String title, String subTitle, Integer publishingYear, Author author, Publisher publisher);
 

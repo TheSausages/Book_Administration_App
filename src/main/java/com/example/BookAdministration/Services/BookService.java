@@ -55,7 +55,7 @@ public class BookService {
     public Book createBook(Book book) {
         logger.info("Create new Book");
 
-        if (bookRepository.existsBookByTitleAndSubTitleAndPublishingYearAndAuthorAndPublisher(book.getTitle(), book.getSubTitle(), book.getPublishingYear(), book.getAuthor(), book.getPublisher())) {
+        if (bookRepository.existsByTitleAndSubTitleAndPublishingYearAndAuthorAndPublisher(book.getTitle(), book.getSubTitle(), book.getPublishingYear(), book.getAuthor(), book.getPublisher())) {
             throw new EntityAlreadyExistException("This Book already exists!");
         }
 

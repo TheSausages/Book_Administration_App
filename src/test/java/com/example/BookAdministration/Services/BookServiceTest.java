@@ -133,7 +133,7 @@ class BookServiceTest {
         Author author = new Author();
         Publisher publisher = new Publisher();
         Book book = setTypicalParams(new Book(), author, publisher);
-        when(bookRepository.existsBookByTitleAndSubTitleAndPublishingYearAndAuthorAndPublisher("Title",
+        when(bookRepository.existsByTitleAndSubTitleAndPublishingYearAndAuthorAndPublisher("Title",
                 "Subtitle", 2000, author, publisher)).thenReturn(true);
 
         //when
@@ -151,7 +151,7 @@ class BookServiceTest {
         Author author = new Author();
         Publisher publisher = new Publisher();
         Book book = setTypicalParams(new Book(), author, publisher);
-        when(bookRepository.existsBookByTitleAndSubTitleAndPublishingYearAndAuthorAndPublisher("Title",
+        when(bookRepository.existsByTitleAndSubTitleAndPublishingYearAndAuthorAndPublisher("Title",
                 "Subtitle", 2000, author, publisher)).thenReturn(false);
         when(bookRepository.save(book)).thenReturn(book);
 

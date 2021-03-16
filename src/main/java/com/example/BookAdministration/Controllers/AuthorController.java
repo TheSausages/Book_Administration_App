@@ -3,9 +3,6 @@ package com.example.BookAdministration.Controllers;
 import com.example.BookAdministration.Entities.Author;
 import com.example.BookAdministration.Entities.Book;
 import com.example.BookAdministration.Entities.PrimaryGenre;
-import com.example.BookAdministration.Exceptions.EntityAlreadyExistException;
-import com.example.BookAdministration.Exceptions.EntityHasChildrenException;
-import com.example.BookAdministration.Exceptions.EntityNotFoundException;
 import com.example.BookAdministration.Services.AuthorService;
 import com.example.BookAdministration.Services.BookService;
 
@@ -90,13 +87,7 @@ public class AuthorController {
                 author.setPortrait(noPortrait.readAllBytes());
             }
 
-            try {
-                authorService.createAuthor(author);
-            } catch (EntityAlreadyExistException e) {
-                model.addAttribute("Exception", true);
-                model.addAttribute("exceptionMessage", e.getMessage());
-                return "authorForm";
-            }
+            authorService.createAuthor(author);
 
             if (whatSite) {
                 return "redirect:/books/new";
@@ -112,25 +103,6 @@ public class AuthorController {
 
         authorService.deleteAuthorById(id);
 
-        /*try {
-            bookService.checkIfAnyBooksByAuthorId(id);
-
-            authorService.deleteAuthorById(id);
-        } catch (EntityNotFoundException | EntityHasChildrenException e) {
-            model.addAttribute("Exception", true);
-            model.addAttribute("exceptionMessage", e.getMessage());
-
-            Map<Author, List<Book>> authorsWithBooks = new HashMap<>();
-
-            authorService.getAllAuthors().forEach(author -> {
-                authorsWithBooks.put(author, bookService.get3BooksByAuthorId(author.getId()));
-            });
-
-            model.addAttribute("authors", authorsWithBooks);
-
-            return "authorList";
-        }*/
-
         return "redirect:/authors/list";
     }
 
@@ -144,23 +116,17 @@ public class AuthorController {
     @PostMapping(value = "/edit/{id}/save", consumes = "multipart/form-data")
     public String saveAuthorChanges(@PathVariable Long id, @RequestParam(value = "primaryGenreSelected") PrimaryGenre genre,
                                     @RequestParam("portraitImg") MultipartFile file, @Valid @ModelAttribute Author author,
-                                    BindingResult bindingResult, Model model) {
+                                    BindingResult bindingResult, Model model) throws IOException {
         if (bindingResult.hasErrors()) {
             return "authorEdit";
         } else {
-            try {
-                if (!file.isEmpty()) {
-                    author.setPortrait(file.getBytes());
-                }
-
-                author.setPrimaryGenre(genre);
-
-                authorService.updateAuthor(author, id);
-            } catch (EntityAlreadyExistException | IOException e) {
-                model.addAttribute("Exception", true);
-                model.addAttribute("exceptionMessage", e.getMessage());
-                return "authorEdit";
+            if (!file.isEmpty()) {
+                author.setPortrait(file.getBytes());
             }
+
+            author.setPrimaryGenre(genre);
+
+            authorService.updateAuthor(author, id);
 
             return "redirect:/authors/list";
         }

@@ -1,9 +1,6 @@
 package com.example.BookAdministration.Controllers;
 
 import com.example.BookAdministration.Entities.Publisher;
-import com.example.BookAdministration.Exceptions.EntityAlreadyExistException;
-import com.example.BookAdministration.Exceptions.EntityHasChildrenException;
-import com.example.BookAdministration.Exceptions.EntityNotFoundException;
 import com.example.BookAdministration.Services.BookService;
 import com.example.BookAdministration.Services.PublisherService;
 
@@ -49,13 +46,7 @@ public class PublisherController {
             return "publisherForm";
         }
 
-        try {
-            publisherService.createPublisher(publisher);
-        } catch (EntityAlreadyExistException e) {
-            model.addAttribute("Exception", true);
-            model.addAttribute("exceptionMessage", e.getMessage());
-            return "publisherForm";
-        }
+        publisherService.createPublisher(publisher);
 
         if (whatSite) {
             return "redirect:/books/new";
@@ -69,17 +60,6 @@ public class PublisherController {
         bookService.checkIfAnyBooksByPublisherId(id);
 
         publisherService.deletePublisherById(id);
-
-        /*try {
-            bookService.checkIfAnyBooksByPublisherId(id);
-
-            publisherService.deletePublisherById(id);
-        } catch (EntityNotFoundException | EntityHasChildrenException e) {
-            model.addAttribute("Exception", true);
-            model.addAttribute("exceptionMessage", e.getMessage());
-            model.addAttribute("publishers", publisherService.getAllPublishers());
-            return "publisherList";
-        }*/
 
         return "redirect:/publishers/list";
     }
@@ -97,13 +77,7 @@ public class PublisherController {
             return "publisherEdit";
         }
 
-        try {
-            publisherService.updatePublisher(publisher, id);
-        } catch (EntityAlreadyExistException e) {
-            model.addAttribute("Exception", true);
-            model.addAttribute("exceptionMessage", e.getMessage());
-            return "publisherEdit";
-        }
+        publisherService.updatePublisher(publisher, id);
 
         return "redirect:/publishers/list";
     }

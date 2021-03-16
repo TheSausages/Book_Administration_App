@@ -1,8 +1,6 @@
 package com.example.BookAdministration.Controllers;
 
 import com.example.BookAdministration.Entities.User;
-import com.example.BookAdministration.Exceptions.EntityAlreadyExistException;
-import com.example.BookAdministration.Exceptions.PasswordsNotMatchingException;
 import com.example.BookAdministration.Services.MyUserDetailsService;
 
 import org.springframework.stereotype.Controller;
@@ -40,13 +38,7 @@ public class UserController {
             return "registration";
         }
 
-        try {
-            myUserDetailsService.createNewUser(user);
-        } catch (EntityAlreadyExistException | PasswordsNotMatchingException e) {
-            model.addAttribute("Exception", true);
-            model.addAttribute("exceptionMessage", e.getMessage());
-            return "registration";
-        }
+        myUserDetailsService.createNewUser(user);
 
         return "redirect:/home";
     }
