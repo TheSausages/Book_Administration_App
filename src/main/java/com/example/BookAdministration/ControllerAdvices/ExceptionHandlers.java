@@ -74,31 +74,6 @@ public class ExceptionHandlers {
             return "redirect:/registration";
         }
 
-        /*switch (whichOperation) {
-            case "edit":
-                switch (whichController) {
-                    case "authors":
-                    case "publishers":
-                    case "books":
-                        return "redirect:/" + whichController + "/" + whichOperation + "/" + whichId;
-                    default:
-                        return "redirect:/home";
-                }
-            case "new":
-                switch (whichController) {
-                    case "authors":
-                        return "authorForm";
-                    case "publishers":
-                        return "publisherForm";
-                    case "books":
-                        return "redirect:/books/add/bookForm";
-                    default:
-                        return "redirect:/home";
-                }
-            default:
-                return "redirect:/home";
-        }*/
-
         if (whichController.equals("authors") || whichController.equals("publishers") || whichController.equals("books")) {
             if (whichOperation.equals("edit"))  {
                 String whichId = request.getRequestURI().split("/")[3];

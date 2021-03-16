@@ -15,7 +15,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -120,10 +119,10 @@ class BookControllerTest {
                         .file(coverImg)
                         .flashAttr("book", book)
                         .with(csrf()))
-                .andExpect(status().isOk())
-                .andExpect(view().name("bookForm"))
-                .andExpect(model().attribute("Exception", true))
-                .andExpect(model().attribute("exceptionMessage", "Book Already Exists"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/books/new"))
+                .andExpect(flash().attribute("Exception", true))
+                .andExpect(flash().attribute("exceptionMessage", "Book Already Exists"));
     }
 
     @Test
@@ -148,11 +147,10 @@ class BookControllerTest {
         this.mockMvc
                 .perform(post("/books/delete/1")
                     .with(csrf()))
-                .andExpect(status().isOk())
-                .andExpect(view().name("bookCatalog"))
-                .andExpect(model().attribute("Exception", true))
-                .andExpect(model().attribute("exceptionMessage", "No Such Book"))
-                .andExpect(model().attributeExists("books"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/books/catalog"))
+                .andExpect(flash().attribute("Exception", true))
+                .andExpect(flash().attribute("exceptionMessage", "No Such Book"));
     }
 
     @Test
@@ -226,12 +224,10 @@ class BookControllerTest {
                         .file(coverImg)
                         .flashAttr("book", book)
                         .with(csrf()))
-                .andExpect(status().isOk())
-                .andExpect(view().name("bookEdit"))
-                .andExpect(model().attribute("Exception", true))
-                .andExpect(model().attribute("exceptionMessage", "Book Already Exists"))
-                .andExpect(model().attributeExists("authors"))
-                .andExpect(model().attributeExists("publishers"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/books/edit/1"))
+                .andExpect(flash().attribute("Exception", true))
+                .andExpect(flash().attribute("exceptionMessage", "Book Already Exists"));
     }
 
     @Test

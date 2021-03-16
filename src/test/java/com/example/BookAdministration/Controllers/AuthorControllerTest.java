@@ -60,10 +60,11 @@ class AuthorControllerTest {
 
     @Test
     void viewAuthor_NoErrors_NormalBehavior() throws Exception {
+        //given
         Author author = setTypicalParams(new Author());
-
         when(authorService.getAuthorById(1l)).thenReturn(author);
 
+        //then
         this.mockMvc
                 .perform(get("/authors/info/1"))
                 .andExpect(status().isOk())
@@ -74,6 +75,8 @@ class AuthorControllerTest {
 
     @Test
     void newAuthor_FromBookForm_NormalBehavior() throws Exception {
+        //given
+
         this.mockMvc
                 .perform(get("/authors/new/true"))
                 .andExpect(status().isOk())
@@ -153,10 +156,10 @@ class AuthorControllerTest {
                         .file(portraitImg)
                         .flashAttr("author", authorWithValues)
                         .with(csrf()))
-                .andExpect(status().isOk())
-                .andExpect(view().name("authorForm"))
-                .andExpect(model().attribute("Exception", true))
-                .andExpect(model().attribute("exceptionMessage", "Author Already Exist"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/authors/new/true"))
+                .andExpect(flash().attribute("Exception", true))
+                .andExpect(flash().attribute("exceptionMessage", "Author Already Exist"));
     }
 
     @Test
@@ -197,10 +200,10 @@ class AuthorControllerTest {
         this.mockMvc
                 .perform(post("/authors/delete/1")
                     .with(csrf()))
-                .andExpect(view().name("authorList"))
-                .andExpect(model().attribute("Exception", true))
-                .andExpect(model().attribute("exceptionMessage", "Author has books!"))
-                .andExpect(model().attributeExists("authors"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/authors/list"))
+                .andExpect(flash().attribute("Exception", true))
+                .andExpect(flash().attribute("exceptionMessage", "Author has books!"));
     }
 
     @Test
@@ -211,10 +214,10 @@ class AuthorControllerTest {
         this.mockMvc
                 .perform(post("/authors/delete/1")
                         .with(csrf()))
-                .andExpect(view().name("authorList"))
-                .andExpect(model().attribute("Exception", true))
-                .andExpect(model().attribute("exceptionMessage", "No such Author"))
-                .andExpect(model().attributeExists("authors"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/authors/list"))
+                .andExpect(flash().attribute("Exception", true))
+                .andExpect(flash().attribute("exceptionMessage", "No such Author"));
     }
 
 
@@ -272,9 +275,10 @@ class AuthorControllerTest {
                         .flashAttr("author", author)
                         .param("primaryGenreSelected", PrimaryGenre.Fantasy.toString())
                         .with(csrf()))
-                .andExpect(view().name("authorEdit"))
-                .andExpect(model().attribute("Exception", true))
-                .andExpect(model().attribute("exceptionMessage", "Author Already Exists"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/authors/edit/1"))
+                .andExpect(flash().attribute("Exception", true))
+                .andExpect(flash().attribute("exceptionMessage", "Author Already Exists"));
     }
 
     @Test

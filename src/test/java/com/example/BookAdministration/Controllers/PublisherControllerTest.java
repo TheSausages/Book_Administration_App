@@ -11,8 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.core.parameters.P;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -94,10 +92,10 @@ class PublisherControllerTest {
                 .perform(post("/publishers/new/save/true")
                         .flashAttr("publisher", publisher)
                         .with(csrf()))
-                .andExpect(status().isOk())
-                .andExpect(view().name("publisherForm"))
-                .andExpect(model().attribute("Exception", true))
-                .andExpect(model().attribute("exceptionMessage", "Publisher Already Exists"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/publishers/new/true"))
+                .andExpect(flash().attribute("Exception", true))
+                .andExpect(flash().attribute("exceptionMessage", "Publisher Already Exists"));
     }
 
     @Test
@@ -131,11 +129,10 @@ class PublisherControllerTest {
         this.mockMvc
                 .perform(post("/publishers/delete/1")
                     .with(csrf()))
-                .andExpect(status().isOk())
-                .andExpect(view().name("publisherList"))
-                .andExpect(model().attribute("Exception", true))
-                .andExpect(model().attribute("exceptionMessage", "No Such Publisher"))
-                .andExpect(model().attributeExists("publishers"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/publishers/list"))
+                .andExpect(flash().attribute("Exception", true))
+                .andExpect(flash().attribute("exceptionMessage", "No Such Publisher"));
     }
 
     @Test
@@ -145,11 +142,10 @@ class PublisherControllerTest {
         this.mockMvc
                 .perform(post("/publishers/delete/1")
                         .with(csrf()))
-                .andExpect(status().isOk())
-                .andExpect(view().name("publisherList"))
-                .andExpect(model().attribute("Exception", true))
-                .andExpect(model().attribute("exceptionMessage", "Publisher has Children!"))
-                .andExpect(model().attributeExists("publishers"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/publishers/list"))
+                .andExpect(flash().attribute("Exception", true))
+                .andExpect(flash().attribute("exceptionMessage", "Publisher has Children!"));
     }
 
     @Test
@@ -187,10 +183,10 @@ class PublisherControllerTest {
                 .perform(post("/publishers/edit/1/save")
                         .flashAttr("publisher", publisher)
                         .with(csrf()))
-                .andExpect(status().isOk())
-                .andExpect(view().name("publisherEdit"))
-                .andExpect(model().attribute("Exception", true))
-                .andExpect(model().attribute("exceptionMessage", "Publisher Already Exists"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/publishers/edit/1"))
+                .andExpect(flash().attribute("Exception", true))
+                .andExpect(flash().attribute("exceptionMessage", "Publisher Already Exists"));
     }
 
     @Test

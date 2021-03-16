@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -66,10 +65,10 @@ class UserControllerTest {
                 .perform(post("/registration/save")
                         .flashAttr("user", user)
                         .with(csrf()))
-                .andExpect(status().isOk())
-                .andExpect(view().name("registration"))
-                .andExpect(model().attribute("Exception", true))
-                .andExpect(model().attribute("exceptionMessage", "User Already Exists!"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/registration"))
+                .andExpect(flash().attribute("Exception", true))
+                .andExpect(flash().attribute("exceptionMessage", "User Already Exists!"));
     }
 
     @Test
@@ -82,10 +81,10 @@ class UserControllerTest {
                 .perform(post("/registration/save")
                         .flashAttr("user", user)
                         .with(csrf()))
-                .andExpect(status().isOk())
-                .andExpect(view().name("registration"))
-                .andExpect(model().attribute("Exception", true))
-                .andExpect(model().attribute("exceptionMessage", "The Passwords are not the same!"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/registration"))
+                .andExpect(flash().attribute("Exception", true))
+                .andExpect(flash().attribute("exceptionMessage", "The Passwords are not the same!"));
     }
 
     @Test
