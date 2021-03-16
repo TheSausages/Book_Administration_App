@@ -79,22 +79,22 @@ public class AuthorController {
                                 @RequestParam("portraitImg") MultipartFile file, @PathVariable Boolean whatSite, Model model) throws IOException {
         if (bindingResult.hasErrors()) {
             return "authorForm";
-        } else {
-            if (!file.isEmpty()) {
-                author.setPortrait(file.getBytes());
-            } else {
-                InputStream noPortrait = (Thread.currentThread().getContextClassLoader().getResourceAsStream("static/img/NoPortrait.jpg"));
-                author.setPortrait(noPortrait.readAllBytes());
-            }
-
-            authorService.createAuthor(author);
-
-            if (whatSite) {
-                return "redirect:/books/new";
-            } else {
-                return "redirect:/authors/list";
-            }
         }
+
+        if (!file.isEmpty()) {
+            author.setPortrait(file.getBytes());
+        } else {
+            InputStream noPortrait = (Thread.currentThread().getContextClassLoader().getResourceAsStream("static/img/NoPortrait.jpg"));
+            author.setPortrait(noPortrait.readAllBytes());
+        }
+
+        authorService.createAuthor(author);
+
+        if (whatSite) {
+            return "redirect:/books/new";
+        }
+
+        return "redirect:/authors/list";
     }
 
     @PostMapping(value = "/delete/{id}")
@@ -119,16 +119,16 @@ public class AuthorController {
                                     BindingResult bindingResult, Model model) throws IOException {
         if (bindingResult.hasErrors()) {
             return "authorEdit";
-        } else {
-            if (!file.isEmpty()) {
-                author.setPortrait(file.getBytes());
-            }
-
-            author.setPrimaryGenre(genre);
-
-            authorService.updateAuthor(author, id);
-
-            return "redirect:/authors/list";
         }
+
+        if (!file.isEmpty()) {
+            author.setPortrait(file.getBytes());
+        }
+
+        author.setPrimaryGenre(genre);
+
+        authorService.updateAuthor(author, id);
+
+        return "redirect:/authors/list";
     }
 }
