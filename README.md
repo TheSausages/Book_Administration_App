@@ -4,8 +4,8 @@ Uses a simple web interface made using thymeleaf with a CRUD backend. The app is
 
 Comes with preloded data:
 - A User:
-- - Username: user
-- - Password: pass
+- - Username: Username1
+- - Password: Password1
 - 5 Book
 - 3 Authors
 - 4 Publishers
