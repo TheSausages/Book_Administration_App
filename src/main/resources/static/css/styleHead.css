@@ -286,6 +286,7 @@ form section p input:focus, form section p textarea:focus {
     text-decoration: none;
     font-size: 1.3rem;
     margin-block-end: 1vh;
+    margin-inline: 1vw;
 }
 
 .logOut {

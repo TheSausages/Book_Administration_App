@@ -1,21 +1,22 @@
 package com.example.BookAdministration.ControllerAdvices;
 
-import com.example.BookAdministration.Exceptions.EntityAlreadyExistException;
-import com.example.BookAdministration.Exceptions.EntityHasChildrenException;
-import com.example.BookAdministration.Exceptions.EntityNotFoundException;
-import com.example.BookAdministration.Exceptions.PasswordsNotMatchingException;
+import com.example.BookAdministration.Exceptions.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolationException;
 
 @ControllerAdvice
 public class ExceptionHandlers {
+    private final Logger logger = LoggerFactory.getLogger(ExceptionHandlers.class);
 
     @ExceptionHandler(PasswordsNotMatchingException.class)
     public String PasswordsNotMatchingHandler(HttpServletRequest request, RedirectAttributes redirectAttributes, PasswordsNotMatchingException e) {
+        logger.info("Registration Failed: Passwords did not match");
 
         redirectAttributes.addFlashAttribute("Exception", true);
         redirectAttributes.addFlashAttribute("exceptionMessage", e.getMessage());
@@ -23,9 +24,30 @@ public class ExceptionHandlers {
         return "redirect:/registration";
     }
 
+    @ExceptionHandler(PasswordLengthException.class)
+    public String PasswordExceptionHandler(HttpServletRequest request, RedirectAttributes redirectAttributes, PasswordLengthException e) {
+        logger.info("Registration Failed: Passwords is too Long!");
+
+        redirectAttributes.addFlashAttribute("Exception", true);
+        redirectAttributes.addFlashAttribute("exceptionMessage", e.getMessage());
+
+        return "redirect:/registration";
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public String ConstraintViolationHandler(HttpServletRequest request, RedirectAttributes redirectAttributes, ConstraintViolationException e) {
+        logger.info("Registration failed: Username or Password constraint was violated!");
+
+        redirectAttributes.addFlashAttribute("Exception", true);
+        redirectAttributes.addFlashAttribute("exceptionMessage", e.getMessage());
+
+        return "redirect:/registration";
+    }
 
     @ExceptionHandler(EntityHasChildrenException.class)
     public String EntityHasChildrenHandler(HttpServletRequest request, RedirectAttributes redirectAttributes, EntityHasChildrenException e) {
+        logger.info("Operation ended with failure: the object has children!");
+
         String whichController = request.getRequestURI().split("/")[1];
 
         redirectAttributes.addFlashAttribute("Exception", true);
@@ -43,6 +65,8 @@ public class ExceptionHandlers {
 
     @ExceptionHandler(EntityNotFoundException.class)
     public String EntityNotFoundHandler(HttpServletRequest request, RedirectAttributes redirectAttributes, EntityNotFoundException e) {
+        logger.info("Operation ended with failure: the object could not be found!");
+
         String whichController = request.getRequestURI().split("/")[1];
 
         redirectAttributes.addFlashAttribute("Exception", true);
@@ -62,10 +86,10 @@ public class ExceptionHandlers {
 
     @ExceptionHandler(EntityAlreadyExistException.class)
     public String EntityAlreadyExistHandler(HttpServletRequest request, RedirectAttributes redirectAttributes, EntityAlreadyExistException e) {
+        logger.info("Operation ended with failure: the object already exists");
+
         String whichController = request.getRequestURI().split("/")[1];
         String whichOperation = request.getRequestURI().split("/")[2];
-
-        System.out.println(request.getRequestURI());
 
         redirectAttributes.addFlashAttribute("Exception", true);
         redirectAttributes.addFlashAttribute("exceptionMessage", e.getMessage());

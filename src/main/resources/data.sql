@@ -24,4 +24,4 @@ INSERT INTO Books (title, sub_title, description, publishing_year, cover, author
 , 2018, FILE_READ('classpath:/static/img/LoadDatabase/HistoriaBezCenzury3.jpeg'), (SELECT id from Authors Where Authors.last_name = 'Drewniak'), (SELECT id from Publishers WHERE Publishers.name = 'Publisher4'));
 
 INSERT INTO Users (username, password, matching_password) Values
-('user', '$2y$12$i6CtDF/2iEqBaIH89pdw5uqRQPKmAtYt9qNNtSWY43ItO6wNmI8pG', '$2y$12$i6CtDF/2iEqBaIH89pdw5uqRQPKmAtYt9qNNtSWY43ItO6wNmI8pG');
+('Username1', '$2y$12$l2nskAJIGk.5STUwEZ2rBe8lka2debyMExu8j8s8pGfR0gRnOSSPm', '$2y$12$l2nskAJIGk.5STUwEZ2rBe8lka2debyMExu8j8s8pGfR0gRnOSSPm');

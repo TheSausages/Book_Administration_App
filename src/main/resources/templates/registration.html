@@ -13,6 +13,11 @@
     <form th:action="@{/registration/save}" th:object="${user}" method="POST" class="loginForm">
         <h1>Registration</h1>
 
+        <div id="registationLink">
+            Username must be between 6 to 30 letters and begin with a big letter and contain at least 1 number and 1 small letter.
+            Password must be between 6 to 18 letters and contain: 1 big and small letter, 1 number
+        </div>
+
         <div th:class="${Exception} OR ${#fields.hasErrors('global')} OR ${#fields.hasErrors('all')} ? errorList">
             <p th:if="${Exception}" th:text="${exceptionMessage}" class="error">Exception</p>
             <p th:if="${#fields.hasErrors('global')}" th:errors="*{global}" class="error">Global Error</p>

@@ -3,6 +3,7 @@ package com.example.BookAdministration.Services;
 import com.example.BookAdministration.Entities.User;
 import com.example.BookAdministration.Exceptions.EntityAlreadyExistException;
 import com.example.BookAdministration.Exceptions.EntityNotFoundException;
+import com.example.BookAdministration.Exceptions.PasswordLengthException;
 import com.example.BookAdministration.Exceptions.PasswordsNotMatchingException;
 import com.example.BookAdministration.Repositories.UserRepository;
 import com.example.BookAdministration.Security.UserPrincipal;
@@ -14,9 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.Valid;
 
 
 @Service
@@ -24,7 +26,6 @@ public class MyUserDetailsService implements UserDetailsService {
 
     private final Logger logger = LoggerFactory.getLogger(MyUserDetailsService.class);
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Autowired
     public MyUserDetailsService(UserRepository userRepository) {
@@ -41,7 +42,7 @@ public class MyUserDetailsService implements UserDetailsService {
         return new UserPrincipal(user);
     }
 
-    public User createNewUser(User user) {
+    public User createNewUser(@Validated  User user) {
         logger.info("Register new User");
 
         if (userRepository.existsByUsername(user.getUsername())) {
@@ -52,8 +53,11 @@ public class MyUserDetailsService implements UserDetailsService {
             throw new PasswordsNotMatchingException("Passwords are not the same!");
         }
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setMatchingPassword(user.getPassword());
+        if (user.getPassword().length() > 18) {
+            throw new PasswordLengthException("Password too long!");
+        }
+
+        user.encryptPasswords();
 
         return userRepository.save(user);
     }

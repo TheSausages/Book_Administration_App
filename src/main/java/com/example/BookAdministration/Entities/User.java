@@ -1,7 +1,11 @@
 package com.example.BookAdministration.Entities;
 
+import com.example.BookAdministration.Security.RegistrationValidation.ValidPassword;
+import com.example.BookAdministration.Security.RegistrationValidation.ValidUsername;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "Users")
@@ -11,13 +15,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Username cannot be empty!")
+    @ValidUsername
     private String username;
 
-    @NotBlank(message = "Password cannot be empty!")
+    @ValidPassword
     private String password;
 
-    @NotBlank(message = "Matching password cannot be empty!")
+    @ValidPassword
     private String matchingPassword;
 
     public User() {}
@@ -58,5 +62,11 @@ public class User {
 
     public String getMatchingPassword() {
         return matchingPassword;
+    }
+
+    public void encryptPasswords() {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        this.password = passwordEncoder.encode(this.password);
+        this.matchingPassword = password;
     }
 }
