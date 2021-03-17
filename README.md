@@ -1,8 +1,8 @@
 # Book Administration App
-Web Application for managing a book Collection. User can perforn multiple operations(add, delete, change) on 3 objects: Books, Authors and Publishers. 
+Web Application for managing a book Collection. User can perform multiple operations(add, delete, change) on 3 objects: Books, Authors and Publishers. 
 Uses a simple web interface made using thymeleaf with a CRUD backend. The app is secured using Spring Security.
 
-Comes with preloded data:
+Comes with preloaded data:
 - A User:
 - - Username: Username1
 - - Password: Password1
@@ -61,7 +61,7 @@ Comes with preloded data:
 - - Thymeleaf
 - - Validation
 - - Web
-- - Hibarnate
+- - Hibernate
 - H2 database
 - JUnit 5
 - Mockito
