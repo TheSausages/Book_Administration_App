@@ -50,11 +50,11 @@ public class MyUserDetailsService implements UserDetailsService {
         }
 
         if (!user.getPassword().equals(user.getMatchingPassword())) {
-            throw new PasswordsNotMatchingException("Passwords are not the same!");
+            throw new PasswordsNotMatchingException();
         }
 
         if (user.getPassword().length() > 18) {
-            throw new PasswordLengthException("Password too long!");
+            throw new PasswordLengthException();
         }
 
         user.encryptPasswords();

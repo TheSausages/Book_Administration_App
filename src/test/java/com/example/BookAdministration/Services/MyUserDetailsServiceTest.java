@@ -3,6 +3,7 @@ package com.example.BookAdministration.Services;
 import com.example.BookAdministration.Entities.User;
 import com.example.BookAdministration.Exceptions.EntityAlreadyExistException;
 import com.example.BookAdministration.Exceptions.EntityNotFoundException;
+import com.example.BookAdministration.Exceptions.PasswordLengthException;
 import com.example.BookAdministration.Exceptions.PasswordsNotMatchingException;
 import com.example.BookAdministration.Repositories.UserRepository;
 import com.example.BookAdministration.Security.UserPrincipal;
@@ -37,11 +38,11 @@ class MyUserDetailsServiceTest {
     @Test
     void loadUserByUsername_NoSuchUser_throwException() {
         //given
-        when(userRepository.findByUsername("user")).thenReturn(Optional.empty());
+        when(userRepository.findByUsername("Username1")).thenReturn(Optional.empty());
 
         //when
         RuntimeException exception = assertThrows(EntityNotFoundException.class, () -> {
-            userDetailsService.loadUserByUsername("user");
+            userDetailsService.loadUserByUsername("Username1");
         });
 
         //then
@@ -51,11 +52,11 @@ class MyUserDetailsServiceTest {
     @Test
     void loadUserByUsername_NoErrors_NormalBehavior() {
         //given
-        User user = new User("user", "pass");
-        when(userRepository.findByUsername("user")).thenReturn(Optional.of(user));
+        User user = setTypicalParams(new User());
+        when(userRepository.findByUsername("Username1")).thenReturn(Optional.of(user));
 
         //when
-        UserDetails userDetailsReturned = userDetailsService.loadUserByUsername("user");
+        UserDetails userDetailsReturned = userDetailsService.loadUserByUsername("Username1");
 
         //then
         assertEquals(userDetailsReturned.getUsername(), user.getUsername());
@@ -64,8 +65,8 @@ class MyUserDetailsServiceTest {
     @Test
     void createNewUser_UserAlreadyExists_ThrowException() {
         //given
-        User user = new User("user", "pass");
-        when(userRepository.existsByUsername("user")).thenReturn(true);
+        User user = setTypicalParams(new User());
+        when(userRepository.existsByUsername("Username1")).thenReturn(true);
 
         //when
         RuntimeException exception = assertThrows(EntityAlreadyExistException.class, () -> {
@@ -77,10 +78,28 @@ class MyUserDetailsServiceTest {
     }
 
     @Test
+    void createNewUser_PasswordTooLong_ThrowException() {
+        //given
+        User user = setTypicalParams(new User());
+        user.setPassword("ThisPasswordIsFarTooLongIsn'tIt");
+        user.setMatchingPassword("ThisPasswordIsFarTooLongIsn'tIt");
+        when(userRepository.existsByUsername("Username1")).thenReturn(false);
+
+        //when
+        RuntimeException exception = assertThrows(PasswordLengthException.class, () -> {
+            userDetailsService.createNewUser(user);
+        });
+
+        //then
+        assertEquals("Entered password is too long!", exception.getMessage());
+    }
+
+    @Test
     void createNewUser_PasswordsDoNotMatch_ThrowException() {
         //given
-        User user = new User("user", "pass");
-        user.setMatchingPassword("passs");
+        User user = setTypicalParams(new User());
+        user.setMatchingPassword("passssssss");
+        when(userRepository.existsByUsername("Username1")).thenReturn(false);
 
         //when
         RuntimeException exception = assertThrows(PasswordsNotMatchingException.class, () -> {
@@ -88,14 +107,14 @@ class MyUserDetailsServiceTest {
         });
 
         //then
-        assertEquals("Passwords are not the same!", exception.getMessage());
+        assertEquals("Entered passwords are not the Same!", exception.getMessage());
     }
 
     @Test
     void createNewUser_NoErrors_NormalBehavior() {
         //given
-        User user = new User("user", "pass");
-        when(userRepository.existsByUsername("user")).thenReturn(false);
+        User user = setTypicalParams(new User());
+        when(userRepository.existsByUsername("Username1")).thenReturn(false);
         when(userRepository.save(user)).thenReturn(user);
 
         //when
@@ -107,5 +126,14 @@ class MyUserDetailsServiceTest {
 
         //then
         assertEquals(user, userReturned);
+    }
+
+    private static User setTypicalParams(User user) {
+        user.setId(1l);
+        user.setUsername("Username1");
+        user.setPassword("Password1");
+        user.setMatchingPassword("Password1");
+
+        return user;
     }
 }

@@ -1,9 +1,6 @@
 package com.example.BookAdministration.Controllers;
 
 import com.example.BookAdministration.Entities.Publisher;
-import com.example.BookAdministration.Exceptions.EntityAlreadyExistException;
-import com.example.BookAdministration.Exceptions.EntityHasChildrenException;
-import com.example.BookAdministration.Exceptions.EntityNotFoundException;
 import com.example.BookAdministration.Services.BookService;
 import com.example.BookAdministration.Services.MyUserDetailsService;
 import com.example.BookAdministration.Services.PublisherService;
@@ -51,7 +48,7 @@ class PublisherControllerTest {
     }
 
     @Test
-    void newPublisher_FromBookForm_NoErrors() throws Exception {
+    void newPublisher_FromBookFormNoErrors_NormalBehavior() throws Exception {
         this.mockMvc
                 .perform(get("/publishers/new/true"))
                 .andExpect(status().isOk())
@@ -61,7 +58,7 @@ class PublisherControllerTest {
     }
 
     @Test
-    void newPublisher_FromPublisherList_NoErrors() throws Exception {
+    void newPublisher_FromPublisherListNoErrors_NormalBehavior() throws Exception {
         this.mockMvc
                 .perform(get("/publishers/new/false"))
                 .andExpect(status().isOk())
@@ -80,22 +77,6 @@ class PublisherControllerTest {
                     .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(view().name("publisherForm"));
-    }
-
-    @Test
-    void saveNewPublisher_WithValuesFromBookForm_ThrowError() throws Exception {
-        Publisher publisher = setTypicalParams(new Publisher());
-
-        when(publisherService.createPublisher(publisher)).thenThrow(new EntityAlreadyExistException("Publisher Already Exists"));
-
-        this.mockMvc
-                .perform(post("/publishers/new/save/true")
-                        .flashAttr("publisher", publisher)
-                        .with(csrf()))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/publishers/new/true"))
-                .andExpect(flash().attribute("Exception", true))
-                .andExpect(flash().attribute("exceptionMessage", "Publisher Already Exists"));
     }
 
     @Test
@@ -123,32 +104,6 @@ class PublisherControllerTest {
     }
 
     @Test
-    void deletePublisher_NoPublisher_ThrowException() throws Exception {
-        when(publisherService.deletePublisherById(1l)).thenThrow(new EntityNotFoundException("No Such Publisher"));
-
-        this.mockMvc
-                .perform(post("/publishers/delete/1")
-                    .with(csrf()))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/publishers/list"))
-                .andExpect(flash().attribute("Exception", true))
-                .andExpect(flash().attribute("exceptionMessage", "No Such Publisher"));
-    }
-
-    @Test
-    void deletePublisher_publisherHasChildren_ThrowException() throws Exception {
-        doThrow(new EntityHasChildrenException("Publisher has Children!")).when(bookService).checkIfAnyBooksByPublisherId(1l);
-
-        this.mockMvc
-                .perform(post("/publishers/delete/1")
-                        .with(csrf()))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/publishers/list"))
-                .andExpect(flash().attribute("Exception", true))
-                .andExpect(flash().attribute("exceptionMessage", "Publisher has Children!"));
-    }
-
-    @Test
     void changePublisher_NoErrors_NormalBehavior() throws Exception {
         Publisher publisher = new Publisher();
 
@@ -171,22 +126,6 @@ class PublisherControllerTest {
                     .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(view().name("publisherEdit"));
-    }
-
-    @Test
-    void savePublisherChanges_PublisherAlreadyExists_throwError() throws Exception {
-        Publisher publisher = setTypicalParams(new Publisher());
-
-        when(publisherService.updatePublisher(publisher, 1l)).thenThrow(new EntityAlreadyExistException("Publisher Already Exists"));
-
-        this.mockMvc
-                .perform(post("/publishers/edit/1/save")
-                        .flashAttr("publisher", publisher)
-                        .with(csrf()))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/publishers/edit/1"))
-                .andExpect(flash().attribute("Exception", true))
-                .andExpect(flash().attribute("exceptionMessage", "Publisher Already Exists"));
     }
 
     @Test

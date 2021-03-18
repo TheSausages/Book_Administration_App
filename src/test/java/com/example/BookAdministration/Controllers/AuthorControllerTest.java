@@ -2,9 +2,6 @@ package com.example.BookAdministration.Controllers;
 
 import com.example.BookAdministration.Entities.Author;
 import com.example.BookAdministration.Entities.PrimaryGenre;
-import com.example.BookAdministration.Exceptions.EntityAlreadyExistException;
-import com.example.BookAdministration.Exceptions.EntityHasChildrenException;
-import com.example.BookAdministration.Exceptions.EntityNotFoundException;
 import com.example.BookAdministration.Services.AuthorService;
 import com.example.BookAdministration.Services.BookService;
 import com.example.BookAdministration.Services.MyUserDetailsService;
@@ -16,7 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-
 
 import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -144,25 +140,6 @@ class AuthorControllerTest {
     }
 
     @Test
-    void saveNewAuthor_FromAuthorListTest_ThrowException() throws Exception {
-        Author authorWithValues = setTypicalParams(new Author());
-
-        when(authorService.createAuthor(authorWithValues)).thenThrow(new EntityAlreadyExistException("Author Already Exist"));
-
-        MockMultipartFile portraitImg = createMockFile();
-
-        this.mockMvc
-                .perform(multipart("/authors/new/save/true")
-                        .file(portraitImg)
-                        .flashAttr("author", authorWithValues)
-                        .with(csrf()))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/authors/new/true"))
-                .andExpect(flash().attribute("Exception", true))
-                .andExpect(flash().attribute("exceptionMessage", "Author Already Exist"));
-    }
-
-    @Test
     void saveNewAuthor_WithValuesFromBookForm_NormalBehavior() throws Exception {
         Author authorWithValues = setTypicalParams(new Author());
 
@@ -191,35 +168,6 @@ class AuthorControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/authors/list"));
     }
-
-
-    @Test
-    void deleteAuthor_AuthorHasChildren_ThrowException() throws Exception {
-        doThrow(new EntityHasChildrenException("Author has books!")).when(bookService).checkIfAnyBooksByAuthorId(1l);
-
-        this.mockMvc
-                .perform(post("/authors/delete/1")
-                    .with(csrf()))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/authors/list"))
-                .andExpect(flash().attribute("Exception", true))
-                .andExpect(flash().attribute("exceptionMessage", "Author has books!"));
-    }
-
-    @Test
-    void deleteAuthor_NoAuthor_ThrowException() throws Exception {
-        doNothing().when(bookService).checkIfAnyBooksByAuthorId(1l);
-        when(authorService.deleteAuthorById(1l)).thenThrow(new EntityNotFoundException("No such Author"));
-
-        this.mockMvc
-                .perform(post("/authors/delete/1")
-                        .with(csrf()))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/authors/list"))
-                .andExpect(flash().attribute("Exception", true))
-                .andExpect(flash().attribute("exceptionMessage", "No such Author"));
-    }
-
 
     @Test
     void deleteAuthor_NoErrors_NormalBehavior() throws Exception {
@@ -259,26 +207,6 @@ class AuthorControllerTest {
                         .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(view().name("authorEdit"));
-    }
-
-    @Test
-    void saveAuthorChanges_AuthorAlreadyExists_ThrowException() throws Exception {
-        Author author = setTypicalParams(new Author());
-
-        MockMultipartFile portraitImg = createMockFile();
-
-        when(authorService.updateAuthor(author, 1l)).thenThrow(new EntityAlreadyExistException("Author Already Exists"));
-
-        this.mockMvc
-                .perform(multipart("/authors/edit/1/save")
-                        .file(portraitImg)
-                        .flashAttr("author", author)
-                        .param("primaryGenreSelected", PrimaryGenre.Fantasy.toString())
-                        .with(csrf()))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/authors/edit/1"))
-                .andExpect(flash().attribute("Exception", true))
-                .andExpect(flash().attribute("exceptionMessage", "Author Already Exists"));
     }
 
     @Test

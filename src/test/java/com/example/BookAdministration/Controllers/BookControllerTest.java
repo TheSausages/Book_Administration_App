@@ -3,8 +3,6 @@ package com.example.BookAdministration.Controllers;
 import com.example.BookAdministration.Entities.Author;
 import com.example.BookAdministration.Entities.Book;
 import com.example.BookAdministration.Entities.Publisher;
-import com.example.BookAdministration.Exceptions.EntityAlreadyExistException;
-import com.example.BookAdministration.Exceptions.EntityNotFoundException;
 import com.example.BookAdministration.Services.AuthorService;
 import com.example.BookAdministration.Services.BookService;
 import com.example.BookAdministration.Services.MyUserDetailsService;
@@ -106,26 +104,6 @@ class BookControllerTest {
     }
 
     @Test
-    void saveNewBook_WithValuesNoCoverBookAlreadyExists_ThrowException() throws Exception {
-        Book book = setTypicalParams(createBook());
-
-        MockMultipartFile coverImg = new MockMultipartFile("coverImg", "coverImg"
-                , String.valueOf(MediaType.MULTIPART_FORM_DATA), (byte[]) null);
-
-        when(bookService.createBook(book)).thenThrow(new EntityAlreadyExistException("Book Already Exists"));
-
-        this.mockMvc
-                .perform(multipart("/books/new/save")
-                        .file(coverImg)
-                        .flashAttr("book", book)
-                        .with(csrf()))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/books/new"))
-                .andExpect(flash().attribute("Exception", true))
-                .andExpect(flash().attribute("exceptionMessage", "Book Already Exists"));
-    }
-
-    @Test
     void saveNewBook_WithValuesWithCover_NormalBehavior() throws Exception {
         Book book = setTypicalParams(createBook());
 
@@ -138,19 +116,6 @@ class BookControllerTest {
                         .with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/books/catalog"));
-    }
-
-    @Test
-    void deleteBook_NoBook_ThrowException() throws Exception {
-        when(bookService.deleteBookById(1l)).thenThrow(new EntityNotFoundException("No Such Book"));
-
-        this.mockMvc
-                .perform(post("/books/delete/1")
-                    .with(csrf()))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/books/catalog"))
-                .andExpect(flash().attribute("Exception", true))
-                .andExpect(flash().attribute("exceptionMessage", "No Such Book"));
     }
 
     @Test
@@ -209,25 +174,6 @@ class BookControllerTest {
                 .andExpect(view().name("bookEdit"))
                 .andExpect(model().attributeExists("authors"))
                 .andExpect(model().attributeExists("publishers"));
-    }
-
-    @Test
-    void saveBookChanges_WithValuesWithCoverBookAlreadyExists_ThrowException() throws Exception {
-        Book book = setTypicalParams(createBook());
-
-        MockMultipartFile coverImg = createMockFile();
-
-        when(bookService.updateBook(book, 1l)).thenThrow(new EntityAlreadyExistException("Book Already Exists"));
-
-        this.mockMvc
-                .perform(multipart("/books/edit/1/save")
-                        .file(coverImg)
-                        .flashAttr("book", book)
-                        .with(csrf()))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/books/edit/1"))
-                .andExpect(flash().attribute("Exception", true))
-                .andExpect(flash().attribute("exceptionMessage", "Book Already Exists"));
     }
 
     @Test
